@@ -25,14 +25,13 @@
 
   <h3>TECHNOLOGY</h3>
 
-  <p>Spiked Acid will be developed for the Windows Platform using the 
-McKilla's Gorilla game engine, which is a bare-bones engine developed by
- <a href="http://www.cs.sunysb.edu/~richard">Richard McKenna</a> for 
-rapid prototyping 2D games. DirectX will be used as the underlying 
-rendering technology. XACT will be used for all music and sound effects 
-management. Artwork will be brutally simple, and so we'll simply use MS 
-Paint.</p>
-<br>
+  <p>Through The Ages will be developed for web browsers using the 
+    Phaser game engine which is a Desktop and Mobile HTML5 game framework 
+    created by <a href="https://github.com/photonstorm">Richard Davey (Photonstorm)</a>. WebGL 
+    primarily handles the rendering for the Phaser framework. Audio and music 
+    will be created in Audacity. Tiled will be used to create the levels. Sprites 
+    and tilesets will be relatively simplistic and will created in Fire Alpaca.</p>
+  <br>
 
   <h3>BACK STORY</h3>
 
@@ -45,19 +44,18 @@ Paint.</p>
 
   <h3>OBJECTIVE</h3>
 
-  <p>Spike's task is to thoroughly test the Bad Acid Chemical Company's 
-acid-proof suits to make sure they can withstand exposure to some of 
-their deadliest acids. Spike will wear a suit covered in spikes that is 
-also acid-proof. Hopefully, the suit will protect him while he pops 
-balloons floating about the room full of acid. The spikes on the suit 
-will allow him to pop balloons floating above him and next to him, but 
-not below him.</p>
+  <p>Gareth's task is to explore the world and find and collect all of the technological
+    advancements of his current age. Once he has collected one he must bring it back to his family.
+    Once Gareth's family has possesion of all the items the can safely survive until the next age.
+    Unfortunatly for Gareth these items are scattered through out the world and he only has the space 
+    in his pockets for one item at a time. 
+  </p>
 
-  <p>The Bad Acid Chemical Company can be careless, and so they are 
-using balloons that are made of easily corroded materials. As a result, 
-sooner or later the balloons will pop on their own, which would be 
-deadly to Spike. So, spike must pop all of the balloons in the test 
-chamber before the balloons carrode and pop on their own.</p>
+  <p>The world that Gareth and his family live in is a very dangerous place. The local wildlife have taken
+    a liking to the items and will go to any means to keep them. This means that Gareth will have to protect
+    himself using the weapon of the current age that has been given to him by his family.
+  </p>
+
 <br>
 
   <h3>GAMEPLAY</h3>
@@ -110,8 +108,8 @@ chamber before the balloons carrode and pop on their own.</p>
    <li><strong>Splash Screen</strong> - The splash screen GUI simply 
 presents a game logo and a Start button for the user to press when they 
 are ready to play. Upon pressing it, a brief scripted sequence is played
- explaining a little about Spike and the back story for the game. While 
-playing the message "Press ESC to Skip" should be displayed at the 
+ explaining a little about Gareth, his family and the back story for the game. While 
+presenting the message "Press Enter to Skip" should be displayed at the 
 bottom of the screen. If pressed, the game should immediately start.</li>
 <br>
 
@@ -129,26 +127,17 @@ current game. If we conclude the user really wants to start a game, then
     </ul></li>
 <br>
 
-   <li><strong>In-Game GUI</strong> - Once a game starts, a 
-5-4-3-2-1-Begin sequence is counted down and displayed for the player to
- see. At Begin, the changing room door opens and Spike pops out in his 
-Red protective suit. Balloons will begin to be deployed about the 
-chamber. While playing the following will be displayed at all times:
+   <li><strong>In-Game GUI</strong> - Once a game starts, Gareth will walk into view from the left side at
+    the bottom of the level. Once he reaches his starting point the level's monsters will move around and
+    try to attack Gareth if he gets too close to the items. 
+    While playing the following will be displayed at all times:
     <ul>
-     <li>Time Remaining</li>
-     <li>Popped Red Balloons/Red Balloons Remaining</li>
-     <li>Popped Green Balloons/Green Balloons Remaining</li>
-     <li>Popped Blue Balloons/Blue Balloons Remaining</li>
+     <li>Time Elapsed</li>
+     <li>Items delivered</li>
+     <li>Item currently held</li>
+     <li>A health bar</li>
     </ul>
-   In addition, three buttons will be be part of the in-game GUI, 
-meaning overlayed on top of the game world. These are buttons for 
-selecting Red, Green, and Blue suits. These buttons will only be 
-selectable when Spike is standing in front of the changing room door. If
- Spike is in front of the door and the player clicks on a suit colored 
-differently than the one Spike is currently wearing, then the door will 
-slide open, Spike will disappear inside momentarily, the door will then 
-slide closed, and then will slide open again, with Spike popping out in 
-his new suit.</li>
+   </li>
   </ul>
 <br>
 
