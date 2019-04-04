@@ -1,31 +1,26 @@
 <html><head>
 <meta http-equiv="content-type" content="text/html; charset=windows-1252">
-  <title>Spiked Acid Game Design Document</title>
-  <link rel="stylesheet" type="text/css" href="Spiked%20Acid%20Game%20Design%20Document_files/homepage.html">
-  <link rel="stylesheet" type="text/css" href="Spiked%20Acid%20Game%20Design%20Document_files/GloomyOutlook.html">
+  <title>Through the Ages Game Design Document</title>
  </head>
 
  <body>
 
  <h2 style="width:750px" align="center">
-  Spiked Acid<br>
+  Through the Ages<br>
   Game Design Document
  </h2>
 
  <h4 style="width:750px" align="center">
-  by Richard McKenna
+  by Jakub Wlodek, Nick Pirello, Vinny Paladino
  </h4>
 
 <div id="content">
 
   <h3>INTRODUCTION</h3>
 
-  <p>This document describes a game called "Spiked Acid", which is 
-designed to be a simple, 2D side-scroller, constructed and documented to
- help others learn to make simple, 2D side-scrollers. The game will 
-employ sprite-based animation, tiled backgrounds, collision detection, 
-phyics, AI, side scrolling &amp; gravity, efficient memory 
-management, render threading, and more basic 2D game techniques.</p>
+  <p>This document describes a game called "Through the Ages", which is designed to be a 2D platformer and 
+  action game. It will use sprites for animation, a grid system using 'Tiled' for backgrounds, and phaser for physics,
+  collisions, and other game programming functions.</p>
 <br>
 
   <h3>TECHNOLOGY</h3>
@@ -41,13 +36,11 @@ Paint.</p>
 
   <h3>BACK STORY</h3>
 
-  <p>Spike has been working for the Bad Acid Chemical Company since he 
-dropped out of Kindergarten. He knows no other way of life. He knows of 
-no other employment opportunitiies and so he is simply beholden to their
- every whim. Knowing this, the Bad Acid Chemical Company has decided 
-Spike would best serve their interests as a test subject. The company 
-makes different types of acids as well as acid-protective gear. And so 
-poor Spike lives his life as an acid-test-dummy.</p>
+  <p>Through the Ages will attempt to recreate a span of history. The player, who controls Gareth I and his descendants through the ages,
+    moves through each levels by collecting objects that will help move human civilization into the modern age. Once he has all
+    of the necessary technology and supplies, he moves forward through history, all while his enemies try to defeat him and halt human progress.
+    Can Gareth overcome all odds and move humanity into the future?
+  </p>
 <br>
 
   <h3>OBJECTIVE</h3>
@@ -69,76 +62,43 @@ chamber before the balloons carrode and pop on their own.</p>
 
   <h3>GAMEPLAY</h3>
 
-  <p>The game will work like a side scroller, with Spike able to run 
-left and right, and jump up or down onto platforms and other surfaces 
-such that we may scroll up and down.</p>
+  <p>The game will be a 2D platformer with several levels. Gareth will be able to run side to side, 
+    leap up and down, double jump, etc. Each level will have a collection of items scattered around it that are required to
+    reach the next milestone in human progress (ex. Fire in pre historic times, gunpowder/telescope in medieval times etc.).
+  </p>
 
-  <p>Spike will have to be extra careful because there are three 
-different kinds of acids, and three different kinds of suits. Each suit 
-protects Spike from only on particular type of acid. Balloons are 
-color-coded Red, Blue and Green to distinguish between these different 
-acid types, as are the acid-proof suits. Suit protection works as 
-follows:</p>
+
+  <p>This process will not be unopposed, however, as Gareth will be opposed at each step of the way by the enemies of humanity 
+    during each time period, from dinosaurs to aliens. In each era, Gareth will find that the items are placed in a variety of different
+    locales, and the locations of the items and the items themselves will be different as well. Gareth will fight these enemies and attempt to collect 
+    all of these together, pushing humanity further along. Luckily, Gareth will have some help along the way:
+  </p>
 
    <ul>
-    <li>When Spike is wearing the Red suit, he is protected from 
-Hydrofluoric Acid (HF), found in the Red Balloons. This is the most 
-dangerous of the three acids to Spike, and will do the most damage.</li>
-    <li>When Spike is wearing the Green suit, he is protected from Sulfuric Acid (H<sub>2</sub>SO<sub>4</sub>), found in the Green Balloons. This is the second most dangerous of the three acids, and will do the seond most damage.</li>
-    <li>When Spike is wearing the Blue suit, he is protected from Nitric Acid (HNO<sub>3</sub>), found in the Blue Balloons. This will do the least damage to Spike of the three.</li>
+    <li>Evolving technology means evolving armor and weapons as well. Gareth can better defend himself in each consecutive level.</li>
+    <li>Power ups will randomly appear and will be unique to each time period. For example, in prehistoric times, when Gareth is attacked by dinosaurs, a meteor strike can be used to defeat them all.</li>
+    <li>Once his civilization has been built up substantially, Gareth can employ the aid of other citizens or technologies.</li>
    </ul>
 
-  <p>To change suits, Spike will have to return to the changing room, 
-which will be his start location. Once in the changing room, Spike can 
-select the colored suit he wishes to wear.</p>
+  <p>Gareth will collect items in the wild and return them to his ever growing city, gradullay improving its technology. Eventually,
+    the city is able to progress further through history, and Gareth I passes the torch to Gareth II who passes it to Gareth III, and so on.
+  </p>
 
-  <p>The acid-protective suits have a strange effect on the room and as a
- result the balloons. And so, depending on the suit being worn by Spike,
- the balloons will behave differently as follows:</p>
-
-<table cellpadding="5" border="5">
- <tbody><tr align="center">
-  <th>Suit Color in Use</th>
-  <th>Red Balloon Effect</th>
-  <th>Blue Balloon Effect</th>
-  <th>Green Balloon Effect</th>
- </tr>
- <tr align="center">
-  <td>Red</td>
-  <td>No Gravity</td>
-  <td>+ Gravity (sinks)</td>
-  <td>- Gravity (rises)</td>
- </tr>
- <tr align="center">
-  <td>Green</td>
-  <td>- Gravity (rises)</td>
-  <td>No Gravity</td>
-  <td>+ Gravity (sinks)</td>
- </tr>
- <tr align="center">
-  <td>Blue</td>
-  <td>+ Gravity (sinks)</td>
-  <td>- Gravity (rises)</td>
-  <td>No Gravity</td>
- </tr>
-</tbody></table>
+  <p></p>
 
 <br>
 
   <h3>CONTROLS</h3>
 
-  <p>This game will be played using both a keyboard and mouse. Once started, use the following:</p>
+  <p>The game will be controlled exclusively with the keyboard, with a similar control scheme to most platformer games</p>
 
    <ul>
-    <li><strong>A</strong> - Move Left</li>
-    <li><strong>D</strong> - Move Right</li>
-    <li><strong>LEFT-ARROW</strong> - Move Left (same as A)</li>
-    <li><strong>RIGHT-ARROW</strong> - Move Right (same as D)</li>
-    <li><strong>SPACE</strong> - Jump</li>
-    <li><strong>Suit Selection Buttons</strong> - Once at the <strong><em>Changing Room Door</em></strong>, the player may select which suit to change into by clicking on the appropriate protective suit button</li>
-    <li><strong>ESC</strong> - This pauses the game and presents a 
-pop-up window to the player asking them to continue when they are ready.
- If a game is not in progress, ESC does nothing.</li>
+    <li><strong>A, D, Arrwy Keys</strong> - Will move Gareth left and right along the current platform/floor</li>
+    <li><strong>Spacebar</strong> - Makes Gareth jump</li>
+    <li><strong>Right Shift</strong> - When by an item and no item in his pocket, Gareth will pick up the item. If by his home, and with an item in his pocket, Gareth will drop the item off.</li>
+    <li><strong>Right Enter</strong> - Gareth attacks in the direction he is facing.</li>
+    <li><strong>Right Control</strong> - Provided he has a special attack token in his pocket, Gareth will execute his special attack.</li>
+    <li><strong>Escape</strong> - Will pause the Game</li>
    </ul>
 <br>
 
@@ -194,51 +154,36 @@ his new suit.</li>
 
   <h3>ARTWORK</h3>
 
-  <p>All artwork in the game will be original. The following needs to be created:</p>
+  <p>We will create the following artwork for Through the Ages</p>
 
   <ul>
-   <li><strong>Spike</strong> - we'll only dress Spike in his acid-proof
- gear, so we'll need to make artwork for him in his Red, Green, and Blue
- outfits. Each will require animations for:
+   <li><strong>Gareth and his descendants</strong> Gareth and his descendents share a striking resemblance, in both name and looks. Gareth I looks the same as Gareth XXIV,
+    aside from the time appropriate armor each of them dons.
     <ul>
-     <li>Walking Right</li>
-     <li>Walking Left</li>
-     <li>Jumping Right</li>
-     <li>Jumping Left</li>
-     <li>Jumping Up</li>
-     <li>Collide With Floor at high speed</li>
-     <li>Taking Damage</li>
-     <li>Dying</li>
+     <li>Walking animations</li>
+     <li>Jumping animations</li>
+     <li>Collect and Drop item</li>
+     <li>Use power up</li>
+     <li>Attacking Animations</li>
+     <li>Death Animations</li>
     </ul></li>
 <br>
-   <li><strong>Red, Green &amp; Blue Balloons</strong> - Simple sprites, each require animations for:
+   <li><strong>Enemies</strong> - Dinosaurs, enemy knights, evil robots etc. Gareth's challengers
     <ul>
-     <li>Floating about the chamber</li>
-     <li>Colliding with something below it</li>
-     <li>Colliding with something above it</li>
-     <li>Colliding with something to the right of it</li>
-     <li>Colliding with something to the left of it</li>
-     <li>Popping, with acid bursting out</li>
+     <li>Walking animations</li>
+     <li>Attacking animations</li>
+     <li>Death Animations</li>
     </ul></li>
 <br>
 
-   <li><strong>Changing Room Door</strong> - Spike will start the game 
-exiting from the changing room in his Red suit. We will not see the 
-inside of the changing room, just a sliding metal door that opens and 
-closes when Spike walks up to it and presses either R, G, or B. For 
-this, we'll need an animatino of the sliding door opening and closing.</li>
+   <li><strong>Gareth's City</strong> - Gareth's city will expand in size and will progress through history during each level.</li>
 <br>
 
-   <li><strong>Ceiling, Floor, &amp; Wall Tiles</strong> - The test 
-chamber will have multiple floors and platforms to jump onto and off of.
- We'll use simple tiles for all walkable/collidable surfaces. These 
-tiles will have to clearly define where the walkable surface is. We'll 
-use straight, dark grey, slightly grooved walking surfaces.</li>
+   <li><strong>Platforms</strong> - Each level will contain a variety of platforms and barriers around which Gareth must jump to find his necessary items.
+  These will range from glaciers during the ice age, to mountains, etc.</li>
 <br>
 
-   <li><strong>Chamber Background Tiles</strong> - For non-collidable 
-tiles that will go in the background of the chamber, we'll just use a 
-black and white tile set arranged in some pattern.</li>
+   <li><strong>Backgrounds</strong> - Each era will have a background tileset that reflects the era in history: ex. A gothic castle for the middle ages.</li>
   </ul>
 <br>
 
@@ -246,31 +191,26 @@ black and white tile set arranged in some pattern.</li>
 
   <h3>SOUND EFFECTS</h3>
 
-  <p>All sound effects will be original. Sounds must be made to coincide with each of the following events:</p>
+  <p>We will make sound effects for the following:</p>
    <ul>
-    <li><strong>Walking</strong></li>
-    <li><strong>Landing on a Platform</strong></li>
-    <li><strong>Balloon Popping</strong></li>
-    <li><strong>Acid Absorbed by Suit</strong></li>
-    <li><strong>Acid Penetrating Suit</strong></li>
-    <li><strong>Spike Dying</strong></li>
-    <li><strong>Time Running Out</strong></li>
-    <li><strong>Spike Celebrating Clearing a Level</strong></li>
+    <li><strong>Gareth (I-XXIV) Movement</strong></li>
+    <li><strong>Gareth's attacks</strong></li>
+    <li><strong>Gareth hit by an enemy</strong></li>
+    <li><strong>Gareth hits an enemy</strong></li>
+    <li><strong>Gareth is killed</strong></li>
+    <li><strong>Advance civilization</strong></li>
+    <li><strong>Item acquired</strong></li>
    </ul>
 <br>
 
   <h3>MUSIC</h3>
 
-  <p>Game Music will be added when time permits.</p>
+  <p>Provided there will be enough time, music appropriate for each time period will be added..</p>
 <br>
 
 
 
 <hr>
-
-<p style="font-size:9pt; text-align:center;">
-Web page created and maintained<br>
-by <a href="http://www.cs.sunysb.edu/~richard">Richard McKenna</a></p>
 
 <p><br></p>
 </div>
