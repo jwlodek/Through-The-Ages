@@ -1,0 +1,280 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252">
+  <title>Spiked Acid Game Design Document</title>
+  <link rel="stylesheet" type="text/css" href="Spiked%20Acid%20Game%20Design%20Document_files/homepage.html">
+  <link rel="stylesheet" type="text/css" href="Spiked%20Acid%20Game%20Design%20Document_files/GloomyOutlook.html">
+ </head>
+
+ <body>
+
+ <h2 style="width:750px" align="center">
+  Spiked Acid<br>
+  Game Design Document
+ </h2>
+
+ <h4 style="width:750px" align="center">
+  by Richard McKenna
+ </h4>
+
+<div id="content">
+
+  <h3>INTRODUCTION</h3>
+
+  <p>This document describes a game called "Spiked Acid", which is 
+designed to be a simple, 2D side-scroller, constructed and documented to
+ help others learn to make simple, 2D side-scrollers. The game will 
+employ sprite-based animation, tiled backgrounds, collision detection, 
+phyics, AI, side scrolling &amp; gravity, efficient memory 
+management, render threading, and more basic 2D game techniques.</p>
+<br>
+
+  <h3>TECHNOLOGY</h3>
+
+  <p>Spiked Acid will be developed for the Windows Platform using the 
+McKilla's Gorilla game engine, which is a bare-bones engine developed by
+ <a href="http://www.cs.sunysb.edu/~richard">Richard McKenna</a> for 
+rapid prototyping 2D games. DirectX will be used as the underlying 
+rendering technology. XACT will be used for all music and sound effects 
+management. Artwork will be brutally simple, and so we'll simply use MS 
+Paint.</p>
+<br>
+
+  <h3>BACK STORY</h3>
+
+  <p>Spike has been working for the Bad Acid Chemical Company since he 
+dropped out of Kindergarten. He knows no other way of life. He knows of 
+no other employment opportunitiies and so he is simply beholden to their
+ every whim. Knowing this, the Bad Acid Chemical Company has decided 
+Spike would best serve their interests as a test subject. The company 
+makes different types of acids as well as acid-protective gear. And so 
+poor Spike lives his life as an acid-test-dummy.</p>
+<br>
+
+  <h3>OBJECTIVE</h3>
+
+  <p>Spike's task is to thoroughly test the Bad Acid Chemical Company's 
+acid-proof suits to make sure they can withstand exposure to some of 
+their deadliest acids. Spike will wear a suit covered in spikes that is 
+also acid-proof. Hopefully, the suit will protect him while he pops 
+balloons floating about the room full of acid. The spikes on the suit 
+will allow him to pop balloons floating above him and next to him, but 
+not below him.</p>
+
+  <p>The Bad Acid Chemical Company can be careless, and so they are 
+using balloons that are made of easily corroded materials. As a result, 
+sooner or later the balloons will pop on their own, which would be 
+deadly to Spike. So, spike must pop all of the balloons in the test 
+chamber before the balloons carrode and pop on their own.</p>
+<br>
+
+  <h3>GAMEPLAY</h3>
+
+  <p>The game will work like a side scroller, with Spike able to run 
+left and right, and jump up or down onto platforms and other surfaces 
+such that we may scroll up and down.</p>
+
+  <p>Spike will have to be extra careful because there are three 
+different kinds of acids, and three different kinds of suits. Each suit 
+protects Spike from only on particular type of acid. Balloons are 
+color-coded Red, Blue and Green to distinguish between these different 
+acid types, as are the acid-proof suits. Suit protection works as 
+follows:</p>
+
+   <ul>
+    <li>When Spike is wearing the Red suit, he is protected from 
+Hydrofluoric Acid (HF), found in the Red Balloons. This is the most 
+dangerous of the three acids to Spike, and will do the most damage.</li>
+    <li>When Spike is wearing the Green suit, he is protected from Sulfuric Acid (H<sub>2</sub>SO<sub>4</sub>), found in the Green Balloons. This is the second most dangerous of the three acids, and will do the seond most damage.</li>
+    <li>When Spike is wearing the Blue suit, he is protected from Nitric Acid (HNO<sub>3</sub>), found in the Blue Balloons. This will do the least damage to Spike of the three.</li>
+   </ul>
+
+  <p>To change suits, Spike will have to return to the changing room, 
+which will be his start location. Once in the changing room, Spike can 
+select the colored suit he wishes to wear.</p>
+
+  <p>The acid-protective suits have a strange effect on the room and as a
+ result the balloons. And so, depending on the suit being worn by Spike,
+ the balloons will behave differently as follows:</p>
+
+<table cellpadding="5" border="5">
+ <tbody><tr align="center">
+  <th>Suit Color in Use</th>
+  <th>Red Balloon Effect</th>
+  <th>Blue Balloon Effect</th>
+  <th>Green Balloon Effect</th>
+ </tr>
+ <tr align="center">
+  <td>Red</td>
+  <td>No Gravity</td>
+  <td>+ Gravity (sinks)</td>
+  <td>- Gravity (rises)</td>
+ </tr>
+ <tr align="center">
+  <td>Green</td>
+  <td>- Gravity (rises)</td>
+  <td>No Gravity</td>
+  <td>+ Gravity (sinks)</td>
+ </tr>
+ <tr align="center">
+  <td>Blue</td>
+  <td>+ Gravity (sinks)</td>
+  <td>- Gravity (rises)</td>
+  <td>No Gravity</td>
+ </tr>
+</tbody></table>
+
+<br>
+
+  <h3>CONTROLS</h3>
+
+  <p>This game will be played using both a keyboard and mouse. Once started, use the following:</p>
+
+   <ul>
+    <li><strong>A</strong> - Move Left</li>
+    <li><strong>D</strong> - Move Right</li>
+    <li><strong>LEFT-ARROW</strong> - Move Left (same as A)</li>
+    <li><strong>RIGHT-ARROW</strong> - Move Right (same as D)</li>
+    <li><strong>SPACE</strong> - Jump</li>
+    <li><strong>Suit Selection Buttons</strong> - Once at the <strong><em>Changing Room Door</em></strong>, the player may select which suit to change into by clicking on the appropriate protective suit button</li>
+    <li><strong>ESC</strong> - This pauses the game and presents a 
+pop-up window to the player asking them to continue when they are ready.
+ If a game is not in progress, ESC does nothing.</li>
+   </ul>
+<br>
+
+  <h3>GRAPHICAL USER INTERFACE</h3>
+
+  <p>As far as the GUI is concerned, if we consider</p>
+
+  <ul>
+   <li><strong>Splash Screen</strong> - The splash screen GUI simply 
+presents a game logo and a Start button for the user to press when they 
+are ready to play. Upon pressing it, a brief scripted sequence is played
+ explaining a little about Spike and the back story for the game. While 
+playing the message "Press ESC to Skip" should be displayed at the 
+bottom of the screen. If pressed, the game should immediately start.</li>
+<br>
+
+   <li><strong>In-Game Menu</strong> - While the game is in progress, we'll always have a game menu that allows the player to select from the following options:
+    <ul>
+     <li><strong>New Game</strong> - If a game is in progress, first 
+we'll pop up a dialog to make sure the user really wants to quit the 
+current game. If we conclude the user really wants to start a game, then
+ the game state is reset and begun.</li>
+     <li><strong>Pause Game</strong> - This button is deactivated when a game is not in progress. If pressed, it will produce the same effect as the ESC key.</li>
+     <li><strong>Display Controls</strong> - If pressed, the game will display an info screen that includes a description of all game controls.</li>
+     <li><strong>Best Times</strong> - If pressed, the game will display an info screen with the fastest times for clearing the level.</li>
+     <li><strong>About</strong> - If pressed, the game will display an info screen with information about the game author.</li>
+     <li><strong>Exit</strong> - If pressed, the game program will exit.</li>
+    </ul></li>
+<br>
+
+   <li><strong>In-Game GUI</strong> - Once a game starts, a 
+5-4-3-2-1-Begin sequence is counted down and displayed for the player to
+ see. At Begin, the changing room door opens and Spike pops out in his 
+Red protective suit. Balloons will begin to be deployed about the 
+chamber. While playing the following will be displayed at all times:
+    <ul>
+     <li>Time Remaining</li>
+     <li>Popped Red Balloons/Red Balloons Remaining</li>
+     <li>Popped Green Balloons/Green Balloons Remaining</li>
+     <li>Popped Blue Balloons/Blue Balloons Remaining</li>
+    </ul>
+   In addition, three buttons will be be part of the in-game GUI, 
+meaning overlayed on top of the game world. These are buttons for 
+selecting Red, Green, and Blue suits. These buttons will only be 
+selectable when Spike is standing in front of the changing room door. If
+ Spike is in front of the door and the player clicks on a suit colored 
+differently than the one Spike is currently wearing, then the door will 
+slide open, Spike will disappear inside momentarily, the door will then 
+slide closed, and then will slide open again, with Spike popping out in 
+his new suit.</li>
+  </ul>
+<br>
+
+  <h3>ARTWORK</h3>
+
+  <p>All artwork in the game will be original. The following needs to be created:</p>
+
+  <ul>
+   <li><strong>Spike</strong> - we'll only dress Spike in his acid-proof
+ gear, so we'll need to make artwork for him in his Red, Green, and Blue
+ outfits. Each will require animations for:
+    <ul>
+     <li>Walking Right</li>
+     <li>Walking Left</li>
+     <li>Jumping Right</li>
+     <li>Jumping Left</li>
+     <li>Jumping Up</li>
+     <li>Collide With Floor at high speed</li>
+     <li>Taking Damage</li>
+     <li>Dying</li>
+    </ul></li>
+<br>
+   <li><strong>Red, Green &amp; Blue Balloons</strong> - Simple sprites, each require animations for:
+    <ul>
+     <li>Floating about the chamber</li>
+     <li>Colliding with something below it</li>
+     <li>Colliding with something above it</li>
+     <li>Colliding with something to the right of it</li>
+     <li>Colliding with something to the left of it</li>
+     <li>Popping, with acid bursting out</li>
+    </ul></li>
+<br>
+
+   <li><strong>Changing Room Door</strong> - Spike will start the game 
+exiting from the changing room in his Red suit. We will not see the 
+inside of the changing room, just a sliding metal door that opens and 
+closes when Spike walks up to it and presses either R, G, or B. For 
+this, we'll need an animatino of the sliding door opening and closing.</li>
+<br>
+
+   <li><strong>Ceiling, Floor, &amp; Wall Tiles</strong> - The test 
+chamber will have multiple floors and platforms to jump onto and off of.
+ We'll use simple tiles for all walkable/collidable surfaces. These 
+tiles will have to clearly define where the walkable surface is. We'll 
+use straight, dark grey, slightly grooved walking surfaces.</li>
+<br>
+
+   <li><strong>Chamber Background Tiles</strong> - For non-collidable 
+tiles that will go in the background of the chamber, we'll just use a 
+black and white tile set arranged in some pattern.</li>
+  </ul>
+<br>
+
+
+
+  <h3>SOUND EFFECTS</h3>
+
+  <p>All sound effects will be original. Sounds must be made to coincide with each of the following events:</p>
+   <ul>
+    <li><strong>Walking</strong></li>
+    <li><strong>Landing on a Platform</strong></li>
+    <li><strong>Balloon Popping</strong></li>
+    <li><strong>Acid Absorbed by Suit</strong></li>
+    <li><strong>Acid Penetrating Suit</strong></li>
+    <li><strong>Spike Dying</strong></li>
+    <li><strong>Time Running Out</strong></li>
+    <li><strong>Spike Celebrating Clearing a Level</strong></li>
+   </ul>
+<br>
+
+  <h3>MUSIC</h3>
+
+  <p>Game Music will be added when time permits.</p>
+<br>
+
+
+
+<hr>
+
+<p style="font-size:9pt; text-align:center;">
+Web page created and maintained<br>
+by <a href="http://www.cs.sunysb.edu/~richard">Richard McKenna</a></p>
+
+<p><br></p>
+</div>
+
+ 
+
+</body></html>
