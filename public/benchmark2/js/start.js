@@ -1,6 +1,6 @@
 var ThroughTheAges = ThroughTheAges || {};
 
-ThroughTheAges.game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, '');
+ThroughTheAges.game = new Phaser.Game(1920, 1080, Phaser.AUTO, '');
 
 ThroughTheAges.game.state.add('Init', ThroughTheAges.Init);
 ThroughTheAges.game.state.add('Load', ThroughTheAges.Load);

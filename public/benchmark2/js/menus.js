@@ -30,21 +30,24 @@ ThroughTheAges.MainMenu.prototype = {
         this.state.start('LevelSelect');
     },
     helpClick: function(){
+        console.log('Entering help menu');
         this.state.start('Help');
     }
 };
 
 ThroughTheAges.Help.prototype = {
     create: function(){
-        this.game.stage.backgroundColor = '#222222';
-        
+        console.log('Help menu');
+        this.game.stage.backgroundColor = '#DDDDDD';
+        this.helpText = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'Help');
+        this.helpText.anchor.setTo(0.5, 0.5);
+        this.helpText.scale.setTo(0.75, 0.75);
     },
     update: function(){
         if(this.game.input.activePointer.justPressed()){
             this.state.start('MainMenu');
         }
     }
-
 };
 
 ThroughTheAges.LevelSelect.prototype = {
