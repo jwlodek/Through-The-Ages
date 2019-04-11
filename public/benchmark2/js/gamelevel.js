@@ -6,17 +6,13 @@ class GameLevel {
     //     this.player = player;
     // }
 
-    constructor(levelName, tileMapImage, tileMapImagePath, levelPath, player, collectableItem, level) {
+    constructor(levelName, tileMapImage, tileMapImagePath, levelPath, level) {
         // Level
         this.levelName = levelName;
         this.tileMapImage = tileMapImage;
         this.tileMapImagePath = tileMapImagePath;
         this.levelPath = levelPath
         
-        // Player
-        this.player = player
-
-        this.collectableItem = collectableItem;
         this.itemCounter = 0;
         
         this.level = level;
@@ -53,11 +49,13 @@ class GameLevel {
     initPlayer(){
         var playerPos = this.findObjectsByType('playerStart', this.level.map, 'Player Layer');
         this.level.player = this.level.game.add.sprite(playerPos[0].x, playerPos[0].y, 'gareth');
+        this.level.player.isWalking = true;
+        this.level.player.lastFacing = 'Left';
 
         this.level.game.physics.arcade.enable(this.level.player);
         this.level.player.body.collideWorldBounds = true;
         this.level.game.camera.follow(this.level.player);
-        this.level.player.body.acceleration.y = 500;
+        this.level.player.body.acceleration.y = 600;
     }
 
     findObjectsByType(type, map, layer) {
@@ -90,27 +88,62 @@ class GameLevel {
         var attack_right = this.level.player.animations.add('attack_right', [25, 26, 27, 28, 29]);
     }
 
+    drawHUD(){
+        //console.log(this.collectableGroup.children.length);
+        var LevelText = 'Time Period: ' + this.levelName;
+        var ItemsText = 'Items to Collect: ' + this.collectableGroup.children.length +', Items collected: ' + this.itemCounter;
+        var drawLevel = new Text(this.level.game, 30, 30, LevelText);
+        var drawItems = new Text(this.level.game, 30, 70, ItemsText);
+    }
+
 
     levelUpdate(){
 
-        this.level.game.physics.arcade.collide(this.level.player, this.level.platformLayer);
+        this.drawHUD();
+        this.level.game.physics.arcade.collide(this.level.player, this.level.platformLayer, this.handleCollision, null, this);
+        var anim_played = false;
+
+        if(this.level.input.keyboard.isDown(Phaser.Keyboard.K)){
+            if(this.level.player.lastFacing == 'Left'){
+                this.level.player.animations.play('attack_left');
+            }
+            else if(this.level.player.lastFacing == 'Right'){
+                this.level.player.animations.play('attack_right');
+            }
+            anim_played = true;
+        }
+
+        if(this.level.input.keyboard.isDown(Phaser.Keyboard.W) && this.level.player.isWalking){
+            this.level.player.body.velocity.y = -400;
+            this.level.player.isWalking = false;
+            if(!anim_played)
+                this.level.player.animations.play('jump');
+            anim_played = true;
+        }
 
         if(this.level.input.keyboard.isDown(Phaser.Keyboard.A)){
-            this.level.player.body.velocity.x  = -200;
-            this.level.player.animations.play('walk_left');
+            this.level.player.body.velocity.x  = -300;
+            this.level.player.lastFacing = 'Left';
+            if(!anim_played)
+                this.level.player.animations.play('walk_left');
+            anim_played = true;
         }
         else if(this.level.input.keyboard.isDown(Phaser.Keyboard.D)){
-            this.level.player.body.velocity.x = 200;
-            this.level.player.animations.play('walk_right');
-        }
-        else if(this.level.input.keyboard.isDown(Phaser.Keyboard.W)){
-            this.level.player.body.velocity.y = -400;
-            this.level.player.animations.play('jump');
+            this.level.player.body.velocity.x = 300;
+            this.level.player.lastFacing = 'Right';
+            if(!anim_played)
+                this.level.player.animations.play('walk_right');
+            anim_played = true;
         }
         else{
             this.level.player.body.velocity.x = 0;
-            this.level.player.animations.play('idle')
+            if(!anim_played)
+                this.level.player.animations.play('idle');
         }
-        
+
+    }
+
+    handleCollision(){
+        this.level.player.isWalking = true;
     }
 }
