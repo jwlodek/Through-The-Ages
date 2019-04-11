@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.3" orientation="orthogonal" renderorder="right-down" width="48" height="27" tilewidth="40" tileheight="40" infinite="0" nextlayerid="6" nextobjectid="18">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="48" height="27" tilewidth="40" tileheight="40" nextobjectid="21">
  <tileset firstgid="1" name="basictileset_level1" tilewidth="40" tileheight="40" tilecount="11" columns="11">
   <image source="basictileset_level1.png" width="440" height="40"/>
  </tileset>
- <layer id="2" name="BackgroundLayer" width="48" height="27">
+ <layer name="BackgroundLayer" width="48" height="27" visible="0">
   <data encoding="csv">
 10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,
 10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,
@@ -34,7 +34,7 @@
 10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10
 </data>
  </layer>
- <layer id="1" name="Platform Layer" width="48" height="27">
+ <layer name="Platform Layer" width="48" height="27" visible="0">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,11,
@@ -65,7 +65,7 @@
 9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9
 </data>
  </layer>
- <objectgroup id="4" name="ItemLayer">
+ <objectgroup name="ItemLayer" visible="0">
   <object id="2" name="CollectibleItem" type="CollectableItem" gid="6" x="734" y="240" width="40" height="40"/>
   <object id="3" name="CollectibleItem" type="CollectableItem" gid="6" x="1444" y="118" width="40" height="40"/>
   <object id="4" name="CollectibleItem" type="CollectableItem" gid="6" x="1702" y="478" width="40" height="40"/>
@@ -78,12 +78,12 @@
   <object id="11" name="CollectibleItem" type="CollectableItem" gid="6" x="1044" y="74" width="40" height="40"/>
   <object id="12" name="CollectibleItem" type="CollectableItem" gid="6" x="1834" y="118" width="40" height="40"/>
   <object id="13" name="CollectibleItem" type="CollectableItem" gid="6" x="1254" y="476" width="40" height="40"/>
-  <object id="14" name="CollectibleItem" type="CollectableItem" gid="6" x="1082" y="918" width="40" height="40"/>
+  <object id="14" name="CollectibleItem" type="CollectableItem" gid="6" x="1080" y="919" width="40" height="40"/>
   <object id="15" name="CollectibleItem" type="CollectableItem" gid="6" x="678" y="952" width="40" height="40"/>
   <object id="16" name="CollectibleItem" type="CollectableItem" gid="6" x="384" y="1036" width="40" height="40"/>
   <object id="17" name="CollectibleItem" type="CollectableItem" gid="6" x="584" y="598" width="40" height="40"/>
  </objectgroup>
- <layer id="5" name="HomeBaseLayer" width="48" height="27">
+ <layer name="HomeBaseLayer" width="48" height="27">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -114,7 +114,10 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="3" name="Player Layer">
-  <object id="1" name="playerStart" type="playerStart" gid="8" x="1478" y="878" width="40" height="40"/>
+ <objectgroup name="DropoffLayer">
+  <object id="20" name="DropOff" type="DropOff" x="1601" y="841" width="79" height="81"/>
+ </objectgroup>
+ <objectgroup name="Player Layer" visible="0">
+  <object id="1" name="playerStart" type="playerStart" gid="8" x="1479" y="880" width="40" height="40"/>
  </objectgroup>
 </map>

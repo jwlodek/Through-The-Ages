@@ -17,12 +17,19 @@ class GameLevel {
         this.player = player
 
         this.collectableItem = collectableItem;
+
+
+        this.itemsToCollect = 0;
         this.itemCounter = 0;
+        this.currentItem = null;
         
         this.level = level;
 
         this.collectableGroup = this.level.game.add.group();
         this.collectableGroup.enableBody = true;
+
+        this.dropOff = this.level.game.add.group();
+        this.dropOff.enableBody = true;
     }
 
     advanceCurrentItem() {
@@ -58,6 +65,8 @@ class GameLevel {
         this.level.player.body.collideWorldBounds = true;
         this.level.game.camera.follow(this.level.player);
         this.level.player.body.acceleration.y = 500;
+
+        
     }
 
     findObjectsByType(type, map, layer) {
@@ -73,12 +82,37 @@ class GameLevel {
 
     createItems() {
         const itemPositions = this.findObjectsByType('CollectableItem', this.level.map, 'ItemLayer');
+        this.itemsToCollect = itemPositions.length;
         itemPositions.forEach(({x,y}) => {
             var item = this.level.game.add.sprite(x, y, 'collect');
             this.collectableGroup.add(item);
         });
         this.level.game.world.bringToTop(this.collectableGroup);
  
+    }
+
+    initHome() {
+        const homePosition = this.findObjectsByType('DropOff', this.level.map, 'DropoffLayer');
+        homePosition.forEach(({x,y}) => {
+            var item = this.level.game.add.sprite(x, y);
+            this.dropOff.add(item);
+        });
+        this.level.game.world.bringToTop(this.dropOff);
+        console.log(homePosition);
+    }
+
+    collectItem(player, item) {
+        console.log('collect', item);
+        this.currentItem = item;
+        this.currentItem.kill();
+    }
+
+    dropOffItem(player, item) {
+        if (this.currentItem) {
+            console.log('drop', this.currentItem);
+            this.currentItem = null;
+            this.itemCounter++;
+        }
     }
 
     initAnimations(){
@@ -94,6 +128,8 @@ class GameLevel {
     levelUpdate(){
 
         this.level.game.physics.arcade.collide(this.level.player, this.level.platformLayer);
+        this.level.game.physics.arcade.overlap(this.level.player, this.collectableGroup, this.collectItem, null, this);
+        this.level.game.physics.arcade.overlap(this.level.player, this.dropOff, this.dropOffItem, null, this);
 
         if(this.level.input.keyboard.isDown(Phaser.Keyboard.A)){
             this.level.player.body.velocity.x  = -200;
