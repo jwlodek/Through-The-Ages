@@ -8,26 +8,15 @@ ThroughTheAges.Level4 = function() {};
 
 ThroughTheAges.Level1.prototype = {
     preload: function() {
-        this.gameLevel = new GameLevel('The Stone Age', {}, [], this);
+        this.gameLevel = new GameLevel('The Stone Age',  'basictileset_level1', 'benchmark2/assets/tilesets/basictileset_level1.png', 
+            'benchmark2/assets/tilesets/ThroughTheAges_Level1.json',{}, [], this);
         this.gameLevel.loadLevel();
-        this.game.load.image('collect','benchmark2/assets/sprites/collect.png');
+        this.game.load.image('collect','benchmark2/assets/sprites/collect.png', 40, 40);
     },
     create: function(){
-        this.game.world.setBounds(0, 0, 1920, 1080);
-        
-        
-        this.map = this.game.add.tilemap('level1');
-        this.map.addTilesetImage('basictileset_level1','tiles');
-
-        this.backgroundLayer = this.map.createLayer('BackgroundLayer');
-        this.platformLayer = this.map.createLayer('Platform Layer');
-        // this.itemLayer = this.map.createLayer('ItemLayer');
-        this.homeBaseLayer = this.map.createLayer('HomeBaseLayer');
-        // this.playerLayer = this.map.createLayer('Player Layer');
-
+        this.gameLevel.initLayers();
+        this.gameLevel.initPlayer();
         this.gameLevel.createItems();
-        this.map.setCollisionBetween(1, 100000, true, 'Platform Layer');
-        
     },
     update: function(){
         // Progress to next part of Level?

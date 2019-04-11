@@ -6,9 +6,12 @@ class GameLevel {
     //     this.player = player;
     // }
 
-    constructor(levelName, player, collectableItem, level) {
+    constructor(levelName, tileMapImage, tileMapImagePath, levelPath, player, collectableItem, level) {
         // Level
         this.levelName = levelName;
+        this.tileMapImage = tileMapImage;
+        this.tileMapImagePath = tileMapImagePath;
+        this.levelPath = levelPath
         
         // Player
         this.player = player
@@ -27,8 +30,33 @@ class GameLevel {
     }
 
     loadLevel() {
-        this.level.load.tilemap('level1', 'benchmark2/assets/tilesets/ThroughTheAges_Level1.json', null, Phaser.Tilemap.TILED_JSON);
-        this.level.load.image('tiles', 'benchmark2/assets/tilesets/basictileset_level1.png');
+        this.level.load.tilemap(this.levelName, this.levelPath, null, Phaser.Tilemap.TILED_JSON);
+        this.level.load.image('tiles', this.tileMapImagePath);
+    }
+
+    initLayers(){
+        this.level.game.world.setBounds(0, 0, 1920, 1080);
+        
+        this.level.map = this.level.game.add.tilemap(this.levelName);
+        this.level.map.addTilesetImage(this.tileMapImage, 'tiles');
+
+        this.level.backgroundLayer = this.level.map.createLayer('BackgroundLayer');
+        this.level.platformLayer = this.level.map.createLayer('Platform Layer');
+        this.level.itemLayer = this.level.map.createLayer('ItemLayer');
+        this.level.homeBaseLayer = this.level.map.createLayer('HomeBaseLayer');
+        this.level.playerLayer = this.level.map.createLayer('Player Layer');
+
+        
+        this.level.map.setCollisionBetween(1, 100000, true, 'Platform Layer');
+    }
+
+    initPlayer(){
+        var playerPos = this.findObjectsByType('playerStart', this.level.map, 'Player Layer');
+        this.level.player = this.level.game.add.sprite(playerPos[0].x, playerPos[0].y, 'gareth');
+
+        this.level.game.physics.arcade.enable(this.level.player);
+        this.level.player.body.collideWorldBounds = true;
+        this.level.game.camera.follow(this.level.player);
     }
 
     findObjectsByType(type, map, layer) {
@@ -45,12 +73,42 @@ class GameLevel {
     createItems() {
         const itemPositions = this.findObjectsByType('CollectableItem', this.level.map, 'ItemLayer');
         itemPositions.forEach(({x,y}) => {
-            this.collectableGroup.create(x, y, 'collect');
+            console.log({x,y});
+            var item = this.level.game.add.sprite(x, y, 'collect');
+            this.collectableGroup.add(item);
         });
-        console.log(itemPositions); 
+        this.level.game.world.bringToTop(this.collectableGroup);
+ 
     }
 
+    initAnimations(){
+        var idle = this.level.player.animations.add('idle', [0,1,2,3]);
+        var walk_left = this.level.player.animations.add('walk_left', [5, 6, 7, 8]);
+        var walk_right = this.level.player.animations.add('walk_right', [10, 11, 12, 13]);
+        var jump = this.level.player.animations.add('jump', [15, 16, 17, 18]);
+        var attack_left = this.level.player.animations.add('attack_left', [20, 21, 22, 23, 24]);
+        var attack_right = this.level.player.animations.add('attack_right', [25, 26, 27, 28, 29]);
+    }
+
+
     levelUpdate(){
-        
+        /*
+        if(this.level.input.keyboard.isDown(Phaser.Keyboard.A)){
+            this.level.player.velocity.x  = -30;
+            this.level.player.animations.play('walk_left');
+        }
+        else if(this.level.input.keyboard.isDown(Phaser.Keyboard.D)){
+            this.level.player.velocity.x = 30;
+            this.player.animations.play('walk_right');
+        }
+        else if(this.level.input.keyboard.isDown(Phaser.Keyboard.SPACE)){
+            this.level.player.velocity.y = 50;
+            this.player.animations.play('jump');
+        }
+        else{
+            this.level.player.velocity.x = 0;
+            this.level.player.animations.play('idle')
+        }
+        */
     }
 }
