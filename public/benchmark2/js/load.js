@@ -9,9 +9,9 @@ ThroughTheAges.Load.prototype = {
 
         //load all sprites and images and spritesheets here
         this.load.image('MainMenu', 'Main Menu.png');
-        this.load.image('Help', 'User_Help_Menu.png');
+        this.load.image('Help', 'Help Text.png');
         this.load.image('Logo', 'Logo_Small.png');
-        this.load.spritesheet('Button', 'ButtonSpritesheet.png', 294, 88);
+        this.load.spritesheet('Button', 'ButtonSpritesheet.png', 293, 88);
     },
     update: function(){
         if(this.game.input.activePointer.justPressed()){
