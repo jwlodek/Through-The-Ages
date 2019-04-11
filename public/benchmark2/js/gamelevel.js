@@ -54,6 +54,7 @@ class GameLevel {
         this.level.game.physics.arcade.enable(this.level.player);
         this.level.player.body.collideWorldBounds = true;
         this.level.game.camera.follow(this.level.player);
+        this.level.player.body.acceleration.y = 500;
     }
 
     findObjectsByType(type, map, layer) {
@@ -82,23 +83,25 @@ class GameLevel {
 
 
     levelUpdate(){
-        /*
+
+        this.level.game.physics.arcade.collide(this.level.player, this.level.platformLayer);
+
         if(this.level.input.keyboard.isDown(Phaser.Keyboard.A)){
-            this.level.player.velocity.x  = -30;
+            this.level.player.body.velocity.x  = -200;
             this.level.player.animations.play('walk_left');
         }
         else if(this.level.input.keyboard.isDown(Phaser.Keyboard.D)){
-            this.level.player.velocity.x = 30;
-            this.player.animations.play('walk_right');
+            this.level.player.body.velocity.x = 200;
+            this.level.player.animations.play('walk_right');
         }
-        else if(this.level.input.keyboard.isDown(Phaser.Keyboard.SPACE)){
-            this.level.player.velocity.y = 50;
-            this.player.animations.play('jump');
+        else if(this.level.input.keyboard.isDown(Phaser.Keyboard.W)){
+            this.level.player.body.velocity.y = -400;
+            this.level.player.animations.play('jump');
         }
         else{
-            this.level.player.velocity.x = 0;
+            this.level.player.body.velocity.x = 0;
             this.level.player.animations.play('idle')
         }
-        */
+        
     }
 }

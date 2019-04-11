@@ -15,6 +15,7 @@ ThroughTheAges.Level1.prototype = {
     create: function(){
         this.gameLevel.initLayers();
         this.gameLevel.initPlayer();
+        this.gameLevel.initAnimations();
     },
     update: function(){
         // Progress to next part of Level?
