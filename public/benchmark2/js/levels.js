@@ -7,10 +7,29 @@ ThroughTheAges.Level4 = function() {};
 
 
 ThroughTheAges.Level1.prototype = {
+    preload: function() {
+        this.gameLevel = new GameLevel('The Stone Age', {}, [], this);
+        this.gameLevel.loadLevel();
+    },
     create: function(){
+        this.game.world.setBounds(0, 0, 1920, 1080);
+        
+        
+        this.map = this.game.add.tilemap('level1');
+        this.map.addTilesetImage('basictileset_level1','tiles');
 
+        this.backgroundLayer = this.map.createLayer('BackgroundLayer');
+        this.platformLayer = this.map.createLayer('Platform Layer');
+        this.itemLayer = this.map.createLayer('ItemLayer');
+        this.homeBaseLayer = this.map.createLayer('HomeBaseLayer');
+        this.playerLayer = this.map.createLayer('Player Layer');
+
+        this.map.setCollisionBetween(1, 100000, true, 'Platform Layer');
+        
     },
     update: function(){
+        // Progress to next part of Level?
+        
 
     }
 }
@@ -18,7 +37,7 @@ ThroughTheAges.Level1.prototype = {
 
 ThroughTheAges.Level2.prototype = {
     create: function(){
-
+        this.gameLevel = GameLevel()
     },
     update: function(){
 
@@ -28,7 +47,7 @@ ThroughTheAges.Level2.prototype = {
 
 ThroughTheAges.Level3.prototype = {
     create: function(){
-
+        this.gameLevel = GameLevel()
     },
     update: function(){
 
