@@ -17,6 +17,9 @@ class GameLevel {
         this.itemCounter = 0;
         
         this.level = level;
+
+        this.collectableGroup = this.level.game.add.group();
+        this.collectableGroup.enableBody = true;
     }
 
     advanceCurrentItem() {
@@ -31,7 +34,7 @@ class GameLevel {
     findObjectsByType(type, map, layer) {
         var result = new Array();
         map.objects[layer].forEach(function(element) {
-            if (element.properties.type === type) {
+            if (element.type === type) {
                 element.y -= map.tileHeight;
                 result.push(element);
             }
@@ -40,7 +43,11 @@ class GameLevel {
     }
 
     createItems() {
-
+        const itemPositions = this.findObjectsByType('CollectableItem', this.level.map, 'ItemLayer');
+        itemPositions.forEach(({x,y}) => {
+            this.collectableGroup.create(x, y, 'collect');
+        });
+        console.log(itemPositions); 
     }
 
     levelUpdate(){

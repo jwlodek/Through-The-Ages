@@ -10,6 +10,7 @@ ThroughTheAges.Level1.prototype = {
     preload: function() {
         this.gameLevel = new GameLevel('The Stone Age', {}, [], this);
         this.gameLevel.loadLevel();
+        this.game.load.image('collect','benchmark2/assets/sprites/collect.png');
     },
     create: function(){
         this.game.world.setBounds(0, 0, 1920, 1080);
@@ -20,12 +21,11 @@ ThroughTheAges.Level1.prototype = {
 
         this.backgroundLayer = this.map.createLayer('BackgroundLayer');
         this.platformLayer = this.map.createLayer('Platform Layer');
-        this.itemLayer = this.map.createLayer('ItemLayer');
+        // this.itemLayer = this.map.createLayer('ItemLayer');
         this.homeBaseLayer = this.map.createLayer('HomeBaseLayer');
-        this.playerLayer = this.map.createLayer('Player Layer');
+        // this.playerLayer = this.map.createLayer('Player Layer');
 
-        //var playerPos = this.gameLevel.findObjectsByType('')
-
+        this.gameLevel.createItems();
         this.map.setCollisionBetween(1, 100000, true, 'Platform Layer');
         
     },
