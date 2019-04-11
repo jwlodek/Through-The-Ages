@@ -74,7 +74,6 @@ class GameLevel {
     createItems() {
         const itemPositions = this.findObjectsByType('CollectableItem', this.level.map, 'ItemLayer');
         itemPositions.forEach(({x,y}) => {
-            console.log({x,y});
             var item = this.level.game.add.sprite(x, y, 'collect');
             this.collectableGroup.add(item);
         });
@@ -83,7 +82,7 @@ class GameLevel {
     }
 
     initAnimations(){
-        var idle = this.level.player.animations.add('idle', [0,1,2,3]);
+        var idle = this.level.player.animations.add('idle', [0,1,2,3], 20);
         var walk_left = this.level.player.animations.add('walk_left', [5, 6, 7, 8]);
         var walk_right = this.level.player.animations.add('walk_right', [10, 11, 12, 13]);
         var jump = this.level.player.animations.add('jump', [15, 16, 17, 18]);
