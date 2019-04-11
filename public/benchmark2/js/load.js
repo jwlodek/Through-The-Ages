@@ -11,7 +11,8 @@ ThroughTheAges.Load.prototype = {
         this.load.image('MainMenu', 'Main Menu.png');
         this.load.image('Help', 'Help Text.png');
         this.load.image('Logo', 'Logo_Small.png');
-        this.load.spritesheet('Button', 'ButtonSpritesheet.png', 293, 88);
+        this.load.spritesheet('MainButton', 'MainMenuButton.png', 339, 102);
+        this.load.spritesheet('LevelButton', 'LevelSelectButton.png', 594, 101);
     },
     update: function(){
         if(this.game.input.activePointer.justPressed()){
