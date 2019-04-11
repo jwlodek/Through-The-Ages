@@ -10,7 +10,9 @@ ThroughTheAges.Load.prototype = {
         //load all sprites and images and spritesheets here
         this.load.image('MainMenu', 'Main Menu.png');
     },
-    create: function(){
-        this.state.start('MainMenu');
+    update: function(){
+        if(this.game.input.activePointer.justPressed()){
+            this.state.start('MainMenu');
+        }
     }
 };
