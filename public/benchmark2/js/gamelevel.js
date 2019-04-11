@@ -42,4 +42,8 @@ class GameLevel {
     createItems() {
 
     }
+
+    levelUpdate(){
+        
+    }
 }

@@ -24,40 +24,41 @@ ThroughTheAges.Level1.prototype = {
         this.homeBaseLayer = this.map.createLayer('HomeBaseLayer');
         this.playerLayer = this.map.createLayer('Player Layer');
 
+        //var playerPos = this.gameLevel.findObjectsByType('')
+
         this.map.setCollisionBetween(1, 100000, true, 'Platform Layer');
         
     },
     update: function(){
         // Progress to next part of Level?
-        
-
+        this.gameLevel.levelUpdate();
     }
 }
 
 
 ThroughTheAges.Level2.prototype = {
     create: function(){
-        this.gameLevel = GameLevel()
+        this.gameLevel = new GameLevel('Middle Ages', {}, [], this);
     },
     update: function(){
-
+        this.gameLevel.levelUpdate();
     }
 }
 
 
 ThroughTheAges.Level3.prototype = {
     create: function(){
-        this.gameLevel = GameLevel()
+        this.gameLevel = new GameLevel('Present Day', {}, [], this);
     },
     update: function(){
-
+        this.gameLevel.levelUpdate();
     }
 }
 
 
 ThroughTheAges.Level4.prototype = {
     create: function(){
-
+        this.gameLevel = new GameLevel('Future', {}, [], this);
     },
     update: function(){
 
