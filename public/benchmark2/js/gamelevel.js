@@ -34,7 +34,7 @@ class GameLevel {
     loadLevel() {
         this.level.load.tilemap(this.levelName, this.levelPath, null, Phaser.Tilemap.TILED_JSON);
         this.level.load.image('tiles', this.tileMapImagePath);
-        this.level.projectiles = new Array();
+        this.projectiles = new Array();
     }
 
     initLayers(){
@@ -147,6 +147,7 @@ class GameLevel {
                 spear.anchor.setTo(0.5, 0.5);
                 this.level.physics.arcade.enable(spear);
                 spear.body.velocity.x = -300;
+                this.projectiles.push(spear);
             }
             else if(this.level.player.lastFacing == 'Right'){
                 this.level.player.animations.play('attack_right');
@@ -155,6 +156,7 @@ class GameLevel {
                 spear.angle = 180;
                 this.level.physics.arcade.enable(spear);
                 spear.body.velocity.x = 300;
+                this.projectiles.push(spear);
             }
             anim_played = true;
             this.attackDelay = 30;
