@@ -66,7 +66,7 @@ class GameLevel {
         this.level.game.camera.follow(this.level.player);
         this.level.player.body.acceleration.y = 500;
 
-        
+        this.level.game.world.bringToTop(this.level.player);
     }
 
     findObjectsByType(type, map, layer) {
@@ -92,22 +92,27 @@ class GameLevel {
     }
 
     initHome() {
-        const homePosition = this.findObjectsByType('DropOff', this.level.map, 'DropoffLayer');
+        const homePosition = this.findObjectsByType('Dropoff', this.level.map, 'DropoffLayer');
         homePosition.forEach(({x,y}) => {
             var item = this.level.game.add.sprite(x, y);
             this.dropOff.add(item);
         });
         this.level.game.world.bringToTop(this.dropOff);
-        console.log(homePosition);
     }
 
     collectItem(player, item) {
-        console.log('collect', item);
-        this.currentItem = item;
-        this.currentItem.kill();
+        if (!this.currentItem) {
+            console.log('collect', item);
+            this.currentItem = item;
+            this.currentItem.kill();
+        } else {
+            console.log('item in inventory');
+        }
+        
     }
 
     dropOffItem(player, item) {
+        console.log('drop');
         if (this.currentItem) {
             console.log('drop', this.currentItem);
             this.currentItem = null;

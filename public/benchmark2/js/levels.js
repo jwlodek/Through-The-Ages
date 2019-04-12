@@ -15,9 +15,10 @@ ThroughTheAges.Level1.prototype = {
     },
     create: function(){
         this.gameLevel.initLayers();
-        this.gameLevel.initPlayer();
         this.gameLevel.createItems();
         this.gameLevel.initHome();
+        // Init player after to ensure that they are pushed to the top
+        this.gameLevel.initPlayer();
         this.gameLevel.initAnimations();
     },
     update: function(){

@@ -6,7 +6,7 @@
          "name":"BackgroundLayer",
          "opacity":1,
          "type":"tilelayer",
-         "visible":false,
+         "visible":true,
          "width":48,
          "x":0,
          "y":0
@@ -17,7 +17,7 @@
          "name":"Platform Layer",
          "opacity":1,
          "type":"tilelayer",
-         "visible":false,
+         "visible":true,
          "width":48,
          "x":0,
          "y":0
@@ -221,7 +221,7 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":false,
+         "visible":true,
          "width":0,
          "x":0,
          "y":0
@@ -243,15 +243,28 @@
          "name":"DropoffLayer",
          "objects":[
                 {
-                 "height":81,
-                 "id":20,
-                 "name":"DropOff",
+                 "gid":8,
+                 "height":40,
+                 "id":30,
+                 "name":"Dropoff",
                  "rotation":0,
-                 "type":"DropOff",
+                 "type":"Dropoff",
                  "visible":true,
-                 "width":79,
-                 "x":1601,
-                 "y":841
+                 "width":40,
+                 "x":1600,
+                 "y":920
+                }, 
+                {
+                 "gid":8,
+                 "height":40,
+                 "id":34,
+                 "name":"Dropoff",
+                 "rotation":0,
+                 "type":"Dropoff",
+                 "visible":true,
+                 "width":40,
+                 "x":1600,
+                 "y":879
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -279,12 +292,12 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":false,
+         "visible":true,
          "width":0,
          "x":0,
          "y":0
         }],
- "nextobjectid":21,
+ "nextobjectid":35,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tileheight":40,

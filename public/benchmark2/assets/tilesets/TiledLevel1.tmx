@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="48" height="27" tilewidth="40" tileheight="40" nextobjectid="21">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="48" height="27" tilewidth="40" tileheight="40" nextobjectid="35">
  <tileset firstgid="1" name="basictileset_level1" tilewidth="40" tileheight="40" tilecount="11" columns="11">
   <image source="basictileset_level1.png" width="440" height="40"/>
  </tileset>
- <layer name="BackgroundLayer" width="48" height="27" visible="0">
+ <layer name="BackgroundLayer" width="48" height="27">
   <data encoding="csv">
 10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,
 10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,
@@ -34,7 +34,7 @@
 10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10
 </data>
  </layer>
- <layer name="Platform Layer" width="48" height="27" visible="0">
+ <layer name="Platform Layer" width="48" height="27">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,11,
@@ -65,7 +65,7 @@
 9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9
 </data>
  </layer>
- <objectgroup name="ItemLayer" visible="0">
+ <objectgroup name="ItemLayer">
   <object id="2" name="CollectibleItem" type="CollectableItem" gid="6" x="734" y="240" width="40" height="40"/>
   <object id="3" name="CollectibleItem" type="CollectableItem" gid="6" x="1444" y="118" width="40" height="40"/>
   <object id="4" name="CollectibleItem" type="CollectableItem" gid="6" x="1702" y="478" width="40" height="40"/>
@@ -115,9 +115,10 @@
 </data>
  </layer>
  <objectgroup name="DropoffLayer">
-  <object id="20" name="DropOff" type="DropOff" x="1601" y="841" width="79" height="81"/>
+  <object id="30" name="Dropoff" type="Dropoff" gid="8" x="1600" y="920" width="40" height="40"/>
+  <object id="34" name="Dropoff" type="Dropoff" gid="8" x="1600" y="879" width="40" height="40"/>
  </objectgroup>
- <objectgroup name="Player Layer" visible="0">
+ <objectgroup name="Player Layer">
   <object id="1" name="playerStart" type="playerStart" gid="8" x="1479" y="880" width="40" height="40"/>
  </objectgroup>
 </map>
