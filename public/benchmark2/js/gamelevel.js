@@ -23,6 +23,8 @@ class GameLevel {
 
         this.dropOff = this.level.game.add.group();
         this.dropOff.enableBody = true;
+
+        this.attackDelay = 0;
     }
 
     advanceCurrentItem() {
@@ -32,6 +34,7 @@ class GameLevel {
     loadLevel() {
         this.level.load.tilemap(this.levelName, this.levelPath, null, Phaser.Tilemap.TILED_JSON);
         this.level.load.image('tiles', this.tileMapImagePath);
+        this.level.projectiles = new Array();
     }
 
     initLayers(){
@@ -132,17 +135,29 @@ class GameLevel {
         this.level.game.physics.arcade.collide(this.level.player, this.level.platformLayer, this.handleCollision, null, this);
         this.level.game.physics.arcade.overlap(this.level.player, this.collectableGroup, this.collectItem, null, this);
         this.level.game.physics.arcade.overlap(this.level.player, this.dropOff, this.dropOffItem, null, this);
-        
-        var anim_played = false;
 
-        if(this.level.input.keyboard.isDown(Phaser.Keyboard.K)){
+        var anim_played = false;
+        if(this.attackDelay > 0)
+            this.attackDelay = this.attackDelay - 1;
+
+        if(this.level.input.keyboard.isDown(Phaser.Keyboard.K) && this.attackDelay == 0){
             if(this.level.player.lastFacing == 'Left'){
                 this.level.player.animations.play('attack_left');
+                var spear = this.level.game.add.sprite(this.level.player.x, this.level.player.y + 20, 'spear');
+                spear.anchor.setTo(0.5, 0.5);
+                this.level.physics.arcade.enable(spear);
+                spear.body.velocity.x = -300;
             }
             else if(this.level.player.lastFacing == 'Right'){
                 this.level.player.animations.play('attack_right');
+                var spear = this.level.game.add.sprite(this.level.player.x + 40, this.level.player.y + 20, 'spear');
+                spear.anchor.setTo(0.5, 0.5);
+                spear.angle = 180;
+                this.level.physics.arcade.enable(spear);
+                spear.body.velocity.x = 300;
             }
             anim_played = true;
+            this.attackDelay = 30;
         }
 
         if(this.level.input.keyboard.isDown(Phaser.Keyboard.W) && this.level.player.isWalking){
