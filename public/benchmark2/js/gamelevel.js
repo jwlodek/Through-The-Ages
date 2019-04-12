@@ -6,20 +6,13 @@ class GameLevel {
     //     this.player = player;
     // }
 
-    constructor(levelName, tileMapImage, tileMapImagePath, levelPath, player, collectableItem, level) {
+    constructor(levelName, tileMapImage, tileMapImagePath, levelPath, level) {
         // Level
         this.levelName = levelName;
         this.tileMapImage = tileMapImage;
         this.tileMapImagePath = tileMapImagePath;
         this.levelPath = levelPath
         
-        // Player
-        this.player = player
-
-        this.collectableItem = collectableItem;
-
-
-        this.itemsToCollect = 0;
         this.itemCounter = 0;
         this.currentItem = null;
         
@@ -30,6 +23,8 @@ class GameLevel {
 
         this.dropOff = this.level.game.add.group();
         this.dropOff.enableBody = true;
+
+        this.attackDelay = 0;
     }
 
     advanceCurrentItem() {
@@ -39,6 +34,7 @@ class GameLevel {
     loadLevel() {
         this.level.load.tilemap(this.levelName, this.levelPath, null, Phaser.Tilemap.TILED_JSON);
         this.level.load.image('tiles', this.tileMapImagePath);
+        this.projectiles = new Array();
     }
 
     initLayers(){
@@ -60,12 +56,14 @@ class GameLevel {
     initPlayer(){
         var playerPos = this.findObjectsByType('playerStart', this.level.map, 'Player Layer');
         this.level.player = this.level.game.add.sprite(playerPos[0].x, playerPos[0].y, 'gareth');
+        this.level.player.isWalking = true;
+        this.level.player.lastFacing = 'Left';
 
         this.level.game.physics.arcade.enable(this.level.player);
         this.level.player.body.collideWorldBounds = true;
         this.level.game.camera.follow(this.level.player);
         this.level.player.body.acceleration.y = 500;
-
+        this.level.player.body.acceleration.y = 600;
         this.level.game.world.bringToTop(this.level.player);
     }
 
@@ -129,29 +127,80 @@ class GameLevel {
         var attack_right = this.level.player.animations.add('attack_right', [25, 26, 27, 28, 29]);
     }
 
+    drawHUD(){
+        //console.log(this.collectableGroup.children.length);
+        var LevelText = 'Time Period: ' + this.levelName;
+        var ItemsText = 'Items to Collect: ' + this.collectableGroup.children.length +', Items collected: ' + this.itemCounter;
+        var drawLevel = new Text(this.level.game, 30, 30, LevelText);
+        var drawItems = new Text(this.level.game, 30, 70, ItemsText);
+    }
+
 
     levelUpdate(){
 
-        this.level.game.physics.arcade.collide(this.level.player, this.level.platformLayer);
+        this.drawHUD();
+        this.level.game.physics.arcade.collide(this.level.player, this.level.platformLayer, this.handleCollision, null, this);
         this.level.game.physics.arcade.overlap(this.level.player, this.collectableGroup, this.collectItem, null, this);
         this.level.game.physics.arcade.overlap(this.level.player, this.dropOff, this.dropOffItem, null, this);
 
+        var anim_played = false;
+        if(this.attackDelay > 0)
+            this.attackDelay = this.attackDelay - 1;
+
+        if(this.level.input.keyboard.isDown(Phaser.Keyboard.K) && this.attackDelay == 0){
+            if(this.level.player.lastFacing == 'Left'){
+                this.level.player.animations.play('attack_left');
+                var spear = this.level.game.add.sprite(this.level.player.x, this.level.player.y + 20, 'spear');
+                spear.anchor.setTo(0.5, 0.5);
+                this.level.physics.arcade.enable(spear);
+                spear.body.velocity.x = -300;
+                this.projectiles.push(spear);
+            }
+            else if(this.level.player.lastFacing == 'Right'){
+                this.level.player.animations.play('attack_right');
+                var spear = this.level.game.add.sprite(this.level.player.x + 40, this.level.player.y + 20, 'spear');
+                spear.anchor.setTo(0.5, 0.5);
+                spear.angle = 180;
+                this.level.physics.arcade.enable(spear);
+                spear.body.velocity.x = 300;
+                this.projectiles.push(spear);
+            }
+            anim_played = true;
+            this.attackDelay = 30;
+        }
+
+        if(this.level.input.keyboard.isDown(Phaser.Keyboard.W) && this.level.player.isWalking){
+            this.level.player.body.velocity.y = -400;
+            this.level.player.isWalking = false;
+            if(!anim_played)
+                this.level.player.animations.play('jump');
+            anim_played = true;
+        }
+
+
         if(this.level.input.keyboard.isDown(Phaser.Keyboard.A)){
-            this.level.player.body.velocity.x  = -200;
-            this.level.player.animations.play('walk_left');
+            this.level.player.body.velocity.x  = -300;
+            this.level.player.lastFacing = 'Left';
+            if(!anim_played)
+                this.level.player.animations.play('walk_left');
+            anim_played = true;
         }
         else if(this.level.input.keyboard.isDown(Phaser.Keyboard.D)){
-            this.level.player.body.velocity.x = 200;
-            this.level.player.animations.play('walk_right');
-        }
-        else if(this.level.input.keyboard.isDown(Phaser.Keyboard.W)){
-            this.level.player.body.velocity.y = -400;
-            this.level.player.animations.play('jump');
+            this.level.player.body.velocity.x = 300;
+            this.level.player.lastFacing = 'Right';
+            if(!anim_played)
+                this.level.player.animations.play('walk_right');
+            anim_played = true;
         }
         else{
             this.level.player.body.velocity.x = 0;
-            this.level.player.animations.play('idle')
+            if(!anim_played)
+                this.level.player.animations.play('idle');
         }
-        
+
+    }
+
+    handleCollision(){
+        this.level.player.isWalking = true;
     }
 }
