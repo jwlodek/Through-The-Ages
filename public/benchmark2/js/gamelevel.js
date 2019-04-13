@@ -24,7 +24,46 @@ class GameLevel {
         this.dropOff = this.level.game.add.group();
         this.dropOff.enableBody = true;
 
+        this.enemies = this.level.game.add.group();
+        this.enemies.enableBody = true;
+        this.enemyHealth = 5;
+
+        this.projectiles = this.level.game.add.group();
+        this.projectiles.enableBody = true;
+        this.projectiles.physicsBodyType = Phaser.Physics.ARCADE;
+        this.projectiles.createMultiple(150, 'spear');
+        this.projectiles.setAll('checkWorldBounds', true);
+        this.projectiles.setAll('outOfBoundsKill', true);
+
+        this.enemyKillCount = 0;
+
         this.attackDelay = 0;
+        this.playerDamageDelay = 0;
+
+        this.playerSpawnLocation = {x: 0, y: 0};
+        this.playerDeathCount = 0;
+        this.playerHealth = 10;
+
+        this.levelInfo = 'Time Period: ' + this.levelName;
+        this.itemsInfo = 'Items to Collect: ' + this.collectableGroup.children.length +', Items collected: ' + this.itemCounter;
+        this.deathInfo = `Death Count: ${this.playerDeathCount}`;
+        this.enemyInfo = `Enemies Left: ${this.enemies.countLiving()} / ${this.enemies.total}`;
+        this.playerInfo = `Player Health: ${this.playerHealth} / 10`;
+
+        
+    }
+
+    initHUD() {
+        this.levelText = this.level.game.add.text(0, 1050, this.levelInfo);
+        this.level.game.world.bringToTop(this.levelText);
+        this.playerText = this.level.game.add.text(400, 1050, this.playerInfo);
+        this.level.game.world.bringToTop(this.playerText);
+        this.itemsText = this.level.game.add.text(700, 1050, this.itemsInfo);
+        this.level.game.world.bringToTop(this.itemsText);
+        this.deathText = this.level.game.add.text(1200, 1050, this.deathInfo);
+        this.level.game.world.bringToTop(this.deathText);
+        this.enemyText = this.level.game.add.text(1500, 1050, this.enemyInfo);
+        this.level.game.world.bringToTop(this.enemyText);
     }
 
     advanceCurrentItem() {
@@ -34,7 +73,6 @@ class GameLevel {
     loadLevel() {
         this.level.load.tilemap(this.levelName, this.levelPath, null, Phaser.Tilemap.TILED_JSON);
         this.level.load.image('tiles', this.tileMapImagePath);
-        this.projectiles = new Array();
     }
 
     initLayers(){
@@ -53,11 +91,23 @@ class GameLevel {
         this.level.map.setCollisionBetween(1, 100000, true, 'Platform Layer');
     }
 
+    spawnEnemies() {
+        const enemyPositions = this.findObjectsByType('EnemySpawn', this.level.map, 'EnemyLayer');
+        enemyPositions.forEach(({x,y}) => {
+            const enemy = this.level.game.add.sprite(x, y, 'pterodactyl');
+            enemy.amountOfHealth = this.enemyHealth;
+            this.enemies.add(enemy);
+        });
+        this.level.game.world.bringToTop(this.enemies);
+    }
+
     initPlayer(){
         var playerPos = this.findObjectsByType('playerStart', this.level.map, 'Player Layer');
         this.level.player = this.level.game.add.sprite(playerPos[0].x, playerPos[0].y, 'gareth');
         this.level.player.isWalking = true;
         this.level.player.lastFacing = 'Left';
+
+        this.playerSpawnLocation = {x: playerPos[0].x, y: playerPos[0].y};
 
         this.level.game.physics.arcade.enable(this.level.player);
         this.level.player.body.collideWorldBounds = true;
@@ -82,7 +132,7 @@ class GameLevel {
         const itemPositions = this.findObjectsByType('CollectableItem', this.level.map, 'ItemLayer');
         this.itemsToCollect = itemPositions.length;
         itemPositions.forEach(({x,y}) => {
-            var item = this.level.game.add.sprite(x, y, 'collect');
+            var item = this.level.game.add.sprite(x, y, 'fire');
             this.collectableGroup.add(item);
         });
         this.level.game.world.bringToTop(this.collectableGroup);
@@ -128,11 +178,17 @@ class GameLevel {
     }
 
     drawHUD(){
-        //console.log(this.collectableGroup.children.length);
-        var LevelText = 'Time Period: ' + this.levelName;
-        var ItemsText = 'Items to Collect: ' + this.collectableGroup.children.length +', Items collected: ' + this.itemCounter;
-        var drawLevel = new Text(this.level.game, 30, 30, LevelText);
-        var drawItems = new Text(this.level.game, 30, 70, ItemsText);
+        this.levelInfo = 'Time Period: ' + this.levelName;
+        this.itemsInfo = 'Items to Collect: ' + this.collectableGroup.children.length +', Items collected: ' + this.itemCounter;
+        this.deathInfo = `Death Count: ${this.playerDeathCount}`;
+        this.enemyInfo = `Enemies Left: ${this.enemies.total}`;
+        this.playerInfo = `Player Health: ${this.playerHealth} / 10`;
+        
+        this.itemsText.setText(this.itemsInfo);
+        this.levelText.setText(this.levelInfo);
+        this.playerText.setText(this.playerInfo);
+        this.deathText.setText(this.deathInfo);
+        this.enemyText.setText(this.enemyInfo);
     }
 
 
@@ -142,28 +198,25 @@ class GameLevel {
         this.level.game.physics.arcade.collide(this.level.player, this.level.platformLayer, this.handleCollision, null, this);
         this.level.game.physics.arcade.overlap(this.level.player, this.collectableGroup, this.collectItem, null, this);
         this.level.game.physics.arcade.overlap(this.level.player, this.dropOff, this.dropOffItem, null, this);
+        this.level.game.physics.arcade.overlap(this.level.player, this.enemies, this.handlePlayerEnemyCollision, null, this);
+        this.level.game.physics.arcade.overlap(this.projectiles, this.enemies, this.handleAttackEnemyCollision, null, this);
 
         var anim_played = false;
         if(this.attackDelay > 0)
             this.attackDelay = this.attackDelay - 1;
 
+        if (this.playerDamageDelay > 0) {
+            this.playerDamageDelay = this.playerDamageDelay - 1;
+        }
+
         if(this.level.input.keyboard.isDown(Phaser.Keyboard.K) && this.attackDelay == 0){
             if(this.level.player.lastFacing == 'Left'){
                 this.level.player.animations.play('attack_left');
-                var spear = this.level.game.add.sprite(this.level.player.x, this.level.player.y + 20, 'spear');
-                spear.anchor.setTo(0.5, 0.5);
-                this.level.physics.arcade.enable(spear);
-                spear.body.velocity.x = -300;
-                this.projectiles.push(spear);
+                this.fireProjectile(0, -300);
             }
             else if(this.level.player.lastFacing == 'Right'){
                 this.level.player.animations.play('attack_right');
-                var spear = this.level.game.add.sprite(this.level.player.x + 40, this.level.player.y + 20, 'spear');
-                spear.anchor.setTo(0.5, 0.5);
-                spear.angle = 180;
-                this.level.physics.arcade.enable(spear);
-                spear.body.velocity.x = 300;
-                this.projectiles.push(spear);
+                this.fireProjectile(180, 300);
             }
             anim_played = true;
             this.attackDelay = 30;
@@ -200,7 +253,47 @@ class GameLevel {
 
     }
 
+    fireProjectile(angle, velocity) {
+        console.log('fire');
+        const spear = this.projectiles.getFirstDead();;
+        spear.reset(this.level.player.x, this.level.player.y + 20);
+        this.level.game.world.bringToTop(spear);
+        spear.anchor.setTo(0.5, 0.5);
+        spear.angle = angle;
+        spear.body.velocity.x = velocity;
+        this.level.game.world.bringToTop(this.projectiles);
+    }
+
     handleCollision(){
         this.level.player.isWalking = true;
+    }
+
+    handlePlayerEnemyCollision() {
+        if (this.playerDamageDelay === 0 && this.playerHealth > 0) {
+            console.log('Damage taken')
+            this.playerHealth = this.playerHealth - 1;
+            this.playerDamageDelay = 30;
+        }
+        if (this.playerHealth === 0) {
+            console.log('Player DIED')
+            // Spawn at location
+            this.level.player.x = this.playerSpawnLocation.x;
+            this.level.player.y = this.playerSpawnLocation.y;
+            // Add to death counter
+            this.playerHealth = 10;
+            this.playerDeathCount = this.playerDeathCount + 1;
+            console.log('Death Count', this.playerDeathCount);
+        }
+    }
+
+    handleAttackEnemyCollision(weapon, enemy) {
+        console.log('Enemy Hit');
+        weapon.kill();
+        enemy.amountOfHealth = enemy.amountOfHealth - 1;
+        if (enemy.amountOfHealth === 0) {
+            enemy.kill();
+            this.enemyKillCount = this.enemyKillCount + 1;
+            console.log('Kill count', this.enemyKillCount);
+        }
     }
 }
