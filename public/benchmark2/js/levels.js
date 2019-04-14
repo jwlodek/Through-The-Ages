@@ -9,14 +9,17 @@ ThroughTheAges.Level4 = function() {};
 ThroughTheAges.Level1.prototype = {
     preload: function() {
         this.gameLevel = new GameLevel('The Stone Age',  'basictileset_level1', 'benchmark2/assets/tilesets/basictileset_level1.png', 
-            'benchmark2/assets/tilesets/ThroughTheAges_Level1.json',{}, [], this);
+            'benchmark2/assets/tilesets/ThroughTheAges_Level1.json', this);
         this.gameLevel.loadLevel();
-        this.game.load.image('collect','benchmark2/assets/sprites/collect.png', 40, 40);
     },
     create: function(){
         this.gameLevel.initLayers();
-        this.gameLevel.initPlayer();
+        this.gameLevel.initHUD()
         this.gameLevel.createItems();
+        this.gameLevel.initHome();
+        this.gameLevel.spawnEnemies();
+        // Init player after to ensure that they are pushed to the top
+        this.gameLevel.initPlayer();
         this.gameLevel.initAnimations();
     },
     update: function(){
