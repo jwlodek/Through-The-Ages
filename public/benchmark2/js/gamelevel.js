@@ -26,7 +26,7 @@ class GameLevel {
 
         this.enemies = this.level.game.add.group();
         this.enemies.enableBody = true;
-        this.enemyHealth = 5;
+        this.enemyHealth = 1;
 
         this.projectiles = this.level.game.add.group();
         this.projectiles.enableBody = true;
@@ -50,6 +50,9 @@ class GameLevel {
         this.enemyInfo = `Enemies Left: ${this.enemies.countLiving()} / ${this.enemies.total}`;
         this.playerInfo = `Player Health: ${this.playerHealth} / 10`;
 
+
+
+        this.releaseEnemies(4); //Spawns enemy every 4 seconds
         
     }
 
@@ -100,6 +103,47 @@ class GameLevel {
         });
         this.level.game.world.bringToTop(this.enemies);
     }
+
+
+    /**
+     * Spawns enemys incrementally
+     * @param {int} seconds How many seconds should pass between each enemy spawn 
+     */
+    releaseEnemies(seconds){
+        //TODO: Make it switch sides
+        this.level.game.time.events.loop(Phaser.Timer.SECOND * seconds, function(){
+            this.releaseEnemy(-3,'pterodactyl');
+        }, this);
+    }
+
+    /**
+     * Spawns an enemy from the side of the screen and send it across the screen
+     * @param {int} speed Multiplier for speed (2,2.5, 3 etc.). If speed is negative, the sprite will originate on the right side of the screen
+     * @param {string} enemySprite Name of enemy sprite from load.js
+     */
+    releaseEnemy(speed, enemySprite){
+        var startX = -50;
+        var endX = this.level.game.width;
+        if(speed < 0 ){ //Flip start and end coords
+            var temp = startX;
+            startX = endX;
+            endX = temp;
+        }
+        var enemy = this.level.game.add.sprite(startX, this.level.game.world.randomY, enemySprite);
+        if(speed < 0){
+            enemy.anchor.setTo(.5,.5);
+            enemy.scale.x *= -1;
+        }
+        this.level.game.add.tween(enemy).to({
+            x: endX}, 10000 * Math.abs(speed), Phaser.Easing.Linear.None,true); //TODO: Add random angle to tween
+        enemy.amountOfHealth = this.enemyHealth;
+        this.enemies.add(enemy);
+        enemy.animations.add('fly', [0,1,2,3], 4); //TODO change this to allow for animations on other enemy sprites
+        enemy.animations.play('fly',20,true);
+        this.level.game.world.bringToTop(this.enemies);
+
+    }
+    
 
     initPlayer(){
         var playerPos = this.findObjectsByType('playerStart', this.level.map, 'Player Layer');
@@ -209,6 +253,7 @@ class GameLevel {
             this.playerDamageDelay = this.playerDamageDelay - 1;
         }
 
+        //ATTACK INPUT
         if(this.level.input.keyboard.isDown(Phaser.Keyboard.K) && this.attackDelay == 0){
             if(this.level.player.lastFacing == 'Left'){
                 this.level.player.animations.play('attack_left');
@@ -222,6 +267,7 @@ class GameLevel {
             this.attackDelay = 30;
         }
 
+        //WALKING INPUT
         if(this.level.input.keyboard.isDown(Phaser.Keyboard.W) && this.level.player.isWalking){
             this.level.player.body.velocity.y = -400;
             this.level.player.isWalking = false;
@@ -229,8 +275,6 @@ class GameLevel {
                 this.level.player.animations.play('jump');
             anim_played = true;
         }
-
-
         if(this.level.input.keyboard.isDown(Phaser.Keyboard.A)){
             this.level.player.body.velocity.x  = -300;
             this.level.player.lastFacing = 'Left';
@@ -290,7 +334,7 @@ class GameLevel {
         console.log('Enemy Hit');
         weapon.kill();
         enemy.amountOfHealth = enemy.amountOfHealth - 1;
-        if (enemy.amountOfHealth === 0) {
+        if (enemy.amountOfHealth <= 0) {
             enemy.kill();
             this.enemyKillCount = this.enemyKillCount + 1;
             console.log('Kill count', this.enemyKillCount);
