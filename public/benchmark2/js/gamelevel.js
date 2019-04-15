@@ -45,7 +45,8 @@ class GameLevel {
         this.playerHealth = 10;
 
         this.levelInfo = 'Time Period: ' + this.levelName;
-        this.itemsInfo = 'Items to Collect: ' + this.collectableGroup.children.length +', Items collected: ' + this.itemCounter;
+        const carryingInfo = this.currentItem ? 'Yes' : 'No';
+        this.itemsInfo = 'Items to Collect: ' + this.collectableGroup.children.length +', Items collected: ' + this.itemCounter + ', Carrying Item: ' + carryingInfo;
         this.deathInfo = `Death Count: ${this.playerDeathCount}`;
         this.enemyInfo = `Enemies Left: ${this.enemies.countLiving()} / ${this.enemies.total}`;
         this.playerInfo = `Player Health: ${this.playerHealth} / 10`;
@@ -63,9 +64,9 @@ class GameLevel {
         this.level.game.world.bringToTop(this.playerText);
         this.itemsText = this.level.game.add.text(700, 1050, this.itemsInfo);
         this.level.game.world.bringToTop(this.itemsText);
-        this.deathText = this.level.game.add.text(1200, 1050, this.deathInfo);
+        this.deathText = this.level.game.add.text(1450, 1050, this.deathInfo);
         this.level.game.world.bringToTop(this.deathText);
-        this.enemyText = this.level.game.add.text(1500, 1050, this.enemyInfo);
+        this.enemyText = this.level.game.add.text(1650, 1050, this.enemyInfo);
         this.level.game.world.bringToTop(this.enemyText);
     }
 
@@ -223,7 +224,8 @@ class GameLevel {
 
     drawHUD(){
         this.levelInfo = 'Time Period: ' + this.levelName;
-        this.itemsInfo = 'Items to Collect: ' + this.collectableGroup.children.length +', Items collected: ' + this.itemCounter;
+        const carryingInfo = this.currentItem ? 'Yes' : 'No';
+        this.itemsInfo = 'Items to Collect: ' + this.collectableGroup.children.length +', Items collected: ' + this.itemCounter + ', Carrying Item: ' + carryingInfo;
         this.deathInfo = `Death Count: ${this.playerDeathCount}`;
         this.enemyInfo = `Enemies Left: ${this.enemies.total}`;
         this.playerInfo = `Player Health: ${this.playerHealth} / 10`;
