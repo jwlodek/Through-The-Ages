@@ -150,9 +150,13 @@ class GameLevel {
     }
     
 
-    initPlayer(){
+    /**
+     * 
+     * @param {string} playerSprite Spritesheet name from load.js to be used for player
+     */
+    initPlayer(playerSprite){
         var playerPos = this.findObjectsByType('playerStart', this.level.map, 'Player Layer');
-        this.level.player = this.level.game.add.sprite(playerPos[0].x, playerPos[0].y, 'gareth');
+        this.level.player = this.level.game.add.sprite(playerPos[0].x, playerPos[0].y, playerSprite);
         this.level.player.isWalking = true;
         this.level.player.lastFacing = 'Left';
 
