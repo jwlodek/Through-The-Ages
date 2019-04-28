@@ -95,7 +95,7 @@ class GameLevel {
         this.level.map.setCollisionBetween(1, 100000, true, 'Platform Layer');
     }
 
-    spawnEnemies() {
+    /*spawnEnemies() {
         const enemyPositions = this.findObjectsByType('EnemySpawn', this.level.map, 'EnemyLayer');
         enemyPositions.forEach(({x,y}) => {
             const enemy = this.level.game.add.sprite(x, y, 'pterodactyl');
@@ -103,7 +103,7 @@ class GameLevel {
             this.enemies.add(enemy);
         });
         this.level.game.world.bringToTop(this.enemies);
-    }
+    }*/
 
 
     /**

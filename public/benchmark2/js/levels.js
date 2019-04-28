@@ -17,7 +17,7 @@ ThroughTheAges.Level1.prototype = {
         this.gameLevel.initHUD()
         this.gameLevel.createItems();
         this.gameLevel.initHome();
-        this.gameLevel.spawnEnemies();
+        //this.gameLevel.spawnEnemies();
         // Init player after to ensure that they are pushed to the top
         this.gameLevel.initPlayer();
         this.gameLevel.initAnimations();
