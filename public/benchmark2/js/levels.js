@@ -13,13 +13,14 @@ ThroughTheAges.Level1.prototype = {
         this.gameLevel.loadLevel();
     },
     create: function(){
+        this.gameLevel.setBackgroundImage('sky');
         this.gameLevel.initLayers();
         this.gameLevel.initHUD()
         this.gameLevel.createItems();
         this.gameLevel.initHome();
         //this.gameLevel.spawnEnemies();
         // Init player after to ensure that they are pushed to the top
-        this.gameLevel.initPlayer();
+        this.gameLevel.initPlayer('gareth');
         this.gameLevel.initAnimations();
         this.gameLevel.releaseEnemies(3,-1.5, 'pterodactyl'); //Initalize enemies
     },

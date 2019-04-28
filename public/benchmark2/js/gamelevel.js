@@ -83,8 +83,7 @@ class GameLevel {
         
         this.level.map = this.level.game.add.tilemap(this.levelName);
         this.level.map.addTilesetImage(this.tileMapImage, 'tiles');
-
-        this.level.backgroundLayer = this.level.map.createLayer('BackgroundLayer');
+        //this.level.backgroundLayer = this.level.map.createLayer('BackgroundLayer');
         this.level.platformLayer = this.level.map.createLayer('Platform Layer');
         this.level.itemLayer = this.level.map.createLayer('ItemLayer');
         this.level.homeBaseLayer = this.level.map.createLayer('HomeBaseLayer');
@@ -143,6 +142,7 @@ class GameLevel {
             x: endX}, 10000 * Math.abs(speed), Phaser.Easing.Linear.None,true); //TODO: Add random angle to tween
         enemy.amountOfHealth = this.enemyHealth;
         this.enemies.add(enemy);
+        enemy.animations.add('death',[4,5,6,7],20)
         enemy.animations.add('fly', [0,1,2,3], 4); //TODO change this to allow for animations on other enemy sprites
         enemy.animations.play('fly',20,true);
         this.level.game.world.bringToTop(this.enemies);
@@ -150,9 +150,13 @@ class GameLevel {
     }
     
 
-    initPlayer(){
+    /**
+     * 
+     * @param {string} playerSprite Spritesheet name from load.js to be used for player
+     */
+    initPlayer(playerSprite){
         var playerPos = this.findObjectsByType('playerStart', this.level.map, 'Player Layer');
-        this.level.player = this.level.game.add.sprite(playerPos[0].x, playerPos[0].y, 'gareth');
+        this.level.player = this.level.game.add.sprite(playerPos[0].x, playerPos[0].y, playerSprite);
         this.level.player.isWalking = true;
         this.level.player.lastFacing = 'Left';
 
@@ -341,9 +345,21 @@ class GameLevel {
         weapon.kill();
         enemy.amountOfHealth = enemy.amountOfHealth - 1;
         if (enemy.amountOfHealth <= 0) {
-            enemy.kill();
+            //enemy.kill();
+            enemy.animations.play('death',25,false,true); //Play death animation then destroy 
             this.enemyKillCount = this.enemyKillCount + 1;
             console.log('Kill count', this.enemyKillCount);
         }
+    }
+
+
+    setBackgroundImage(imageName){
+        this.backgroundImage = this.level.game.add.tileSprite(0, 
+            this.level.height - this.level.game.cache.getImage(imageName).height, 
+            this.level.game.width, 
+            this.level.game.cache.getImage(imageName).height, 
+            imageName
+        );
+        this.backgroundImage.scale.setTo(1.5,1.5);
     }
 }
