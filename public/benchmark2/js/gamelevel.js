@@ -95,7 +95,7 @@ class GameLevel {
         this.level.map.setCollisionBetween(1, 100000, true, 'Platform Layer');
     }
 
-    spawnEnemies() {
+    /*spawnEnemies() {
         const enemyPositions = this.findObjectsByType('EnemySpawn', this.level.map, 'EnemyLayer');
         enemyPositions.forEach(({x,y}) => {
             const enemy = this.level.game.add.sprite(x, y, 'pterodactyl');
@@ -103,7 +103,7 @@ class GameLevel {
             this.enemies.add(enemy);
         });
         this.level.game.world.bringToTop(this.enemies);
-    }
+    }*/
 
 
     /**
@@ -214,7 +214,7 @@ class GameLevel {
     }
 
     initAnimations(){
-        var idle = this.level.player.animations.add('idle', [0,1,2,3], 20);
+        var idle = this.level.player.animations.add('idle', [0,1,2,3], 5);
         var walk_left = this.level.player.animations.add('walk_left', [5, 6, 7, 8]);
         var walk_right = this.level.player.animations.add('walk_right', [10, 11, 12, 13]);
         var jump = this.level.player.animations.add('jump', [15, 16, 17, 18]);
