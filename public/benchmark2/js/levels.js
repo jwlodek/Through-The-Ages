@@ -21,6 +21,7 @@ ThroughTheAges.Level1.prototype = {
         // Init player after to ensure that they are pushed to the top
         this.gameLevel.initPlayer();
         this.gameLevel.initAnimations();
+        this.gameLevel.releaseEnemies(3,-1.5, 'pterodactyl'); //Initalize enemies
     },
     update: function(){
         // Progress to next part of Level?
