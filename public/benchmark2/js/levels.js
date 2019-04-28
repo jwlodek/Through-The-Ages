@@ -27,15 +27,34 @@ ThroughTheAges.Level1.prototype = {
     update: function(){
         // Progress to next part of Level?
         this.gameLevel.levelUpdate();
+        if(this.gameLevel.collectableGroup.children.length == this.gameLevel.itemCounter){
+            //Level Won - Proceed to next level
+            this.state.start("Level2")
+        }
     }
 }
 
 
 ThroughTheAges.Level2.prototype = {
+    preload: function() {
+        this.gameLevel = new GameLevel('The Middle Aged',  'middleagestileset', 'benchmark2/assets/tilesets/middleagestileset.png', 
+            'benchmark2/assets/tilesets/ThroughTheAges_Level2.json', this);
+        this.gameLevel.loadLevel();
+    },
     create: function(){
-        this.gameLevel = new GameLevel('Middle Ages', {}, [], this);
+        this.gameLevel.setBackgroundImage('sky');
+        this.gameLevel.initLayers();
+        this.gameLevel.initHUD()
+        this.gameLevel.createItems();
+        this.gameLevel.initHome();
+        //this.gameLevel.spawnEnemies();
+        // Init player after to ensure that they are pushed to the top
+        this.gameLevel.initPlayer('gareth');
+        this.gameLevel.initAnimations();
+        this.gameLevel.releaseEnemies(3,-1.5, 'pterodactyl'); //Initalize enemies
     },
     update: function(){
+        // Progress to next part of Level?
         this.gameLevel.levelUpdate();
     }
 }
