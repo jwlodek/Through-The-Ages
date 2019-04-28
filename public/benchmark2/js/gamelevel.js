@@ -214,7 +214,7 @@ class GameLevel {
     }
 
     initAnimations(){
-        var idle = this.level.player.animations.add('idle', [0,1,2,3], 20);
+        var idle = this.level.player.animations.add('idle', [0,1,2,3], 5);
         var walk_left = this.level.player.animations.add('walk_left', [5, 6, 7, 8]);
         var walk_right = this.level.player.animations.add('walk_right', [10, 11, 12, 13]);
         var jump = this.level.player.animations.add('jump', [15, 16, 17, 18]);
