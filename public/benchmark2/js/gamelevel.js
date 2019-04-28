@@ -143,6 +143,7 @@ class GameLevel {
             x: endX}, 10000 * Math.abs(speed), Phaser.Easing.Linear.None,true); //TODO: Add random angle to tween
         enemy.amountOfHealth = this.enemyHealth;
         this.enemies.add(enemy);
+        enemy.animations.add('death',[4,5,6,7],20)
         enemy.animations.add('fly', [0,1,2,3], 4); //TODO change this to allow for animations on other enemy sprites
         enemy.animations.play('fly',20,true);
         this.level.game.world.bringToTop(this.enemies);
@@ -345,7 +346,8 @@ class GameLevel {
         weapon.kill();
         enemy.amountOfHealth = enemy.amountOfHealth - 1;
         if (enemy.amountOfHealth <= 0) {
-            enemy.kill();
+            //enemy.kill();
+            enemy.animations.play('death',5,false,true); //Play death animation then destroy 
             this.enemyKillCount = this.enemyKillCount + 1;
             console.log('Kill count', this.enemyKillCount);
         }
