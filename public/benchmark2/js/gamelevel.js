@@ -53,7 +53,6 @@ class GameLevel {
 
 
 
-        this.releaseEnemies(4); //Spawns enemy every 4 seconds
         
     }
 
@@ -108,23 +107,28 @@ class GameLevel {
 
     /**
      * Spawns enemys incrementally
-     * @param {int} seconds How many seconds should pass between each enemy spawn 
+     * @param {int} seconds How many seconds should pass between each enemy spawn
+     * @param {int} speed The closer to 0 speed is, the fast it is. If speed is negative, the sprite will originate on the right side of the screen
+     * @param {string} enemySprite Name of enemy sprite from load.js
      */
-    releaseEnemies(seconds){
+    releaseEnemies(seconds, speed, sprite){
         //TODO: Make it switch sides
         this.level.game.time.events.loop(Phaser.Timer.SECOND * seconds, function(){
-            this.releaseEnemy(-3,'pterodactyl');
+            this.releaseEnemy(speed,sprite);
         }, this);
     }
 
     /**
      * Spawns an enemy from the side of the screen and send it across the screen
-     * @param {int} speed Multiplier for speed (2,2.5, 3 etc.). If speed is negative, the sprite will originate on the right side of the screen
+     * @param {int} speed The closer to 0 speed is, the fast it is. If speed is negative, the sprite will originate on the right side of the screen
      * @param {string} enemySprite Name of enemy sprite from load.js
      */
     releaseEnemy(speed, enemySprite){
+        if(speed == 0){
+            return;
+        }
         var startX = -50;
-        var endX = this.level.game.width;
+        var endX = this.level.game.width + 400;
         if(speed < 0 ){ //Flip start and end coords
             var temp = startX;
             startX = endX;
