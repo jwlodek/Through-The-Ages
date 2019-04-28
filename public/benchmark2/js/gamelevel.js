@@ -83,8 +83,7 @@ class GameLevel {
         
         this.level.map = this.level.game.add.tilemap(this.levelName);
         this.level.map.addTilesetImage(this.tileMapImage, 'tiles');
-
-        this.level.backgroundLayer = this.level.map.createLayer('BackgroundLayer');
+        //this.level.backgroundLayer = this.level.map.createLayer('BackgroundLayer');
         this.level.platformLayer = this.level.map.createLayer('Platform Layer');
         this.level.itemLayer = this.level.map.createLayer('ItemLayer');
         this.level.homeBaseLayer = this.level.map.createLayer('HomeBaseLayer');
@@ -347,9 +346,20 @@ class GameLevel {
         enemy.amountOfHealth = enemy.amountOfHealth - 1;
         if (enemy.amountOfHealth <= 0) {
             //enemy.kill();
-            enemy.animations.play('death',5,false,true); //Play death animation then destroy 
+            enemy.animations.play('death',25,false,true); //Play death animation then destroy 
             this.enemyKillCount = this.enemyKillCount + 1;
             console.log('Kill count', this.enemyKillCount);
         }
+    }
+
+
+    setBackgroundImage(imageName){
+        this.backgroundImage = this.level.game.add.tileSprite(0, 
+            this.level.height - this.level.game.cache.getImage(imageName).height, 
+            this.level.game.width, 
+            this.level.game.cache.getImage(imageName).height, 
+            imageName
+        );
+        this.backgroundImage.scale.setTo(1.5,1.5);
     }
 }

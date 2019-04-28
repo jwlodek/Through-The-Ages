@@ -13,6 +13,7 @@ ThroughTheAges.Level1.prototype = {
         this.gameLevel.loadLevel();
     },
     create: function(){
+        this.gameLevel.setBackgroundImage('sky');
         this.gameLevel.initLayers();
         this.gameLevel.initHUD()
         this.gameLevel.createItems();
