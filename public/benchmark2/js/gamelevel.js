@@ -57,15 +57,20 @@ class GameLevel {
     }
 
     initHUD() {
-        this.levelText = this.level.game.add.text(0, 1050, this.levelInfo);
+        this.levelText = this.level.game.add.text(10,10, this.levelInfo,{ font: "22px Arial" });
+        this.levelText.fixedToCamera = true;
         this.level.game.world.bringToTop(this.levelText);
-        this.playerText = this.level.game.add.text(400, 1050, this.playerInfo);
+        this.playerText = this.level.game.add.text(10, 30, this.playerInfo,{ font: "22px Arial" });
+        this.playerText.fixedToCamera = true;
         this.level.game.world.bringToTop(this.playerText);
-        this.itemsText = this.level.game.add.text(700, 1050, this.itemsInfo);
+        this.itemsText = this.level.game.add.text(10, 50, this.itemsInfo,{ font: "22px Arial" });
+        this.itemsText.fixedToCamera = true;
         this.level.game.world.bringToTop(this.itemsText);
-        this.deathText = this.level.game.add.text(1450, 1050, this.deathInfo);
+        this.deathText = this.level.game.add.text(10, 70, this.deathInfo,{ font: "22px Arial" });
+        this.deathText.fixedToCamera = true;
         this.level.game.world.bringToTop(this.deathText);
-        this.enemyText = this.level.game.add.text(1650, 1050, this.enemyInfo);
+        this.enemyText = this.level.game.add.text(10, 90, this.enemyInfo,{ font: "22px Arial" });
+        this.enemyText.fixedToCamera = true;
         this.level.game.world.bringToTop(this.enemyText);
     }
 
