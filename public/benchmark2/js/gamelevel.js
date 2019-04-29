@@ -26,7 +26,9 @@ class GameLevel {
 
         this.enemies = this.level.game.add.group();
         this.enemies.enableBody = true;
+        this.enemies.physicsBodyType = Phaser.Physics.ARCADE;
         this.enemyHealth = 1;
+        this.maxNumberOfEnemies = 0;
 
         this.projectiles = this.level.game.add.group();
         this.projectiles.enableBody = true;
@@ -42,17 +44,16 @@ class GameLevel {
 
         this.playerSpawnLocation = {x: 0, y: 0};
         this.playerDeathCount = 0;
-        this.playerHealth = 10;
+        this.playerHealth = 3;
 
         this.levelInfo = 'Time Period: ' + this.levelName;
         const carryingInfo = this.currentItem ? 'Yes' : 'No';
         this.itemsInfo = 'Items to Collect: ' + this.collectableGroup.children.length +', Items collected: ' + this.itemCounter + ', Carrying Item: ' + carryingInfo;
         this.deathInfo = `Death Count: ${this.playerDeathCount}`;
         this.enemyInfo = `Enemies Left: ${this.enemies.countLiving()} / ${this.enemies.total}`;
-        this.playerInfo = `Player Health: ${this.playerHealth} / 10`;
+        this.playerInfo = `Player Health: ${this.playerHealth} / 3`;
 
-
-
+        this.liveEnemies = new Array();
         
     }
 
@@ -153,6 +154,34 @@ class GameLevel {
         this.level.game.world.bringToTop(this.enemies);
 
     }
+
+
+
+    spawnEnemies(action, maxNumber, enemyName){
+        this.maxNumberOfEnemies = maxNumber;
+        const enemyPositions = this.findObjectsByType('EnemySpawn', this.level.map, 'EnemyLayer');
+        enemyPositions.forEach(({x, y}) => {
+            if(this.enemies.countLiving() < maxNumber){
+                var enemy = this.level.game.add.sprite(x, y, enemyName);
+                var e = new Enemy(enemyName, enemy, action);
+                this.liveEnemies.push(e);
+                this.level.game.physics.arcade.enable(enemy);
+                //console.log(enemy);
+                enemy.body.velocity.x = Math.floor(Math.random() * 400) - 300;
+                enemy.body.velocity.y = Math.floor(Math.random() * 400) - 300;
+                enemy.anchor.setTo(.5, .5);
+                if(enemy.body.velocity.x < 0){
+                    enemy.scale.x *= -1;
+                }
+                enemy.amountOfHealth = this.enemyHealth;
+                enemy.animations.add('death',[4,5,6,7],20)
+                enemy.animations.add('fly', [0,1,2,3], 4); //TODO change this to allow for animations on other enemy sprites
+                enemy.animations.play('fly',20,true);
+                this.enemies.add(enemy);
+            }
+        });
+        this.level.game.world.bringToTop(this.enemies);   
+    }
     
 
     /**
@@ -186,7 +215,7 @@ class GameLevel {
         return result;
     }
 
-    createItems() {
+    createItems(item) {
         const itemPositions = this.findObjectsByType('CollectableItem', this.level.map, 'ItemLayer');
         this.itemsToCollect = itemPositions.length;
         itemPositions.forEach(({x,y}) => {
@@ -194,7 +223,6 @@ class GameLevel {
             this.collectableGroup.add(item);
         });
         this.level.game.world.bringToTop(this.collectableGroup);
- 
     }
 
     initHome() {
@@ -241,7 +269,7 @@ class GameLevel {
         this.itemsInfo = 'Items to Collect: ' + this.collectableGroup.children.length +', Items collected: ' + this.itemCounter + ', Carrying Item: ' + carryingInfo;
         this.deathInfo = `Death Count: ${this.playerDeathCount}`;
         this.enemyInfo = `Enemies Left: ${this.enemies.total}`;
-        this.playerInfo = `Player Health: ${this.playerHealth} / 10`;
+        this.playerInfo = `Player Health: ${this.playerHealth} / 3`;
         
         this.itemsText.setText(this.itemsInfo);
         this.levelText.setText(this.levelInfo);
@@ -252,6 +280,15 @@ class GameLevel {
 
 
     levelUpdate(){
+
+        // spawns more enemies. Needs more work.
+        //if(this.enemies.countLiving() < this.maxNumberOfEnemies && this.liveEnemies.length > 0){
+        //    this.spawnEnemies(2, 'Patrol', this.maxNumberOfEnemies, this.liveEnemies[0].key);
+        //}
+
+        // updates enemies
+        if(this.liveEnemies.length >0)
+            this.updateEnemies();
 
         this.drawHUD();
         this.level.game.physics.arcade.collide(this.level.player, this.level.platformLayer, this.handleCollision, null, this);
@@ -268,9 +305,13 @@ class GameLevel {
             this.playerDamageDelay = this.playerDamageDelay - 1;
         }
 
-
         if (this.level.input.keyboard.isDown(Phaser.Keyboard.M)){
             this.level.state.start("MainMenu");
+        }
+
+        if (this.level.input.keyboard.isDown(Phaser.Keyboard.I)){
+            console.log("Activating Invincibility Cheat!");
+            this.playerHealth = 9999;
         }
 
         //ATTACK INPUT
@@ -317,6 +358,11 @@ class GameLevel {
 
     }
 
+    /**
+     * Function that spawns sprite for spear/projectile
+     * @param {int} angle 
+     * @param {int} velocity 
+     */
     fireProjectile(angle, velocity) {
         console.log('fire');
         const spear = this.projectiles.getFirstDead();;
@@ -328,10 +374,17 @@ class GameLevel {
         this.level.game.world.bringToTop(this.projectiles);
     }
 
+    /**
+     * Set player to walking if landed on platform
+     */
     handleCollision(){
         this.level.player.isWalking = true;
     }
 
+
+    /**
+     * Function that handles player colliding with enemy
+     */
     handlePlayerEnemyCollision() {
         if (this.playerDamageDelay === 0 && this.playerHealth > 0) {
             console.log('Damage taken')
@@ -344,12 +397,22 @@ class GameLevel {
             this.level.player.x = this.playerSpawnLocation.x;
             this.level.player.y = this.playerSpawnLocation.y;
             // Add to death counter
-            this.playerHealth = 10;
+            this.playerHealth = 3;
             this.playerDeathCount = this.playerDeathCount + 1;
             console.log('Death Count', this.playerDeathCount);
+            // if player dies 3 times, reset level
+            if(this.playerDeathCount === 3){
+                this.level.state.start('Level1');
+            }
         }
     }
 
+
+    /**
+     * Function called on enemy colliding with spear
+     * @param {sprite} weapon 
+     * @param {sprite} enemy 
+     */
     handleAttackEnemyCollision(weapon, enemy) {
         console.log('Enemy Hit');
         weapon.kill();
@@ -362,7 +425,10 @@ class GameLevel {
         }
     }
 
-
+    /**
+     * Sets the background image for the level
+     * @param {string} imageName 
+     */
     setBackgroundImage(imageName){
         this.backgroundImage = this.level.game.add.tileSprite(0, 
             this.level.height - this.level.game.cache.getImage(imageName).height, 
@@ -371,5 +437,79 @@ class GameLevel {
             imageName
         );
         this.backgroundImage.scale.setTo(1.5,1.5);
+    }
+
+
+    /**
+     * Function that checks if enemy is close to an object to guard it
+     * @param {sprite} enemySprite 
+     */
+    isNearObject(enemySprite){
+        this.collectableGroup.forEach(item => {
+            if(Math.abs(enemySprite.body.position.x - item.position.x) < 100 && Math.abs(enemySprite.body.position.y - item.position.y) < 100){
+                //console.log(item);
+                return item;
+            }
+        });
+        return null;
+    }
+
+
+    /**
+     * Main function for updating enemy positions + velocities. These depend on the current
+     * AI state
+     */
+    updateEnemies(){
+        this.liveEnemies.forEach(enemy => {
+            // If patrolling, just continue to edge of screen before turning around
+            if(enemy.enemyAction === EnemyActions.Patrol){
+                //console.log(enemy);
+                // These should be changed to not be hard coded eventually
+                if(enemy.enemySprite.body.position.x < 50){
+                    enemy.enemySprite.body.velocity.x = -1 * enemy.enemySprite.body.velocity.x;
+                }
+                if(enemy.enemySprite.body.position.x > 1850){
+                    enemy.enemySprite.body.velocity.x = -1 * enemy.enemySprite.body.velocity.x;
+                }
+                if(enemy.enemySprite.body.position.y < 50){
+                    enemy.enemySprite.body.velocity.y = -1 * enemy.enemySprite.body.velocity.y;
+                }
+                if(enemy.enemySprite.body.position.y > 1000){
+                    enemy.enemySprite.body.velocity.y = -1 * enemy.enemySprite.body.velocity.y;
+                }
+                // check if we are near an object, if yes, try and guard it. Not sure if this is working
+                var nearObj = this.isNearObject(enemy.enemySprite);
+                if(nearObj !== null){
+                    enemy.enemySprite.body.velocity.y = 0;
+                    enemy.updateAction(EnemyActions.Guard, nearObj);
+                }
+                // Otherwise, wait for attack cooldown before attacking the player
+                else{
+                    if(enemy.attackCooldown === 0){
+                        enemy.attackCooldown = Math.floor(Math.random() * 2000);
+                        enemy.updateAction(EnemyActions.Attack, this.level.player);
+                    }
+                    else{
+                        enemy.attackCooldown = enemy.attackCooldown -1;
+                    }
+                }
+            }
+        
+            // Guard the item
+            if(enemy.enemyAction === EnemyActions.Guard){
+                enemy.guard();
+            }
+
+            // Attack the player
+            if(enemy.enemyAction === EnemyActions.Attack){
+                enemy.attack();
+            }
+
+            // check if animation needs to be flipped
+            if(enemy.enemySprite.body.velocity.x < 0){
+                enemy.enemySprite.scale.x = -1;
+            }
+            else if(enemy.enemySprite.body.velocity.x > 0) enemy.enemySprite.scale.x = 1;
+        });
     }
 }
