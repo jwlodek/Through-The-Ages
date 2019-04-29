@@ -16,13 +16,15 @@ ThroughTheAges.Level1.prototype = {
         this.gameLevel.setBackgroundImage('sky');
         this.gameLevel.initLayers();
         this.gameLevel.initHUD()
-        this.gameLevel.createItems();
+        this.gameLevel.createItems('fire');
         this.gameLevel.initHome();
         //this.gameLevel.spawnEnemies();
         // Init player after to ensure that they are pushed to the top
         this.gameLevel.initPlayer('gareth');
         this.gameLevel.initAnimations();
-        this.gameLevel.releaseEnemies(3,-1.5, 'pterodactyl'); //Initalize enemies
+        //this.gameLevel.releaseEnemies(2, -1.5, 'pterodactyl'); //Initalize enemies
+        //this.gameLevel.releaseEnemies(2, 1.5, 'pterodactyl'); //Initalize enemies
+        this.gameLevel.spawnEnemies(EnemyActions.Patrol, 20, 'pterodactyl');
     },
     update: function(){
         // Progress to next part of Level?
@@ -45,13 +47,14 @@ ThroughTheAges.Level2.prototype = {
         this.gameLevel.setBackgroundImage('sky');
         this.gameLevel.initLayers();
         this.gameLevel.initHUD()
-        this.gameLevel.createItems();
+        this.gameLevel.createItems('fire');
         this.gameLevel.initHome();
         //this.gameLevel.spawnEnemies();
         // Init player after to ensure that they are pushed to the top
         this.gameLevel.initPlayer('gareth');
         this.gameLevel.initAnimations();
-        this.gameLevel.releaseEnemies(3,-1.5, 'pterodactyl'); //Initalize enemies
+        this.gameLevel.releaseEnemies(1,-1.5, 'pterodactyl'); //Initalize enemies
+        this.gameLevel.releaseEnemies(1, 1.5, 'pterodactyl'); //Initalize enemies
     },
     update: function(){
         // Progress to next part of Level?
@@ -88,13 +91,14 @@ ThroughTheAges.Level4.prototype = {
         //this.gameLevel.setBackgroundImage('sky');
         this.gameLevel.initLayers();
         this.gameLevel.initHUD()
-        this.gameLevel.createItems();
+        this.gameLevel.createItems('fire');
         this.gameLevel.initHome();
         //this.gameLevel.spawnEnemies();
         // Init player after to ensure that they are pushed to the top
         this.gameLevel.initPlayer('gareth');
         this.gameLevel.initAnimations();
-        this.gameLevel.releaseEnemies(3,-1.5, 'pterodactyl'); //Initalize enemies
+        this.gameLevel.releaseEnemies(1,-1, 'pterodactyl'); //Initalize enemies
+        this.gameLevel.releaseEnemies(1,1, 'pterodactyl'); //Initalize enemies
     },
     update: function(){
         // Progress to next part of Level?
