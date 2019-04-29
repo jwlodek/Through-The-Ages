@@ -56,6 +56,10 @@ ThroughTheAges.Level2.prototype = {
     update: function(){
         // Progress to next part of Level?
         this.gameLevel.levelUpdate();
+        if(this.gameLevel.collectableGroup.children.length == this.gameLevel.itemCounter){
+            //Level Won - Proceed to next level
+            this.state.start("Level3")
+        }
     }
 }
 
@@ -66,6 +70,10 @@ ThroughTheAges.Level3.prototype = {
     },
     update: function(){
         this.gameLevel.levelUpdate();
+        if(this.gameLevel.collectableGroup.children.length == this.gameLevel.itemCounter){
+            //Level Won - Proceed to next level
+            this.state.start("Level4")
+        }
     }
 }
 
@@ -77,7 +85,7 @@ ThroughTheAges.Level4.prototype = {
         this.gameLevel.loadLevel();
     },
     create: function(){
-        this.gameLevel.setBackgroundImage('sky');
+        //this.gameLevel.setBackgroundImage('sky');
         this.gameLevel.initLayers();
         this.gameLevel.initHUD()
         this.gameLevel.createItems();
@@ -91,5 +99,9 @@ ThroughTheAges.Level4.prototype = {
     update: function(){
         // Progress to next part of Level?
         this.gameLevel.levelUpdate();
+        if(this.gameLevel.collectableGroup.children.length == this.gameLevel.itemCounter){
+            //Level Won - Proceed to next level
+            this.state.start("MainMenu")
+        }
     }
 }

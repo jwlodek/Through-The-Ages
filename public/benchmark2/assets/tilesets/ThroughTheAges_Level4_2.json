@@ -40,12 +40,12 @@
                 {
                  "gid":5,
                  "height":0,
-                 "name":"CollectibleItem",
+                 "name":"CollectableItem",
                  "properties":
                     {
 
                     },
-                 "type":"CollectibleItem",
+                 "type":"CollectableItem",
                  "visible":true,
                  "width":0,
                  "x":1794,
@@ -54,12 +54,12 @@
                 {
                  "gid":5,
                  "height":0,
-                 "name":"CollectibleItem",
+                 "name":"CollectableItem",
                  "properties":
                     {
 
                     },
-                 "type":"CollectibleItem",
+                 "type":"CollectableItem",
                  "visible":true,
                  "width":0,
                  "x":1188,
@@ -68,12 +68,12 @@
                 {
                  "gid":5,
                  "height":0,
-                 "name":"CollectibleItem",
+                 "name":"CollectableItem",
                  "properties":
                     {
 
                     },
-                 "type":"CollectibleItem",
+                 "type":"CollectableItem",
                  "visible":true,
                  "width":0,
                  "x":894,
@@ -82,12 +82,12 @@
                 {
                  "gid":5,
                  "height":0,
-                 "name":"CollectibleItem",
+                 "name":"CollectableItem",
                  "properties":
                     {
 
                     },
-                 "type":"CollectibleItem",
+                 "type":"CollectableItem",
                  "visible":true,
                  "width":0,
                  "x":988,
@@ -96,12 +96,12 @@
                 {
                  "gid":5,
                  "height":0,
-                 "name":"CollectibleItem",
+                 "name":"CollectableItem",
                  "properties":
                     {
 
                     },
-                 "type":"CollectibleItem",
+                 "type":"CollectableItem",
                  "visible":true,
                  "width":0,
                  "x":1228,
@@ -110,12 +110,12 @@
                 {
                  "gid":5,
                  "height":0,
-                 "name":"CollectibleItem",
+                 "name":"CollectableItem",
                  "properties":
                     {
 
                     },
-                 "type":"CollectibleItem",
+                 "type":"CollectableItem",
                  "visible":true,
                  "width":0,
                  "x":1664,
@@ -124,12 +124,12 @@
                 {
                  "gid":5,
                  "height":0,
-                 "name":"CollectibleItem",
+                 "name":"CollectableItem",
                  "properties":
                     {
 
                     },
-                 "type":"CollectibleItem",
+                 "type":"CollectableItem",
                  "visible":true,
                  "width":0,
                  "x":672,
@@ -138,12 +138,12 @@
                 {
                  "gid":5,
                  "height":0,
-                 "name":"CollectibleItem",
+                 "name":"CollectableItem",
                  "properties":
                     {
 
                     },
-                 "type":"CollectibleItem",
+                 "type":"CollectableItem",
                  "visible":true,
                  "width":0,
                  "x":310,
@@ -152,12 +152,12 @@
                 {
                  "gid":5,
                  "height":0,
-                 "name":"CollectibleItem",
+                 "name":"CollectableItem",
                  "properties":
                     {
 
                     },
-                 "type":"CollectibleItem",
+                 "type":"CollectableItem",
                  "visible":true,
                  "width":0,
                  "x":92,
@@ -166,12 +166,12 @@
                 {
                  "gid":5,
                  "height":0,
-                 "name":"CollectibleItem",
+                 "name":"CollectableItem",
                  "properties":
                     {
 
                     },
-                 "type":"CollectibleItem",
+                 "type":"CollectableItem",
                  "visible":true,
                  "width":0,
                  "x":58,
@@ -180,12 +180,12 @@
                 {
                  "gid":5,
                  "height":0,
-                 "name":"CollectibleItem",
+                 "name":"CollectableItem",
                  "properties":
                     {
 
                     },
-                 "type":"CollectibleItem",
+                 "type":"CollectableItem",
                  "visible":true,
                  "width":0,
                  "x":1386,
@@ -194,12 +194,12 @@
                 {
                  "gid":5,
                  "height":0,
-                 "name":"CollectibleItem",
+                 "name":"CollectableItem",
                  "properties":
                     {
 
                     },
-                 "type":"CollectibleItem",
+                 "type":"CollectableItem",
                  "visible":true,
                  "width":0,
                  "x":1436,
@@ -208,12 +208,12 @@
                 {
                  "gid":5,
                  "height":0,
-                 "name":"CollectibleItem",
+                 "name":"CollectableItem",
                  "properties":
                     {
 
                     },
-                 "type":"CollectibleItem",
+                 "type":"CollectableItem",
                  "visible":true,
                  "width":0,
                  "x":1880,
