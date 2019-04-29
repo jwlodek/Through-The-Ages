@@ -76,6 +76,11 @@ class GameLevel {
     loadLevel() {
         this.level.load.tilemap(this.levelName, this.levelPath, null, Phaser.Tilemap.TILED_JSON);
         this.level.load.image('tiles', this.tileMapImagePath);
+        // TODO load through parameter in constructor
+        this.level.game.load.audio('enemy_dying', 'benchmark2/assets/sounds/enemy_dying.ogg');
+        this.level.game.add.audio('enemy_dying');
+        this.level.game.load.audio('music', 'benchmark2/assets/sounds/Flight_of_the_Crow.mp3');
+        this.level.game.add.audio('music');
     }
 
     initLayers(){
@@ -168,6 +173,7 @@ class GameLevel {
         this.level.player.body.acceleration.y = 500;
         this.level.player.body.acceleration.y = 600;
         this.level.game.world.bringToTop(this.level.player);
+        this.level.game.sound.play('music');
     }
 
     findObjectsByType(type, map, layer) {
@@ -346,6 +352,8 @@ class GameLevel {
         enemy.amountOfHealth = enemy.amountOfHealth - 1;
         if (enemy.amountOfHealth <= 0) {
             //enemy.kill();
+            console.log(this.enemyDyingSound);
+            this.level.game.sound.play('enemy_dying');
             enemy.animations.play('death',25,false,true); //Play death animation then destroy 
             this.enemyKillCount = this.enemyKillCount + 1;
             console.log('Kill count', this.enemyKillCount);
