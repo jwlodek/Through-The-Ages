@@ -83,7 +83,7 @@ class GameLevel {
         
         this.level.map = this.level.game.add.tilemap(this.levelName);
         this.level.map.addTilesetImage(this.tileMapImage, 'tiles');
-        //this.level.backgroundLayer = this.level.map.createLayer('BackgroundLayer');
+        this.level.backgroundLayer = this.level.map.createLayer('Background Layer');
         this.level.platformLayer = this.level.map.createLayer('Platform Layer');
         this.level.itemLayer = this.level.map.createLayer('ItemLayer');
         this.level.homeBaseLayer = this.level.map.createLayer('HomeBaseLayer');
@@ -261,6 +261,11 @@ class GameLevel {
 
         if (this.playerDamageDelay > 0) {
             this.playerDamageDelay = this.playerDamageDelay - 1;
+        }
+
+
+        if (this.level.input.keyboard.isDown(Phaser.Keyboard.M)){
+            this.level.state.start("MainMenu");
         }
 
         //ATTACK INPUT

@@ -56,6 +56,10 @@ ThroughTheAges.Level2.prototype = {
     update: function(){
         // Progress to next part of Level?
         this.gameLevel.levelUpdate();
+        if(this.gameLevel.collectableGroup.children.length == this.gameLevel.itemCounter){
+            //Level Won - Proceed to next level
+            this.state.start("Level3")
+        }
     }
 }
 
@@ -66,15 +70,38 @@ ThroughTheAges.Level3.prototype = {
     },
     update: function(){
         this.gameLevel.levelUpdate();
+        if(this.gameLevel.collectableGroup.children.length == this.gameLevel.itemCounter){
+            //Level Won - Proceed to next level
+            this.state.start("Level4")
+        }
     }
 }
 
 
 ThroughTheAges.Level4.prototype = {
+    preload: function(){
+        this.gameLevel = new GameLevel('The Future', "Level4_tileset (2)", "benchmark2/assets/tilesets/Level4_tileset (2).png", 
+        'benchmark2/assets/tilesets/ThroughTheAges_Level4_2.json', this);
+        this.gameLevel.loadLevel();
+    },
     create: function(){
-        this.gameLevel = new GameLevel('Future', {}, [], this);
+        //this.gameLevel.setBackgroundImage('sky');
+        this.gameLevel.initLayers();
+        this.gameLevel.initHUD()
+        this.gameLevel.createItems();
+        this.gameLevel.initHome();
+        //this.gameLevel.spawnEnemies();
+        // Init player after to ensure that they are pushed to the top
+        this.gameLevel.initPlayer('gareth');
+        this.gameLevel.initAnimations();
+        this.gameLevel.releaseEnemies(3,-1.5, 'pterodactyl'); //Initalize enemies
     },
     update: function(){
-
+        // Progress to next part of Level?
+        this.gameLevel.levelUpdate();
+        if(this.gameLevel.collectableGroup.children.length == this.gameLevel.itemCounter){
+            //Level Won - Proceed to next level
+            this.state.start("MainMenu")
+        }
     }
 }
