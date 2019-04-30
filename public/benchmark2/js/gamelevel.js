@@ -357,11 +357,11 @@ class GameLevel {
         if (this.level.input.keyboard.isDown(Phaser.Keyboard.K) && this.attackDelay == 0) {
             if (this.level.player.lastFacing == 'Left') {
                 this.level.player.animations.play('attack_left');
-                this.fireProjectile(0, -300);
+                this.fireProjectile(0, -500);
             }
             else if (this.level.player.lastFacing == 'Right') {
                 this.level.player.animations.play('attack_right');
-                this.fireProjectile(180, 300);
+                this.fireProjectile(180, 500);
             }
             anim_played = true;
             this.attackDelay = 30;
