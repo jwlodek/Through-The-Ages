@@ -45,14 +45,14 @@ class GameLevel {
 
         this.playerSpawnLocation = { x: 0, y: 0 };
         this.playerDeathCount = 0;
-        this.playerHealth = 3;
+        this.playerHealth = 5;
 
         this.levelInfo = 'Time Period: ' + this.levelName;
         const carryingInfo = this.currentItem ? 'Yes' : 'No';
         this.itemsInfo = 'Items to Collect: ' + this.collectableGroup.children.length + ', Items collected: ' + this.itemCounter + ', Carrying Item: ' + carryingInfo;
         this.deathInfo = `Death Count: ${this.playerDeathCount}`;
         this.enemyInfo = `Enemies Left: ${this.enemies.countLiving()} / ${this.enemies.total}`;
-        this.playerInfo = `Player Health: ${this.playerHealth} / 3`;
+        this.playerInfo = `Player Health: ${this.playerHealth} / 5`;
 
         this.spawnDelay = 3000;
         this.spawnDelayTimer = this.spawnDelay;
@@ -303,7 +303,7 @@ class GameLevel {
         this.itemsInfo = 'Items to Collect: ' + this.collectableGroup.children.length + ', Items collected: ' + this.itemCounter + ', Carrying Item: ' + carryingInfo;
         this.deathInfo = `Death Count: ${this.playerDeathCount}`;
         this.enemyInfo = `Enemies Left: ${this.enemies.total}`;
-        this.playerInfo = `Player Health: ${this.playerHealth} / 3`;
+        this.playerInfo = `Player Health: ${this.playerHealth} / 5`;
 
         this.itemsText.setText(this.itemsInfo);
         this.levelText.setText(this.levelInfo);
@@ -470,7 +470,7 @@ class GameLevel {
 
     /**
      * Sets the background image for the level
-     * @param {string} imageName 
+     * @param {string} imageName Image name in load.js
      */
     setBackgroundImage(imageName) {
         this.backgroundImage = this.level.game.add.tileSprite(0,

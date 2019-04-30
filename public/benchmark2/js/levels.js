@@ -23,9 +23,9 @@ ThroughTheAges.Level1.prototype = {
         // Init player after to ensure that they are pushed to the top
         this.gameLevel.initPlayer('gareth');
         this.gameLevel.initAnimations();
-        //this.gameLevel.releaseEnemies(2, -1.5, 'pterodactyl'); //Initalize enemies
-        //this.gameLevel.releaseEnemies(2, 1.5, 'pterodactyl'); //Initalize enemies
-        this.gameLevel.spawnEnemies(EnemyActions.Patrol, 20, 'pterodactyl');
+        this.gameLevel.releaseEnemies(7, -1.5, 'pterodactyl'); //Initalize enemies
+        this.gameLevel.releaseEnemies(3, 1.5, 'pterodactyl'); //Initalize enemies
+        //this.gameLevel.spawnEnemies(EnemyActions.Patrol, 20, 'pterodactyl');
     },
     update: function(){
         // Progress to next part of Level?
@@ -58,8 +58,8 @@ ThroughTheAges.Level2.prototype = {
         // Init player after to ensure that they are pushed to the top
         this.gameLevel.initPlayer('gareth');
         this.gameLevel.initAnimations();
-        this.gameLevel.releaseEnemies(2,-1.5, 'pterodactyl'); //Initalize enemies
-        this.gameLevel.releaseEnemies(2, 1.5, 'pterodactyl'); //Initalize enemies
+        //this.gameLevel.releaseEnemies(2,-1.5, 'pterodactyl'); //Initalize enemies
+        //this.gameLevel.releaseEnemies(2, 1.5, 'pterodactyl'); //Initalize enemies
         this.gameLevel.spawnEnemies(EnemyActions.Patrol, 20, 'pterodactyl');
     },
     update: function(){
@@ -91,8 +91,8 @@ ThroughTheAges.Level3.prototype = {
         // Init player after to ensure that they are pushed to the top
         this.gameLevel.initPlayer('gareth');
         this.gameLevel.initAnimations();
-        this.gameLevel.releaseEnemies(1.5,-1.25, 'pterodactyl'); //Initalize enemies
-        this.gameLevel.releaseEnemies(1.5, 1.25, 'pterodactyl'); //Initalize enemies
+        this.gameLevel.releaseEnemies(6,-1.25, 'pterodactyl'); //Initalize enemies
+        this.gameLevel.releaseEnemies(6, 1.25, 'pterodactyl'); //Initalize enemies
         this.gameLevel.spawnEnemies(EnemyActions.Patrol, 20, 'pterodactyl');
     },
     update: function(){
