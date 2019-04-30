@@ -82,17 +82,24 @@ class GameLevel {
         this.itemCounter++;
     }
 
+    advanceLevel() {
+        this.advanceLevelSound.play();
+    }
+
     stopMusic() {
-        this.level.game.sound.stopAll();
+        this.music.stop();
     }
 
     loadLevel() {
         this.level.load.tilemap(this.levelName, this.levelPath, null, Phaser.Tilemap.TILED_JSON);
         this.level.load.image('tiles', this.tileMapImagePath);
         this.level.game.load.audio('enemy_dying', 'benchmark2/assets/sounds/enemy_dying.ogg');
-        this.level.game.add.audio('enemy_dying');
+        this.level.game.load.audio('player_hit', 'benchmark2/assets/sounds/player_hit.ogg');
+        this.level.game.load.audio('item_collect', 'benchmark2/assets/sounds/item_collect.ogg');
+        this.level.game.load.audio('item_dropoff', 'benchmark2/assets/sounds/item_dropoff.ogg');
+        this.level.game.load.audio('advance_level', 'benchmark2/assets/sounds/advance_level.ogg');
+        this.level.game.load.audio('player_dying', 'benchmark2/assets/sounds/player_dying.ogg');
         this.level.game.load.audio('music', this.levelMusic);
-        this.level.game.add.audio('music');
     }
 
     initLayers() {
@@ -214,7 +221,18 @@ class GameLevel {
         this.level.player.body.acceleration.y = 500;
         this.level.player.body.acceleration.y = 600;
         this.level.game.world.bringToTop(this.level.player);
-        this.level.game.sound.play('music');
+        this.music.loopFull();
+    }
+
+    initSound() {
+        this.enemyDyingSound = this.level.game.add.audio('enemy_dying');
+        this.playerHitSound = this.level.game.add.audio('player_hit');
+        this.itemCollectSound = this.level.game.add.audio('item_collect');
+        this.itemDropoffSound = this.level.game.add.audio('item_dropoff');
+        this.advanceLevelSound = this.level.game.add.audio('advance_level');
+        this.playerDyingSound = this.level.game.add.audio('player_dying');
+        this.music = this.level.game.add.audio('music');
+        this.music.volume = .4;
     }
 
     findObjectsByType(type, map, layer) {
@@ -252,6 +270,7 @@ class GameLevel {
         if (!this.currentItem) {
             console.log('collect', item);
             this.currentItem = item;
+            this.itemCollectSound.play();
             this.currentItem.kill();
         } else {
             console.log('item in inventory');
@@ -263,6 +282,7 @@ class GameLevel {
         console.log('drop');
         if (this.currentItem) {
             console.log('drop', this.currentItem);
+            this.itemDropoffSound.play();
             this.currentItem = null;
             this.itemCounter++;
         }
@@ -407,11 +427,13 @@ class GameLevel {
     handlePlayerEnemyCollision() {
         if (this.playerDamageDelay === 0 && this.playerHealth > 0) {
             console.log('Damage taken')
+            this.playerHitSound.play();
             this.playerHealth = this.playerHealth - 1;
             this.playerDamageDelay = 30;
         }
         if (this.playerHealth === 0) {
             console.log('Player DIED')
+            this.playerDyingSound.play();
             // Spawn at location
             this.level.player.x = this.playerSpawnLocation.x;
             this.level.player.y = this.playerSpawnLocation.y;
@@ -439,8 +461,7 @@ class GameLevel {
         enemy.amountOfHealth = enemy.amountOfHealth - 1;
         if (enemy.amountOfHealth <= 0) {
             //enemy.kill();
-            //console.log(this.enemyDyingSound);
-            this.level.game.sound.play('enemy_dying');
+            this.enemyDyingSound.play();
             enemy.animations.play('death',25,false,true); //Play death animation then destroy 
             this.enemyKillCount = this.enemyKillCount + 1;
             console.log('Kill count', this.enemyKillCount);

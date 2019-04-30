@@ -18,6 +18,7 @@ ThroughTheAges.Level1.prototype = {
         this.gameLevel.initHUD()
         this.gameLevel.createItems('fire');
         this.gameLevel.initHome();
+        this.gameLevel.initSound();
         //this.gameLevel.spawnEnemies();
         // Init player after to ensure that they are pushed to the top
         this.gameLevel.initPlayer('gareth');
@@ -31,6 +32,7 @@ ThroughTheAges.Level1.prototype = {
         this.gameLevel.levelUpdate();
         if(this.gameLevel.collectableGroup.children.length == this.gameLevel.itemCounter){
             //Level Won - Proceed to next level
+            this.gameLevel.advanceLevel();
             this.gameLevel.stopMusic();
             this.state.start("Level2")
         }
@@ -52,6 +54,7 @@ ThroughTheAges.Level2.prototype = {
         console.log(this.gameLevel.collectableGroup);
         this.gameLevel.initHome();
         //this.gameLevel.spawnEnemies();
+        this.gameLevel.initSound();
         // Init player after to ensure that they are pushed to the top
         this.gameLevel.initPlayer('gareth');
         this.gameLevel.initAnimations();
@@ -64,6 +67,7 @@ ThroughTheAges.Level2.prototype = {
         this.gameLevel.levelUpdate();
         if(this.gameLevel.collectableGroup.children.length == this.gameLevel.itemCounter){
             //Level Won - Proceed to next level
+            this.gameLevel.advanceLevel();
             this.gameLevel.stopMusic();
             this.state.start("Level3")
         }
@@ -73,8 +77,8 @@ ThroughTheAges.Level2.prototype = {
 
 ThroughTheAges.Level3.prototype = {
     preload: function() {
-        this.gameLevel = new GameLevel('The Fabulous 50\'s',  'middleagestileset', 'benchmark2/assets/tilesets/middleagestileset.png', 
-            'benchmark2/assets/tilesets/ThroughTheAges_Level2.json', 'benchmark2/assets/sounds/Piccolo_and_a_Cane.mp3', this);
+        this.gameLevel = new GameLevel('The Forties',  'level3_tiles', 'benchmark2/assets/tilesets/level3_tiles.png', 
+            'benchmark2/assets/tilesets/ThroughTheAges_Level3.json', 'benchmark2/assets/sounds/Piccolo_and_a_Cane.mp3', this);
         this.gameLevel.loadLevel();
     },
     create: function(){
@@ -83,6 +87,7 @@ ThroughTheAges.Level3.prototype = {
         this.gameLevel.initHUD()
         this.gameLevel.createItems('radio');
         this.gameLevel.initHome();
+        this.gameLevel.initSound();
         // Init player after to ensure that they are pushed to the top
         this.gameLevel.initPlayer('gareth');
         this.gameLevel.initAnimations();
@@ -94,6 +99,8 @@ ThroughTheAges.Level3.prototype = {
         this.gameLevel.levelUpdate();
         if(this.gameLevel.collectableGroup.children.length == this.gameLevel.itemCounter){
             //Level Won - Proceed to next level
+            this.gameLevel.advanceLevel();
+            this.gameLevel.stopMusic();
             this.state.start("Level4")
         }
     }
@@ -112,6 +119,7 @@ ThroughTheAges.Level4.prototype = {
         this.gameLevel.initHUD()
         this.gameLevel.createItems('fire');
         this.gameLevel.initHome();
+        this.gameLevel.initSound();
         //this.gameLevel.spawnEnemies();
         // Init player after to ensure that they are pushed to the top
         this.gameLevel.initPlayer('gareth');
@@ -125,6 +133,7 @@ ThroughTheAges.Level4.prototype = {
         this.gameLevel.levelUpdate();
         if(this.gameLevel.collectableGroup.children.length == this.gameLevel.itemCounter){
             //Level Won - Proceed to next level
+            this.gameLevel.advanceLevel();
             this.gameLevel.stopMusic();
             this.state.start("MainMenu")
         }
