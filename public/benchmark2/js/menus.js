@@ -56,10 +56,10 @@ ThroughTheAges.LevelSelect.prototype = {
         console.log("Entered Level Select create function");
         this.game.stage.backgroundColor = '#888888';
         this.game.add.sprite(25, 25, 'Logo');
-        this.level1Button = this.game.add.button(this.game.world.centerX / 5, this.game.world.centerY * 0.9, 'LevelButton', this.level1Click, this, 4, 0, 4);
-        this.level2Button = this.game.add.button(this.game.world.centerX / 5, this.game.world.centerY * 1.15, 'LevelButton', this.level2Click, this, 5, 1, 5);
-        this.level3Button = this.game.add.button(this.game.world.centerX / 5, this.game.world.centerY * 1.4, 'LevelButton', this.level3Click, this, 6, 2, 6);
-        this.level4Button = this.game.add.button(this.game.world.centerX / 5, this.game.world.centerY * 1.65, 'LevelButton', this.level4Click, this, 7, 3, 7);
+        this.level1Button = this.game.add.button(this.game.world.centerX / 5, this.game.world.centerY * 0.8, 'LevelButton', this.level1Click, this, 4, 0, 4);
+        this.level2Button = this.game.add.button(this.game.world.centerX / 5, this.game.world.centerY * 1.05, 'LevelButton', this.level2Click, this, 5, 1, 5);
+        this.level3Button = this.game.add.button(this.game.world.centerX / 5, this.game.world.centerY * 1.3, 'LevelButton', this.level3Click, this, 6, 2, 6);
+        this.level4Button = this.game.add.button(this.game.world.centerX / 5, this.game.world.centerY * 1.55, 'LevelButton', this.level4Click, this, 7, 3, 7);
     },
     level1Click: function(){
         this.state.start('Level1');
