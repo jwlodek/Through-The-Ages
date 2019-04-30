@@ -6,13 +6,18 @@ class GameLevel {
     //     this.player = player;
     // }
 
-    constructor(levelName, tileMapImage, tileMapImagePath, levelPath, level) {
+    constructor(levelName, tileMapImage, tileMapImagePath, levelPath, levelMusic, level) {
         // Level
         this.levelName = levelName;
         this.tileMapImage = tileMapImage;
         this.tileMapImagePath = tileMapImagePath;
         this.levelPath = levelPath
+<<<<<<< HEAD
 
+=======
+        this.levelMusic = levelMusic;
+        
+>>>>>>> 91c23351f8bc2f980fad6843114031895080c557
         this.itemCounter = 0;
         this.currentItem = null;
 
@@ -81,9 +86,18 @@ class GameLevel {
         this.itemCounter++;
     }
 
+    stopMusic() {
+        this.level.game.sound.stopAll();
+    }
+
     loadLevel() {
         this.level.load.tilemap(this.levelName, this.levelPath, null, Phaser.Tilemap.TILED_JSON);
         this.level.load.image('tiles', this.tileMapImagePath);
+        // TODO load through parameter in constructor
+        this.level.game.load.audio('enemy_dying', 'benchmark2/assets/sounds/enemy_dying.ogg');
+        this.level.game.add.audio('enemy_dying');
+        this.level.game.load.audio('music', this.levelMusic);
+        this.level.game.add.audio('music');
     }
 
     initLayers() {
@@ -205,6 +219,7 @@ class GameLevel {
         this.level.player.body.acceleration.y = 500;
         this.level.player.body.acceleration.y = 600;
         this.level.game.world.bringToTop(this.level.player);
+        this.level.game.sound.play('music');
     }
 
     findObjectsByType(type, map, layer) {
@@ -314,6 +329,7 @@ class GameLevel {
 
         if (this.level.input.keyboard.isDown(Phaser.Keyboard.M)) {
             this.level.state.start("MainMenu");
+            stopMusic();
         }
 
         if (this.level.input.keyboard.isDown(Phaser.Keyboard.I)) {
@@ -408,7 +424,8 @@ class GameLevel {
             this.playerDeathCount = this.playerDeathCount + 1;
             console.log('Death Count', this.playerDeathCount);
             // if player dies 3 times, reset level
-            if (this.playerDeathCount === 3) {
+            if(this.playerDeathCount === 3){
+                stopMusic();
                 this.level.state.start('Level1');
             }
         }
@@ -426,7 +443,9 @@ class GameLevel {
         enemy.amountOfHealth = enemy.amountOfHealth - 1;
         if (enemy.amountOfHealth <= 0) {
             //enemy.kill();
-            enemy.animations.play('death', 25, false, true); //Play death animation then destroy 
+            //console.log(this.enemyDyingSound);
+            this.level.game.sound.play('enemy_dying');
+            enemy.animations.play('death',25,false,true); //Play death animation then destroy 
             this.enemyKillCount = this.enemyKillCount + 1;
             console.log('Kill count', this.enemyKillCount);
         }
