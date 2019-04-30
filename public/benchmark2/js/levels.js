@@ -102,6 +102,7 @@ ThroughTheAges.Level4.prototype = {
         this.gameLevel.initAnimations();
         this.gameLevel.releaseEnemies(1,-1, 'pterodactyl'); //Initalize enemies
         this.gameLevel.releaseEnemies(1,1, 'pterodactyl'); //Initalize enemies
+        this.gameLevel.spawnEnemies(EnemyActions.Patrol, 30, 'pterodactyl');
     },
     update: function(){
         // Progress to next part of Level?

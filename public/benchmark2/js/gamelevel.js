@@ -12,12 +12,8 @@ class GameLevel {
         this.tileMapImage = tileMapImage;
         this.tileMapImagePath = tileMapImagePath;
         this.levelPath = levelPath
-<<<<<<< HEAD
-
-=======
         this.levelMusic = levelMusic;
         
->>>>>>> 91c23351f8bc2f980fad6843114031895080c557
         this.itemCounter = 0;
         this.currentItem = null;
 
