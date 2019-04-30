@@ -9,7 +9,7 @@ ThroughTheAges.Level4 = function() {};
 ThroughTheAges.Level1.prototype = {
     preload: function() {
         this.gameLevel = new GameLevel('The Stone Age',  'basictileset_level1', 'benchmark2/assets/tilesets/basictileset_level1.png', 
-            'benchmark2/assets/tilesets/ThroughTheAges_Level1.json', this);
+            'benchmark2/assets/tilesets/ThroughTheAges_Level1.json', 'benchmark2/assets/sounds/Flight_of_the_Crow.mp3', this);
         this.gameLevel.loadLevel();
     },
     create: function(){
@@ -31,6 +31,7 @@ ThroughTheAges.Level1.prototype = {
         this.gameLevel.levelUpdate();
         if(this.gameLevel.collectableGroup.children.length == this.gameLevel.itemCounter){
             //Level Won - Proceed to next level
+            this.gameLevel.stopMusic();
             this.state.start("Level2")
         }
     }
@@ -40,7 +41,7 @@ ThroughTheAges.Level1.prototype = {
 ThroughTheAges.Level2.prototype = {
     preload: function() {
         this.gameLevel = new GameLevel('The Middle Aged',  'middleagestileset', 'benchmark2/assets/tilesets/middleagestileset.png', 
-            'benchmark2/assets/tilesets/ThroughTheAges_Level2.json', this);
+            'benchmark2/assets/tilesets/ThroughTheAges_Level2.json', 'benchmark2/assets/sounds/Chivalry_in_All_Things.mp3', this);
         this.gameLevel.loadLevel();
     },
     create: function(){
@@ -84,7 +85,7 @@ ThroughTheAges.Level3.prototype = {
 ThroughTheAges.Level4.prototype = {
     preload: function(){
         this.gameLevel = new GameLevel('The Future', "Level4_tileset (2)", "benchmark2/assets/tilesets/Level4_tileset (2).png", 
-        'benchmark2/assets/tilesets/ThroughTheAges_Level4_2.json', this);
+        'benchmark2/assets/tilesets/ThroughTheAges_Level4_2.json', 'benchmark2/assets/sounds/Edge_of_Tomorrow.mp3', this);
         this.gameLevel.loadLevel();
     },
     create: function(){
