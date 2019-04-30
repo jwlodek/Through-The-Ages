@@ -64,6 +64,7 @@ ThroughTheAges.Level2.prototype = {
         this.gameLevel.levelUpdate();
         if(this.gameLevel.collectableGroup.children.length == this.gameLevel.itemCounter){
             //Level Won - Proceed to next level
+            this.gameLevel.stopMusic();
             this.state.start("Level3")
         }
     }
@@ -71,8 +72,23 @@ ThroughTheAges.Level2.prototype = {
 
 
 ThroughTheAges.Level3.prototype = {
+    preload: function() {
+        this.gameLevel = new GameLevel('The Fabulous 50\'s',  'middleagestileset', 'benchmark2/assets/tilesets/middleagestileset.png', 
+            'benchmark2/assets/tilesets/ThroughTheAges_Level2.json', 'benchmark2/assets/sounds/Piccolo_and_a_Cane.mp3', this);
+        this.gameLevel.loadLevel();
+    },
     create: function(){
-        this.gameLevel = new GameLevel('Present Day', {}, [], this);
+        this.gameLevel.setBackgroundImage('sky');
+        this.gameLevel.initLayers();
+        this.gameLevel.initHUD()
+        this.gameLevel.createItems('radio');
+        this.gameLevel.initHome();
+        // Init player after to ensure that they are pushed to the top
+        this.gameLevel.initPlayer('gareth');
+        this.gameLevel.initAnimations();
+        this.gameLevel.releaseEnemies(1.5,-1.25, 'pterodactyl'); //Initalize enemies
+        this.gameLevel.releaseEnemies(1.5, 1.25, 'pterodactyl'); //Initalize enemies
+        this.gameLevel.spawnEnemies(EnemyActions.Patrol, 20, 'pterodactyl');
     },
     update: function(){
         this.gameLevel.levelUpdate();
@@ -109,6 +125,7 @@ ThroughTheAges.Level4.prototype = {
         this.gameLevel.levelUpdate();
         if(this.gameLevel.collectableGroup.children.length == this.gameLevel.itemCounter){
             //Level Won - Proceed to next level
+            this.gameLevel.stopMusic();
             this.state.start("MainMenu")
         }
     }

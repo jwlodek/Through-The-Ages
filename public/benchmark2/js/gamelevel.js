@@ -89,7 +89,6 @@ class GameLevel {
     loadLevel() {
         this.level.load.tilemap(this.levelName, this.levelPath, null, Phaser.Tilemap.TILED_JSON);
         this.level.load.image('tiles', this.tileMapImagePath);
-        // TODO load through parameter in constructor
         this.level.game.load.audio('enemy_dying', 'benchmark2/assets/sounds/enemy_dying.ogg');
         this.level.game.add.audio('enemy_dying');
         this.level.game.load.audio('music', this.levelMusic);
@@ -230,10 +229,11 @@ class GameLevel {
     }
 
     createItems(item) {
+        this.createdItem = item;
         const itemPositions = this.findObjectsByType('CollectableItem', this.level.map, 'ItemLayer');
         this.itemsToCollect = itemPositions.length;
         itemPositions.forEach(({ x, y }) => {
-            var item = this.level.game.add.sprite(x, y, 'fire');
+            var item = this.level.game.add.sprite(x, y, this.createdItem);
             this.collectableGroup.add(item);
         });
         this.level.game.world.bringToTop(this.collectableGroup);
@@ -325,7 +325,7 @@ class GameLevel {
 
         if (this.level.input.keyboard.isDown(Phaser.Keyboard.M)) {
             this.level.state.start("MainMenu");
-            stopMusic();
+            this.stopMusic();
         }
 
         if (this.level.input.keyboard.isDown(Phaser.Keyboard.I)) {
@@ -421,7 +421,7 @@ class GameLevel {
             console.log('Death Count', this.playerDeathCount);
             // if player dies 3 times, reset level
             if(this.playerDeathCount === 3){
-                stopMusic();
+                this.stopMusic();
                 this.level.state.start('Level1');
             }
         }
