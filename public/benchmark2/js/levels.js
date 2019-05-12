@@ -116,17 +116,17 @@ ThroughTheAges.Level4.prototype = {
     create: function(){
         //this.gameLevel.setBackgroundImage('sky');
         this.gameLevel.initLayers();
-        this.gameLevel.initHUD('fire', 'pterodactyl')
-        this.gameLevel.createItems('fire');
+        this.gameLevel.initHUD('energon_pod', 'robot_pterodactyl')
+        this.gameLevel.createItems('energon_pod');
         this.gameLevel.initHome();
         this.gameLevel.initSound();
         //this.gameLevel.spawnEnemies();
         // Init player after to ensure that they are pushed to the top
         this.gameLevel.initPlayer('gareth');
         this.gameLevel.initAnimations();
-        this.gameLevel.releaseEnemies(1,-1, 'pterodactyl'); //Initalize enemies
-        this.gameLevel.releaseEnemies(1,1, 'pterodactyl'); //Initalize enemies
-        this.gameLevel.spawnEnemies(EnemyActions.Patrol, 30, 'pterodactyl');
+        this.gameLevel.releaseEnemies(1,-1, 'robot_pterodactyl'); //Initalize enemies
+        //this.gameLevel.releaseEnemies(1,1, 'pterodactyl'); //Initalize enemies
+        this.gameLevel.spawnEnemies(EnemyActions.Patrol, 30, 'robot_pterodactyl');
     },
     update: function(){
         // Progress to next part of Level?
