@@ -7,6 +7,7 @@ class GameLevel {
         this.tileMapImagePath = tileMapImagePath;
         this.levelPath = levelPath
         this.levelMusic = levelMusic;
+        this.levelPaused = false;
         
         this.itemCounter = 0;
         this.currentItem = null;
@@ -48,6 +49,8 @@ class GameLevel {
         this.spawnDelay = 3000;
         this.spawnDelayTimer = this.spawnDelay;
         this.liveEnemies = new Array();
+
+        this.level.game.input.onDown.add(this.unpause, this);
 
     }
 
@@ -426,8 +429,25 @@ class GameLevel {
             if (!anim_played)
                 this.level.player.animations.play('idle');
         }
+        if(this.level.input.keyboard.isDown(Phaser.Keyboard.P)){
+            console.log("Pausing");
+            //console.log(this.level.game);
+            this.level.game.paused = true;
+            this.pauseText = this.level.game.add.text(this.level.game.width/2, this.level.game.height/2, 'Paused - Click to Continue', { font: '48px Arial', fill: '#fff' });
+            this.pauseText.anchor.setTo(0.5, 0.5);
+            this.level.game.world.bringToTop(this.pauseText);
+        }
 
     }
+
+
+    unpause(event) {
+        if(this.level.game.paused){
+            this.pauseText.destroy();
+            this.level.game.paused = false;
+        }
+    }
+
 
     /**
      * Function that spawns sprite for spear/projectile
