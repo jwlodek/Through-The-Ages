@@ -43,7 +43,7 @@ ThroughTheAges.Level1.prototype = {
 ThroughTheAges.Level2.prototype = {
     preload: function() {
         this.gameLevel = new GameLevel('The Middle Aged',  'middleagestileset', 'benchmark2/assets/tilesets/middleagestileset.png', 
-            'benchmark2/assets/tilesets/ThroughTheAges_Level2.json', 'benchmark2/assets/sounds/Chivalry_in_All_Things.mp3', this);
+            'benchmark2/assets/tilesets/ThroughTheAges_Level2.json', 'benchmark2/assets/sounds/Chivalry_in_All_Things.mp3', this, 2000);
         this.gameLevel.loadLevel();
     },
     create: function(){
@@ -78,7 +78,7 @@ ThroughTheAges.Level2.prototype = {
 ThroughTheAges.Level3.prototype = {
     preload: function() {
         this.gameLevel = new GameLevel('The Forties',  'level3_tiles', 'benchmark2/assets/tilesets/level3_tiles.png', 
-            'benchmark2/assets/tilesets/ThroughTheAges_Level3.json', 'benchmark2/assets/sounds/Piccolo_and_a_Cane.mp3', this);
+            'benchmark2/assets/tilesets/ThroughTheAges_Level3.json', 'benchmark2/assets/sounds/Piccolo_and_a_Cane.mp3', this, 1000);
         this.gameLevel.loadLevel();
     },
     create: function(){
@@ -92,7 +92,7 @@ ThroughTheAges.Level3.prototype = {
         this.gameLevel.initPlayer('gareth');
         this.gameLevel.initAnimations();
         this.gameLevel.releaseEnemies(6,-1.25, 'pterodactyl'); //Initalize enemies
-        this.gameLevel.releaseEnemies(6, 1.25, 'pterodactyl'); //Initalize enemies
+        //this.gameLevel.releaseEnemies(6, 1.25, 'pterodactyl'); //Initalize enemies
         this.gameLevel.spawnEnemies(EnemyActions.Patrol, 20, 'pterodactyl');
     },
     update: function(){
@@ -110,7 +110,7 @@ ThroughTheAges.Level3.prototype = {
 ThroughTheAges.Level4.prototype = {
     preload: function(){
         this.gameLevel = new GameLevel('The Future', "Level4_tileset (2)", "benchmark2/assets/tilesets/Level4_tileset (2).png", 
-        'benchmark2/assets/tilesets/ThroughTheAges_Level4_2.json', 'benchmark2/assets/sounds/Edge_of_Tomorrow.mp3', this);
+        'benchmark2/assets/tilesets/ThroughTheAges_Level4_2.json', 'benchmark2/assets/sounds/Edge_of_Tomorrow.mp3', this, 700);
         this.gameLevel.loadLevel();
     },
     create: function(){
@@ -124,9 +124,9 @@ ThroughTheAges.Level4.prototype = {
         // Init player after to ensure that they are pushed to the top
         this.gameLevel.initPlayer('gareth');
         this.gameLevel.initAnimations();
-        this.gameLevel.releaseEnemies(1,-1, 'robot_pterodactyl'); //Initalize enemies
+        //this.gameLevel.releaseEnemies(1,-1, 'robot_pterodactyl'); //Initalize enemies
         //this.gameLevel.releaseEnemies(1,1, 'pterodactyl'); //Initalize enemies
-        this.gameLevel.spawnEnemies(EnemyActions.Patrol, 30, 'robot_pterodactyl');
+        this.gameLevel.spawnEnemies(EnemyActions.Patrol, 40, 'robot_pterodactyl');
     },
     update: function(){
         // Progress to next part of Level?

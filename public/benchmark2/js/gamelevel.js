@@ -1,6 +1,6 @@
 class GameLevel {
 
-    constructor(levelName, tileMapImage, tileMapImagePath, levelPath, levelMusic, level) {
+    constructor(levelName, tileMapImage, tileMapImagePath, levelPath, levelMusic, level, spawnDelay) {
         // Level
         this.levelName = levelName;
         this.tileMapImage = tileMapImage;
@@ -46,7 +46,7 @@ class GameLevel {
         this.itemsInfo = `X ${this.collectableGroup.children.length}`;
         this.enemyInfo = `X ${this.enemies.countLiving()}`;
 
-        this.spawnDelay = 3000;
+        this.spawnDelay = spawnDelay;
         this.spawnDelayTimer = this.spawnDelay;
         this.liveEnemies = new Array();
 
@@ -203,7 +203,6 @@ class GameLevel {
     }
 
 
-
     spawnEnemies(action, maxNumber, enemyName) {
         this.maxNumberOfEnemies = maxNumber;
         this.enemyName = enemyName;
@@ -352,7 +351,7 @@ class GameLevel {
 
         // spawns more enemies. Needs more work.
         //console.log(this.maxNumberOfEnemies);
-        if (this.liveEnemies.length < this.maxNumberOfEnemies && this.liveEnemies.length > 0 && this.spawnDelayTimer === 0) {
+        if (this.liveEnemies.length < this.maxNumberOfEnemies && this.liveEnemies.length >= 0 && this.spawnDelayTimer === 0) {
             this.spawnEnemies('Patrol', this.maxNumberOfEnemies, this.liveEnemies[0].enemySprite.key);
             this.spawnDelayTimer = this.spawnDelay;
         }
