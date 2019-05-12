@@ -15,7 +15,7 @@ ThroughTheAges.Level1.prototype = {
     create: function(){
         this.gameLevel.setBackgroundImage('sky');
         this.gameLevel.initLayers();
-        this.gameLevel.initHUD()
+        this.gameLevel.initHUD('fire', 'pterodactyl');
         this.gameLevel.createItems('fire');
         this.gameLevel.initHome();
         this.gameLevel.initSound();
@@ -49,7 +49,7 @@ ThroughTheAges.Level2.prototype = {
     create: function(){
         this.gameLevel.setBackgroundImage('sky');
         this.gameLevel.initLayers();
-        this.gameLevel.initHUD()
+        this.gameLevel.initHUD('fire', 'pterodactyl')
         this.gameLevel.createItems('fire');
         console.log(this.gameLevel.collectableGroup);
         this.gameLevel.initHome();
@@ -84,7 +84,7 @@ ThroughTheAges.Level3.prototype = {
     create: function(){
         this.gameLevel.setBackgroundImage('sky');
         this.gameLevel.initLayers();
-        this.gameLevel.initHUD()
+        this.gameLevel.initHUD('radio', 'pterodactyl')
         this.gameLevel.createItems('radio');
         this.gameLevel.initHome();
         this.gameLevel.initSound();
@@ -116,7 +116,7 @@ ThroughTheAges.Level4.prototype = {
     create: function(){
         //this.gameLevel.setBackgroundImage('sky');
         this.gameLevel.initLayers();
-        this.gameLevel.initHUD()
+        this.gameLevel.initHUD('fire', 'pterodactyl')
         this.gameLevel.createItems('fire');
         this.gameLevel.initHome();
         this.gameLevel.initSound();

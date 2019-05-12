@@ -1,10 +1,4 @@
 class GameLevel {
-    // constructor(name, items, player){
-    //     this.name = name;
-    //     this.enemyKillCounter = 0;
-    //     this.items = items;
-    //     this.player = player;
-    // }
 
     constructor(levelName, tileMapImage, tileMapImagePath, levelPath, levelMusic, level) {
         // Level
@@ -47,12 +41,9 @@ class GameLevel {
         this.playerDeathCount = 0;
         this.playerHealth = 5;
 
-        this.levelInfo = 'Time Period: ' + this.levelName;
-        const carryingInfo = this.currentItem ? 'Yes' : 'No';
-        this.itemsInfo = 'Items to Collect: ' + this.collectableGroup.children.length + ', Items collected: ' + this.itemCounter + ', Carrying Item: ' + carryingInfo;
-        this.deathInfo = `Death Count: ${this.playerDeathCount}`;
-        this.enemyInfo = `Enemies Left: ${this.enemies.countLiving()} / ${this.enemies.total}`;
-        this.playerInfo = `Player Health: ${this.playerHealth} / 5`;
+        this.levelInfo = this.levelName;
+        this.itemsInfo = `X ${this.collectableGroup.children.length}`;
+        this.enemyInfo = `X ${this.enemies.countLiving()}`;
 
         this.spawnDelay = 3000;
         this.spawnDelayTimer = this.spawnDelay;
@@ -60,21 +51,55 @@ class GameLevel {
 
     }
 
-    initHUD() {
-        this.levelText = this.level.game.add.text(10, 10, this.levelInfo, { font: "22px Arial" });
-        this.levelText.fixedToCamera = true;
-        this.level.game.world.bringToTop(this.levelText);
-        this.playerText = this.level.game.add.text(10, 30, this.playerInfo, { font: "22px Arial" });
-        this.playerText.fixedToCamera = true;
-        this.level.game.world.bringToTop(this.playerText);
-        this.itemsText = this.level.game.add.text(10, 50, this.itemsInfo, { font: "22px Arial" });
+    initHUD(item, enemy) {
+        this.backpack_hud = this.level.game.add.sprite(100, 800, 'Backpack_HUD');
+        this.backpack_hud.fixedToCamera = true;
+        this.backpack_hud.anchor.setTo(.5,.5);
+
+        this.topbar_health_hud = this.level.game.add.sprite(25,0, 'Topbar_Health_HUD');
+        this.topbar_health_hud.fixedToCamera = true;
+
+        this.healthBar_hud = this.level.game.add.sprite(125, 45, 'HealthBar_HUD');
+        this.healthBar_hud.fixedToCamera = true;
+        this.healthBar_hud.anchor.setTo(.5,.5);
+        this.healthBar_hud.animations.add('5', [0], 1);
+        this.healthBar_hud.animations.add('4', [1], 1);
+        this.healthBar_hud.animations.add('3', [2], 1);
+        this.healthBar_hud.animations.add('2', [3], 1);
+        this.healthBar_hud.animations.add('1', [4], 1);
+        this.healthBar_hud.animations.play('5', 1, false);
+
+        this.topbar_lives_hud = this.level.game.add.sprite(325,0, 'Topbar_Lives_HUD');
+        this.topbar_lives_hud.fixedToCamera = true;
+
+        this.livesRemain_hud = this.level.game.add.sprite(427,40, 'LivesRemain_HUD');
+        this.livesRemain_hud.fixedToCamera = true;
+        this.livesRemain_hud.anchor.setTo(.5,.5);
+        this.livesRemain_hud.animations.add('3', [0], 1);
+        this.livesRemain_hud.animations.add('2', [1], 1);
+        this.livesRemain_hud.animations.add('1', [2], 1);
+        this.livesRemain_hud.animations.play('3', 1, false);
+
+        this.topbar_items_hud = this.level.game.add.sprite(625,0,'Topbar_Items_HUD');
+        this.topbar_items_hud.fixedToCamera = true;
+        this.item_hud = this.level.game.add.sprite(695,35,item);
+        this.item_hud.fixedToCamera = true;
+        this.item_hud.anchor.setTo(.5,.5);
+
+        this.topbar_enemies_hud = this.level.game.add.sprite(925,0,'Topbar_Enemies_HUD');
+        this.topbar_enemies_hud.fixedToCamera = true;
+        this.enemy_hud = this.level.game.add.sprite(990, 40, enemy);
+        this.enemy_hud.fixedToCamera = true;
+        this.enemy_hud.anchor.setTo(.5,.5);
+
+        this.itemsText = this.level.game.add.text(740, 43, this.itemsInfo, { font: "22px Arial" });
         this.itemsText.fixedToCamera = true;
+        this.itemsText.anchor.setTo(.5,.5);
         this.level.game.world.bringToTop(this.itemsText);
-        this.deathText = this.level.game.add.text(10, 70, this.deathInfo, { font: "22px Arial" });
-        this.deathText.fixedToCamera = true;
-        this.level.game.world.bringToTop(this.deathText);
-        this.enemyText = this.level.game.add.text(10, 90, this.enemyInfo, { font: "22px Arial" });
+
+        this.enemyText = this.level.game.add.text(1040, 43, this.enemyInfo, { font: "22px Arial" });
         this.enemyText.fixedToCamera = true;
+        this.enemyText.anchor.setTo(.5,.5);
         this.level.game.world.bringToTop(this.enemyText);
     }
 
@@ -178,6 +203,7 @@ class GameLevel {
 
     spawnEnemies(action, maxNumber, enemyName) {
         this.maxNumberOfEnemies = maxNumber;
+        this.enemyName = enemyName;
         const enemyPositions = this.findObjectsByType('EnemySpawn', this.level.map, 'EnemyLayer');
         enemyPositions.forEach(({ x, y }) => {
             if (this.enemies.countLiving() < maxNumber) {
@@ -196,10 +222,17 @@ class GameLevel {
                 enemy.animations.add('death', [4, 5, 6, 7], 20)
                 enemy.animations.add('fly', [0, 1, 2, 3], 4); //TODO change this to allow for animations on other enemy sprites
                 enemy.animations.play('fly', 20, true);
+
+                enemy.events.onOutOfBounds.add(this.killEnemy, this);
                 this.enemies.add(enemy);
             }
         });
         this.level.game.world.bringToTop(this.enemies);
+    }
+
+    killEnemy(enemy) {
+        console.log('nope');
+        console.log('kill', enemy);
     }
 
 
@@ -272,6 +305,10 @@ class GameLevel {
             this.currentItem = item;
             this.itemCollectSound.play();
             this.currentItem.kill();
+            // Add image to backpack_hud
+            this.backpack_hud_item = this.level.game.add.sprite(100 ,800, this.createdItem);
+            this.backpack_hud_item.fixedToCamera = true;
+            this.backpack_hud_item.anchor.setTo(.5,.5);
         } else {
             console.log('item in inventory');
         }
@@ -285,6 +322,8 @@ class GameLevel {
             this.itemDropoffSound.play();
             this.currentItem = null;
             this.itemCounter++;
+            // Remove image from backpack_hud
+            this.backpack_hud_item.destroy();
         }
     }
 
@@ -298,17 +337,10 @@ class GameLevel {
     }
 
     drawHUD() {
-        this.levelInfo = 'Time Period: ' + this.levelName;
-        const carryingInfo = this.currentItem ? 'Yes' : 'No';
-        this.itemsInfo = 'Items to Collect: ' + this.collectableGroup.children.length + ', Items collected: ' + this.itemCounter + ', Carrying Item: ' + carryingInfo;
-        this.deathInfo = `Death Count: ${this.playerDeathCount}`;
-        this.enemyInfo = `Enemies Left: ${this.enemies.total}`;
-        this.playerInfo = `Player Health: ${this.playerHealth} / 5`;
+        this.itemsInfo = `X ${this.collectableGroup.countLiving()}`;
+        this.enemyInfo = `X ${this.enemies.total}`;
 
         this.itemsText.setText(this.itemsInfo);
-        this.levelText.setText(this.levelInfo);
-        this.playerText.setText(this.playerInfo);
-        this.deathText.setText(this.deathInfo);
         this.enemyText.setText(this.enemyInfo);
     }
 
@@ -438,7 +470,7 @@ class GameLevel {
             this.level.player.x = this.playerSpawnLocation.x;
             this.level.player.y = this.playerSpawnLocation.y;
             // Add to death counter
-            this.playerHealth = 3;
+            this.playerHealth = 5;
             this.playerDeathCount = this.playerDeathCount + 1;
             console.log('Death Count', this.playerDeathCount);
             // if player dies 3 times, reset level
@@ -447,6 +479,8 @@ class GameLevel {
                 this.level.state.start('Level1');
             }
         }
+        this.healthBar_hud.play(this.playerHealth + '', 1, false);
+        this.livesRemain_hud.play(3 - this.playerDeathCount + '');
     }
 
 

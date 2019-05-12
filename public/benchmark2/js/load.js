@@ -19,6 +19,14 @@ ThroughTheAges.Load.prototype = {
         this.load.spritesheet('radio','benchmark2/assets/sprites/radio.png', 40, 40)
         this.load.spritesheet('MainButton', 'MainMenuButton.png', 339, 102);
         this.load.spritesheet('LevelButton', 'LevelSelectButton.png', 594, 101);
+
+        this.load.image('Backpack_HUD', 'benchmark2/assets/sprites/backpack_hud.png');
+        this.load.image('Topbar_Health_HUD', 'benchmark2/assets/sprites/top_bar_health_hud.png');
+        this.load.spritesheet('HealthBar_HUD', 'benchmark2/assets/sprites/health_heart_hud.png', 130, 30);
+        this.load.image('Topbar_Lives_HUD', 'benchmark2/assets/sprites/top_bar_lives_hud.png');
+        this.load.spritesheet('LivesRemain_HUD', 'benchmark2/assets/sprites/lives_remaining_hud.png', 105, 40);
+        this.load.image('Topbar_Enemies_HUD', 'benchmark2/assets/sprites/top_bar_enemies_hud.png');
+        this.load.image('Topbar_Items_HUD', 'benchmark2/assets/sprites/top_bar_items_hud.png');
     },
     update: function(){
         if(this.game.input.activePointer.justPressed()){
