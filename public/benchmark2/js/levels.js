@@ -122,7 +122,7 @@ ThroughTheAges.Level3.prototype = {
 ThroughTheAges.Level4.prototype = {
     preload: function(){
         this.gameLevel = new GameLevel('The Future', "Level4_tileset (2)", "benchmark2/assets/tilesets/Level4_tileset (2).png", 
-        'benchmark2/assets/tilesets/ThroughTheAges_Level4_2.json', 'benchmark2/assets/sounds/Edge_of_Tomorrow.mp3', this, 700);
+        'benchmark2/assets/tilesets/ThroughTheAges_Level4_2.json', 'benchmark2/assets/sounds/Edge_of_Tomorrow.mp3', this, 1000);
         this.gameLevel.loadLevel();
     },
     create: function(){
@@ -138,7 +138,7 @@ ThroughTheAges.Level4.prototype = {
         this.gameLevel.initAnimations();
         //this.gameLevel.releaseEnemies(1,-1, 'robot_pterodactyl'); //Initalize enemies
         //this.gameLevel.releaseEnemies(1,1, 'pterodactyl'); //Initalize enemies
-        this.gameLevel.spawnEnemies(EnemyActions.Patrol, 40, 'robot_pterodactyl');
+        this.gameLevel.spawnEnemies(EnemyActions.Patrol, 30, 'robot_pterodactyl');
     },
     update: function(){
         // Progress to next part of Level?
