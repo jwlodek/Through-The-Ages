@@ -26,6 +26,12 @@ ThroughTheAges.Level1.prototype = {
         this.gameLevel.releaseEnemies(7, -1.5, 'pterodactyl'); //Initalize enemies
         this.gameLevel.releaseEnemies(3, 1.5, 'pterodactyl'); //Initalize enemies
         //this.gameLevel.spawnEnemies(EnemyActions.Patrol, 20, 'pterodactyl');
+        var items = this.gameLevel.collectableGroup;
+        items.forEach(element => {
+            element.animations.add("animate",[0,1,2,3],20);
+            element.animations.play("animate",5,true);
+        });
+        
     },
     update: function(){
         // Progress to next part of Level?
@@ -61,6 +67,12 @@ ThroughTheAges.Level2.prototype = {
         //this.gameLevel.releaseEnemies(2,-1.5, 'pterodactyl'); //Initalize enemies
         //this.gameLevel.releaseEnemies(2, 1.5, 'pterodactyl'); //Initalize enemies
         this.gameLevel.spawnEnemies(EnemyActions.Patrol, 20, 'pterodactyl');
+
+        var items = this.gameLevel.collectableGroup;
+        items.forEach(element => {
+            element.animations.add("animate",[0,1,2,3],20);
+            element.animations.play("animate",5,true);
+        });
     },
     update: function(){
         // Progress to next part of Level?
