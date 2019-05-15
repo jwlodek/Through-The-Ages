@@ -16,6 +16,7 @@ ThroughTheAges.Load.prototype = {
         this.load.spritesheet('gareth', 'benchmark2/assets/sprites/caveman_spritesheet_40x35.png', 35, 40);
         this.load.spritesheet('pterodactyl', 'benchmark2/assets/sprites/pterodactyl_spritesheet.png', 40, 40);
         this.load.spritesheet('robot_pterodactyl', 'benchmark2/assets/sprites/robot_pterodactyl_spritesheet.png', 40, 40);
+        this.load.spritesheet('pigeon', 'benchmark2/assets/sprites/pigeon_spritesheet.png', 40, 40);
         this.load.spritesheet('fire','benchmark2/assets/sprites/fire_spritesheet.png', 40, 40);
         this.load.spritesheet('energon_pod','benchmark2/assets/sprites/energon_pod.png', 40, 40);
         this.load.spritesheet('radio','benchmark2/assets/sprites/radio.png', 40, 40)

@@ -96,16 +96,16 @@ ThroughTheAges.Level3.prototype = {
     create: function(){
         this.gameLevel.setBackgroundImage('sky');
         this.gameLevel.initLayers();
-        this.gameLevel.initHUD('radio', 'pterodactyl')
+        this.gameLevel.initHUD('radio', 'pigeon')
         this.gameLevel.createItems('radio');
         this.gameLevel.initHome();
         this.gameLevel.initSound();
         // Init player after to ensure that they are pushed to the top
         this.gameLevel.initPlayer('gareth');
         this.gameLevel.initAnimations();
-        this.gameLevel.releaseEnemies(6,-1.25, 'pterodactyl'); //Initalize enemies
+        this.gameLevel.releaseEnemies(6,-1.25, 'pigeon'); //Initalize enemies
         //this.gameLevel.releaseEnemies(6, 1.25, 'pterodactyl'); //Initalize enemies
-        this.gameLevel.spawnEnemies(EnemyActions.Patrol, 20, 'pterodactyl');
+        this.gameLevel.spawnEnemies(EnemyActions.Patrol, 20, 'pigeon');
     },
     update: function(){
         this.gameLevel.levelUpdate();
