@@ -331,11 +331,11 @@ class GameLevel {
 
     initAnimations() {
         var idle = this.level.player.animations.add('idle', [0, 1, 2, 3], 5);
-        var walk_left = this.level.player.animations.add('walk_left', [5, 6, 7, 8]);
-        var walk_right = this.level.player.animations.add('walk_right', [10, 11, 12, 13]);
-        var jump = this.level.player.animations.add('jump', [15, 16, 17, 18]);
-        var attack_left = this.level.player.animations.add('attack_left', [20, 21, 22, 23, 24]);
-        var attack_right = this.level.player.animations.add('attack_right', [25, 26, 27, 28, 29]);
+        var walk_left = this.level.player.animations.add('walk_left', [5, 6, 7, 8],5);
+        var walk_right = this.level.player.animations.add('walk_right', [10, 11, 12, 13],5);
+        var jump = this.level.player.animations.add('jump', [15, 16, 17, 18],5);
+        var attack_left = this.level.player.animations.add('attack_left', [20, 21, 22, 23, 24],5,false);
+        var attack_right = this.level.player.animations.add('attack_right', [25, 26, 27, 28, 29],5,false);
     }
 
     drawHUD() {
@@ -390,11 +390,11 @@ class GameLevel {
         //ATTACK INPUT
         if (this.level.input.keyboard.isDown(Phaser.Keyboard.K) && this.attackDelay == 0) {
             if (this.level.player.lastFacing == 'Left') {
-                this.level.player.animations.play('attack_left');
+                this.level.player.animations.play('attack_left',5);
                 this.fireProjectile(0, -500);
             }
             else if (this.level.player.lastFacing == 'Right') {
-                this.level.player.animations.play('attack_right');
+                this.level.player.animations.play('attack_right',5);
                 this.fireProjectile(180, 500);
             }
             anim_played = true;
@@ -471,7 +471,6 @@ class GameLevel {
         this.level.player.isWalking = true;
     }
 
-
     /**
      * Function that handles player colliding with enemy
      */
@@ -515,6 +514,8 @@ class GameLevel {
         if (enemy.amountOfHealth <= 0) {
             //enemy.kill();
             this.enemyDyingSound.play();
+            enemy.enemySprite.body.velocity.x= 0;
+            enemy.enemySprite.body.velocity.y = 0;
             enemy.animations.play('death',25,false,true); //Play death animation then destroy 
             this.enemyKillCount = this.enemyKillCount + 1;
             console.log('Kill count', this.enemyKillCount);
