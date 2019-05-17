@@ -515,6 +515,8 @@ class GameLevel {
         if (enemy.amountOfHealth <= 0) {
             //enemy.kill();
             this.enemyDyingSound.play();
+            enemy.body.velocity.x= 0;
+            enemy.body.velocity.y = 0;
             enemy.animations.play('death',25,false,true); //Play death animation then destroy 
             this.enemyKillCount = this.enemyKillCount + 1;
             console.log('Kill count', this.enemyKillCount);
