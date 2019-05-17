@@ -192,7 +192,7 @@ class GameLevel {
         }
         this.level.game.add.tween(enemy).to({
             x: endX
-        }, 10000 * Math.abs(speed), Phaser.Easing.Linear.None, true); //TODO: Add random angle to tween
+        }, 10000 * Math.abs(speed), Phaser.Easing.Linear.None, true).onComplete.add(this.destroySprite,this,null,enemy); //TODO: Add random angle to tween
         enemy.amountOfHealth = this.enemyHealth;
         this.enemies.add(enemy);
         enemy.animations.add('death', [4, 5, 6, 7], 20)
@@ -202,6 +202,9 @@ class GameLevel {
 
     }
 
+    destroySprite(sprite){
+        sprite.destroy();
+    }
 
     spawnEnemies(action, maxNumber, enemyName) {
         this.maxNumberOfEnemies = maxNumber;
