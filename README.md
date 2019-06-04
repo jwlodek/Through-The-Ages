@@ -8,7 +8,7 @@ https://through-the-ages-d17de.firebaseapp.com/benchmark3
 
 ### Description
 
-Through the Ages is a fast paced, arcade style action game developed by Jakub Wlodek (@jwlodek) , Vincent Paladino (@vpaladino778), and Nicholas Pirrello (@nspirrello) using the Phaser.js JavaScript game framework. 
+Through the Ages is a fast paced, arcade style action game developed by [Jakub Wlodek](https://github.com/jwlodek) , Vincent Paladino ( @vpaladino778 ), and Nicholas Pirrello ( @nspirrello ) using the Phaser.js JavaScript game framework. 
 
 Through the Ages was a finalist in the 15th annual Stony Brook University Game Programming Competition.
 
