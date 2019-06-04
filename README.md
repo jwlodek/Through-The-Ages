@@ -1,14 +1,25 @@
-# Through the Ages
-
-### Benchmark1 URL
-https://through-the-ages-d17de.firebaseapp.com/benchmark1
-
-### Benchmark2 URL
-https://through-the-ages-d17de.firebaseapp.com/benchmark2
-
 ![image](public/Logo_ThroughTheAges.png)
 
+# Through the Ages
 
-### Benchmark 2 explanation
+### Gameplay Link
+https://through-the-ages-d17de.firebaseapp.com/benchmark3
 
-For this benchmark we built a rough structure for Level 1 of our game, as well as structure for the other 3 levels, though these are not yet selectable through the menus (The menus contain links to them, but level information does not yet load). Artwork used is not final, though the player sprite is most likely final. Each level will use a different player sprite and a different tileset. Menus will likely be further updated as well.
+
+### Description
+
+Through the Ages is a fast paced, arcade style action game developed by Jakub Wlodek (@jwlodek) , Vincent Paladino (@vpaladino778), and Nicholas Pirrello (@nspirrello) using the Phaser.js JavaScript game framework. 
+
+Through the Ages was a finalist in the 15th annual Stony Brook University Game Programming Competition.
+
+### Controls
+
+A, D - Walk left, walk right
+W - Jump
+K - Throw spear
+P - Pause
+M - Return to main menu
+
+### Gameplay
+
+Collect items and carry them back to your origin point. You may only carry one item at a time. Careful of the flying creatures! You only have 3 lives.
