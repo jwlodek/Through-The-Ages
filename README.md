@@ -14,11 +14,11 @@ Through the Ages was a finalist in the 15th annual Stony Brook University Game P
 
 ### Controls
 
-A, D - Walk left, walk right
-W - Jump
-K - Throw spear
-P - Pause
-M - Return to main menu
+* A, D - Walk left, walk right
+* W - Jump
+* K - Throw spear
+* P - Pause
+* M - Return to main menu
 
 ### Gameplay
 
