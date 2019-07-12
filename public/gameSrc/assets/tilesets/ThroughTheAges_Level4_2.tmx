@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="48" height="27" tilewidth="40" tileheight="40">
+ <tileset firstgid="1" name="Level4_tileset (2)" tilewidth="40" tileheight="40">
+  <image source="C:/Users/jwlodek/Downloads/Level4_tileset (2).png" width="320" height="160"/>
+ </tileset>
+ <layer name="Background Layer" width="48" height="27">
+  <data encoding="base64" compression="zlib">
+   eJztwwENAAAMw6DKmH+lN3AJkLBqqqqqqqrPA39heYE=
+  </data>
+ </layer>
+ <layer name="PlatformLayer" width="48" height="27">
+  <data encoding="base64" compression="zlib">
+   eJztl9sOwiAMhvFw4+HGwzTq3v85LYlNWNNC6crQxD/5b7YyvkLLthD+6qkbca1O4DP4stA4Kgtzqgf4CX4tNI4q8nuthadoXUjrHK97rYWXItOVMZfD3PqXZN1TiV3KIcc8p66se+rJ36OuPPlLatH3WMcSO8dvrX/r/pTy5nKQ+Dx7VitN3jXn57doBV6DN+BtmLLTeygPfq8+2IH34AP4GKb89B7K4/zP1YMlN652etV/bY9bzh+NlvpGasWfruOQGCX1F5UmrrZ+NPU/CEZJ/UWljaNsHE9U6ftOw44aPy5JG5fyS/PX8I8Z9houL/4hw8/1K87bg5/OL60/xnLnXmne1vzcWM0/Dh0rnaX02do4KbYVv/ROos/WxkmxGv77jzv3rvgFvwHyLSaL
+  </data>
+ </layer>
+ <layer name="HomeBaseLayer" width="48" height="27">
+  <data encoding="base64" compression="zlib">
+   eJztzqERACAMALEqQAH7T0tnwFQ0uXv/EQAAQCcjm9mqHvm0s5Pd6hEAaOIBEP4AQw==
+  </data>
+ </layer>
+ <objectgroup name="ItemLayer" width="48" height="27">
+  <object name="CollectibleItem" type="CollectibleItem" gid="5" x="1794" y="472"/>
+  <object name="CollectibleItem" type="CollectibleItem" gid="5" x="1188" y="398"/>
+  <object name="CollectibleItem" type="CollectibleItem" gid="5" x="894" y="236"/>
+  <object name="CollectibleItem" type="CollectibleItem" gid="5" x="988" y="566"/>
+  <object name="CollectibleItem" type="CollectibleItem" gid="5" x="1228" y="670"/>
+  <object name="CollectibleItem" type="CollectibleItem" gid="5" x="1664" y="152"/>
+  <object name="CollectibleItem" type="CollectibleItem" gid="5" x="672" y="78"/>
+  <object name="CollectibleItem" type="CollectibleItem" gid="5" x="310" y="990"/>
+  <object name="CollectibleItem" type="CollectibleItem" gid="5" x="92" y="398"/>
+  <object name="CollectibleItem" type="CollectibleItem" gid="5" x="58" y="72"/>
+  <object name="CollectibleItem" type="CollectibleItem" gid="5" x="1386" y="930"/>
+  <object name="CollectibleItem" type="CollectibleItem" gid="5" x="1436" y="234"/>
+  <object name="CollectibleItem" type="CollectibleItem" gid="5" x="1880" y="788"/>
+ </objectgroup>
+ <objectgroup name="DropoffLayer" width="48" height="27">
+  <object name="Dropoff" type="Dropoff" gid="5" x="50" y="716"/>
+  <object name="Dropoff" type="Dropoff" gid="5" x="94" y="718"/>
+  <object name="Dropoff" type="Dropoff" gid="5" x="110" y="714"/>
+ </objectgroup>
+ <objectgroup name="EnemyLayer" width="48" height="27">
+  <object name="EnemySpawn" type="EnemySpawn" gid="5" x="1474" y="484"/>
+  <object name="EnemySpawn" type="EnemySpawn" gid="5" x="1772" y="760"/>
+  <object name="EnemySpawn" type="EnemySpawn" gid="5" x="1248" y="992"/>
+ </objectgroup>
+ <objectgroup name="Player Layer" width="48" height="27">
+  <object name="playerStart" type="playerStart" gid="5" x="90" y="548"/>
+ </objectgroup>
+</map>
