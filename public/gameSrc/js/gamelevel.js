@@ -1,7 +1,27 @@
+/**
+ * Main Class containing information for each level in the game. Contains functions for processing AI, the main game loop,
+ * collision detection, game state, and all remaining level specific components.
+ * 
+ * 
+ * @author: Jakub Wlodek, Vincent Paladino, Nick Pirrelo
+ * @version: 1.0
+ * @class GameLevel
+ * 
+ */
 class GameLevel {
 
+    /**
+     * 
+     * @param {string} levelName - level name
+     * @param {string} tileMapImage - level tilemap name
+     * @param {string} tileMapImagePath - Level tileset path
+     * @param {string} levelPath - Path to level data file
+     * @param {string} levelMusic - Path to level music
+     * @param {GameState} level - Container object for the level
+     * @param {float} spawnDelay - sets the delay between enemy spawns
+     */
     constructor(levelName, tileMapImage, tileMapImagePath, levelPath, levelMusic, level, spawnDelay) {
-        // Level
+        // set level information
         this.levelName = levelName;
         this.tileMapImage = tileMapImage;
         this.tileMapImagePath = tileMapImagePath;
@@ -9,23 +29,29 @@ class GameLevel {
         this.levelMusic = levelMusic;
         this.levelPaused = false;
         
+        // counter for items collected and current item
         this.itemCounter = 0;
         this.currentItem = null;
 
+        // set level instance
         this.level = level;
 
+        // item group
         this.collectableGroup = this.level.game.add.group();
         this.collectableGroup.enableBody = true;
 
+        // drop off location
         this.dropOff = this.level.game.add.group();
         this.dropOff.enableBody = true;
 
+        // enemies group
         this.enemies = this.level.game.add.group();
         this.enemies.enableBody = true;
         this.enemies.physicsBodyType = Phaser.Physics.ARCADE;
         this.enemyHealth = 1;
         this.maxNumberOfEnemies = 0;
 
+        // projectiles
         this.projectiles = this.level.game.add.group();
         this.projectiles.enableBody = true;
         this.projectiles.physicsBodyType = Phaser.Physics.ARCADE;
@@ -33,35 +59,48 @@ class GameLevel {
         this.projectiles.setAll('checkWorldBounds', true);
         this.projectiles.setAll('outOfBoundsKill', true);
 
+        // enemy kill count
         this.enemyKillCount = 0;
 
+        // attack delay and damageDelay. Used to tweak difficulty
         this.attackDelay = 0;
         this.playerDamageDelay = 0;
 
+        // player spawn location. Overriden by level data
         this.playerSpawnLocation = { x: 0, y: 0 };
         this.playerDeathCount = 0;
         this.playerHealth = 5;
 
+        // Information for level, items, and enemies
         this.levelInfo = this.levelName;
         this.itemsInfo = `X ${this.collectableGroup.children.length}`;
         this.enemyInfo = `X ${this.enemies.countLiving()}`;
 
+        // enemy spawning + array storing living enemies.
         this.spawnDelay = spawnDelay;
         this.spawnDelayTimer = this.spawnDelay;
         this.liveEnemies = new Array();
 
+        // add pause/unpause function to level
         this.level.game.input.onDown.add(this.unpause, this);
-
     }
 
+    /**
+     * Function for initializing the HUD (Heads up Display) for the player
+     * @param {item object} item 
+     * @param {Enemy object} enemy 
+     */
     initHUD(item, enemy) {
+        // Backpack - displays currently carried item 
         this.backpack_hud = this.level.game.add.sprite(100, 800, 'Backpack_HUD');
         this.backpack_hud.fixedToCamera = true;
         this.backpack_hud.anchor.setTo(.5,.5);
 
+        // Healthbar - shows number of hits the player can still withstand 
         this.topbar_health_hud = this.level.game.add.sprite(25,0, 'Topbar_Health_HUD');
         this.topbar_health_hud.fixedToCamera = true;
 
+        // Add the heart icons to the healthbar. This is done using a phaser animation
         this.healthBar_hud = this.level.game.add.sprite(125, 45, 'HealthBar_HUD');
         this.healthBar_hud.fixedToCamera = true;
         this.healthBar_hud.anchor.setTo(.5,.5);
@@ -72,6 +111,7 @@ class GameLevel {
         this.healthBar_hud.animations.add('1', [4], 1);
         this.healthBar_hud.animations.play('5', 1, false);
 
+        // Lives (Continues) remaining - similar to healthbar just uses gareth sprite
         this.topbar_lives_hud = this.level.game.add.sprite(325,0, 'Topbar_Lives_HUD');
         this.topbar_lives_hud.fixedToCamera = true;
 
@@ -83,18 +123,21 @@ class GameLevel {
         this.livesRemain_hud.animations.add('1', [2], 1);
         this.livesRemain_hud.animations.play('3', 1, false);
 
+        // Items remaining. Shows item for the given level and a count of how many there are remaining
         this.topbar_items_hud = this.level.game.add.sprite(625,0,'Topbar_Items_HUD');
         this.topbar_items_hud.fixedToCamera = true;
         this.item_hud = this.level.game.add.sprite(695,35,item);
         this.item_hud.fixedToCamera = true;
         this.item_hud.anchor.setTo(.5,.5);
 
+        // Enemy counter hud. shows enemy sprite plus counter for live enemies
         this.topbar_enemies_hud = this.level.game.add.sprite(925,0,'Topbar_Enemies_HUD');
         this.topbar_enemies_hud.fixedToCamera = true;
         this.enemy_hud = this.level.game.add.sprite(990, 40, enemy);
         this.enemy_hud.fixedToCamera = true;
         this.enemy_hud.anchor.setTo(.5,.5);
 
+        // Some more item and text information
         this.itemsText = this.level.game.add.text(740, 43, this.itemsInfo, { font: "22px Arial" });
         this.itemsText.fixedToCamera = true;
         this.itemsText.anchor.setTo(.5,.5);
@@ -106,18 +149,34 @@ class GameLevel {
         this.level.game.world.bringToTop(this.enemyText);
     }
 
+
+    /**
+     * Helper function that increments item counting
+     */
     advanceCurrentItem() {
         this.itemCounter++;
     }
 
+
+    /**
+     * Helper function that plays the next level sound at the conclusion of the level
+     */
     advanceLevel() {
         this.advanceLevelSound.play();
     }
 
+
+    /**
+     * Helper function that stops music playback
+     */
     stopMusic() {
         this.music.stop();
     }
 
+
+    /**
+     * Function called on level load. Loads the tilemap from the tileset and initializes audio
+     */
     loadLevel() {
         this.level.load.tilemap(this.levelName, this.levelPath, null, Phaser.Tilemap.TILED_JSON);
         this.level.load.image('tiles', this.tileMapImagePath);
@@ -130,6 +189,11 @@ class GameLevel {
         this.level.game.load.audio('music', this.levelMusic);
     }
 
+
+    /**
+     * Function thta creates the actual game level. Generates the level from the tilemap, and creates
+     * the player, enemy, item, base, and background tile layers. Also starts collision detection
+     */
     initLayers() {
         this.level.game.world.setBounds(0, 0, 1920, 1080);
 
@@ -141,19 +205,8 @@ class GameLevel {
         this.level.homeBaseLayer = this.level.map.createLayer('HomeBaseLayer');
         this.level.playerLayer = this.level.map.createLayer('Player Layer');
 
-
         this.level.map.setCollisionBetween(1, 100000, true, 'Platform Layer');
     }
-
-    /*spawnEnemies() {
-        const enemyPositions = this.findObjectsByType('EnemySpawn', this.level.map, 'EnemyLayer');
-        enemyPositions.forEach(({x,y}) => {
-            const enemy = this.level.game.add.sprite(x, y, 'pterodactyl');
-            enemy.amountOfHealth = this.enemyHealth;
-            this.enemies.add(enemy);
-        });
-        this.level.game.world.bringToTop(this.enemies);
-    }*/
 
 
     /**
@@ -178,6 +231,7 @@ class GameLevel {
         if (speed == 0) {
             return;
         }
+        // sets start position outside of the map. Enemies fly in from the side into the screen
         var startX = -50;
         var endX = this.level.game.width + 400;
         if (speed < 0) { //Flip start and end coords
@@ -185,11 +239,13 @@ class GameLevel {
             startX = endX;
             endX = temp;
         }
+        // create the sprite and set anchor and speed
         var enemy = this.level.game.add.sprite(startX, this.level.game.world.randomY, enemySprite);
         if (speed < 0) {
             enemy.anchor.setTo(.5, .5);
             enemy.scale.x *= -1;
         }
+        // animate and set health
         this.level.game.add.tween(enemy).to({
             x: endX
         }, 10000 * Math.abs(speed), Phaser.Easing.Linear.None, true).onComplete.add(this.destroySprite,this,null,enemy); //TODO: Add random angle to tween
@@ -202,18 +258,33 @@ class GameLevel {
 
     }
 
+    /**
+     * Helper function for removing sprites once they are offscreen
+     */
     destroySprite(sprite){
         sprite.destroy();
     }
 
+
+    /**
+     * Function that spawns AI controlled enemies that have several 'states', rather than the enemies that simply
+     * go side to side like releaseEnemies()
+     * @param {string} action The initial AI state of the spawned enemies
+     * @param {int} maxNumber The maximum number of enemies to spawn
+     * @param {string} enemyName The enemy tupe.
+     */
     spawnEnemies(action, maxNumber, enemyName) {
+        // set the max number of enemies for the level and the level enemy name
         this.maxNumberOfEnemies = maxNumber;
         this.enemyName = enemyName;
+        // find the enemy spawn points in the level
         const enemyPositions = this.findObjectsByType('EnemySpawn', this.level.map, 'EnemyLayer');
+        // spawn an enemy at each spawn point  until we reach a max number, with this.spawnDelay seconds between spawns
         enemyPositions.forEach(({ x, y }) => {
             if (this.enemies.countLiving() < maxNumber) {
                 var enemy = this.level.game.add.sprite(x, y, enemyName);
                 var e = new Enemy(enemyName, enemy, action);
+                // create new enemy object and add it to the list, set to random velocity.
                 this.liveEnemies.push(e);
                 this.level.game.physics.arcade.enable(enemy);
                 //console.log(enemy);
@@ -228,31 +299,29 @@ class GameLevel {
                 enemy.animations.add('fly', [0, 1, 2, 3], 4); //TODO change this to allow for animations on other enemy sprites
                 enemy.animations.play('fly', 20, true);
 
-                enemy.events.onOutOfBounds.add(this.killEnemy, this);
                 this.enemies.add(enemy);
             }
         });
         this.level.game.world.bringToTop(this.enemies);
     }
 
-    killEnemy(enemy) {
-        console.log('nope');
-        console.log('kill', enemy);
-    }
-
 
     /**
-     * 
+     * Function that initializes the player in the current level. Sets initial position, 
+     * enables physics and camera movement, and collision detection
      * @param {string} playerSprite Spritesheet name from load.js to be used for player
      */
     initPlayer(playerSprite) {
+        // find player spawn and generate sprite
         var playerPos = this.findObjectsByType('playerStart', this.level.map, 'Player Layer');
         this.level.player = this.level.game.add.sprite(playerPos[0].x, playerPos[0].y, playerSprite);
         this.level.player.isWalking = true;
         this.level.player.lastFacing = 'Left';
 
+        // set the initial position
         this.playerSpawnLocation = { x: playerPos[0].x, y: playerPos[0].y };
 
+        // physics, camera, collision detection
         this.level.game.physics.arcade.enable(this.level.player);
         this.level.player.body.collideWorldBounds = true;
         this.level.game.camera.follow(this.level.player);
@@ -262,6 +331,10 @@ class GameLevel {
         this.music.loopFull();
     }
 
+
+    /**
+     * Function that initializes sound effects and music for the level
+     */
     initSound() {
         this.enemyDyingSound = this.level.game.add.audio('enemy_dying');
         this.playerHitSound = this.level.game.add.audio('player_hit');
@@ -273,6 +346,14 @@ class GameLevel {
         this.music.volume = .4;
     }
 
+
+    /**
+     * A general utility function for finding objects in level map data
+     * @param {string} type The type of object to find in the level
+     * @param {TiledMap} map The Map data loaded from Json level file
+     * @param {string} layer The name of the target layer. ex: player, enemy, item etc.
+     * @returns An array containing all tiles that fall within the given layer
+     */
     findObjectsByType(type, map, layer) {
         var result = new Array();
         map.objects[layer].forEach(function (element) {
@@ -284,6 +365,12 @@ class GameLevel {
         return result;
     }
 
+
+    /**
+     * Function that uses findObjectsByType to find all locations with items and create sprites for them
+     * Also adds them to helper data structures to keep track of collection
+     * @param {string} item The item type to create
+     */
     createItems(item) {
         this.createdItem = item;
         const itemPositions = this.findObjectsByType('CollectableItem', this.level.map, 'ItemLayer');
@@ -295,6 +382,11 @@ class GameLevel {
         this.level.game.world.bringToTop(this.collectableGroup);
     }
 
+
+    /**
+     * Function that initializes the player home base "sprite" It is only stored virtually,
+     * and is used to check the position the player needs to be in to return items
+     */
     initHome() {
         const homePosition = this.findObjectsByType('Dropoff', this.level.map, 'DropoffLayer');
         homePosition.forEach(({ x, y }) => {
@@ -304,6 +396,13 @@ class GameLevel {
         this.level.game.world.bringToTop(this.dropOff);
     }
 
+
+    /**
+     * An event function that is triggered when the player collides with an item while
+     * he/she has an empty backpack
+     * @param {Sprite} player The player sprite
+     * @param {Sprite} item The item sprite that the player collided witg
+     */
     collectItem(player, item) {
         if (!this.currentItem) {
             console.log('collect', item);
@@ -320,6 +419,13 @@ class GameLevel {
 
     }
 
+
+    /**
+     * An event function triggered when the player collides with the home base sprite while having
+     * an item in his/her backpack
+     * @param {Sprite} player the player sprite
+     * @param {Sprite} item The item sprite for the item that the player has in his backpack
+     */
     dropOffItem(player, item) {
         console.log('drop');
         if (this.currentItem) {
@@ -332,6 +438,11 @@ class GameLevel {
         }
     }
 
+
+    /**
+     * Function that initilaizes the player's animations for idle, walking left and right, jumping, and
+     * attacking left and right. All animations are stored on the main player spritesheet
+     */
     initAnimations() {
         var idle = this.level.player.animations.add('idle', [0, 1, 2, 3], 5);
         var walk_left = this.level.player.animations.add('walk_left', [5, 6, 7, 8]);
@@ -341,6 +452,10 @@ class GameLevel {
         var attack_right = this.level.player.animations.add('attack_right', [25, 26, 27, 28, 29]);
     }
 
+
+    /**
+     * Helper function called within the main level update for updating the HUD (Heads up Display)
+     */
     drawHUD() {
         this.itemsInfo = `X ${this.collectableGroup.countLiving()}`;
         this.enemyInfo = `X ${this.enemies.total}`;
@@ -443,6 +558,9 @@ class GameLevel {
     }
 
 
+    /**
+     * Simple event function that unpauses the game when an unpause event is triggered.
+     */
     unpause(event) {
         if(this.level.game.paused){
             this.pauseText.destroy();
@@ -452,12 +570,12 @@ class GameLevel {
 
 
     /**
-     * Function that spawns sprite for spear/projectile
+     * Function that spawns sprite for spear/projectile with a given initial angle and velocity
      * @param {int} angle 
      * @param {int} velocity 
      */
     fireProjectile(angle, velocity) {
-        console.log('fire');
+        //console.log('fire');
         const spear = this.projectiles.getFirstDead();;
         spear.reset(this.level.player.x, this.level.player.y + 20);
         this.level.game.world.bringToTop(spear);
@@ -466,6 +584,7 @@ class GameLevel {
         spear.body.velocity.x = velocity;
         this.level.game.world.bringToTop(this.projectiles);
     }
+
 
     /**
      * Set player to walking if landed on platform
@@ -479,12 +598,14 @@ class GameLevel {
      * Function that handles player colliding with enemy
      */
     handlePlayerEnemyCollision() {
+        // Take damage if outside the post-hit invincibility stage
         if (this.playerDamageDelay === 0 && this.playerHealth > 0) {
-            console.log('Damage taken')
+            //console.log('Damage taken')
             this.playerHitSound.play();
             this.playerHealth = this.playerHealth - 1;
             this.playerDamageDelay = 30;
         }
+        // check if the player is dead
         if (this.playerHealth === 0) {
             console.log('Player DIED')
             this.playerDyingSound.play();
@@ -543,6 +664,7 @@ class GameLevel {
 
     /**
      * Function that checks if enemy is close to an object to guard it
+     * Used to set the AI state
      * @param {sprite} enemySprite 
      */
     isNearObject(enemySprite) {
@@ -566,9 +688,10 @@ class GameLevel {
         this.spawnDelay = delay;
     }
 
+
     /**
      * Main function for updating enemy positions + velocities. These depend on the current
-     * AI state
+     * AI state called at each cycle of levelUpdate()
      */
     updateEnemies() {
         this.liveEnemies.forEach(enemy => {
@@ -588,7 +711,7 @@ class GameLevel {
                 if (enemy.enemySprite.body.position.y > 1000) {
                     enemy.enemySprite.body.velocity.y = -1 * enemy.enemySprite.body.velocity.y;
                 }
-                // check if we are near an object, if yes, try and guard it. Not sure if this is working
+                // check if we are near an object, if yes, try and guard it. Not sure if this is working - Disabling for now
                 //console.log(this.isNearObject(enemy.enemySprite));
                 if (null != null) {
                     console.log("Is near an object");
@@ -625,6 +748,12 @@ class GameLevel {
         });
     }
 
+
+    /**
+     * TODO - THis fixes issue where player falls through map on level 3.
+     * This is bad
+     * This should be fixed in a better way
+     */
     fixLevel3PhysicsIssue() {
         if (this.level.player.y >= 1040) {
             this.level.player.y = 1000;

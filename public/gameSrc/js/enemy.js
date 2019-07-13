@@ -1,3 +1,9 @@
+/**
+ * File containing enemy AI and data
+ * 
+ * @author: Jakub Wlodek
+ */
+
 /** Actions performable by an enemy */
 EnemyActions = {
     Patrol: "Patrol",
@@ -22,6 +28,11 @@ class Enemy{
     }
 
 
+    /**
+     * Updates the current enemy action state
+     * @param {string} action - the enemy action
+     * @param {object} object - the target object of interest (player or item)
+     */
     updateAction(action, object){
         if(action === EnemyActions.Patrol || action === EnemyActions.Guard || action === EnemyActions.Attack){
             this.enemyAction = action;
@@ -30,6 +41,10 @@ class Enemy{
     }
 
 
+    /**
+     * Processes enemy action based on current state
+     * @param {object} object - Target object (player or item)
+     */
     processAction(object){
         if(this.enemyAction === EnemyActions.Guard){
             this.guardPosEnd = object.position.x - 100;
@@ -43,11 +58,19 @@ class Enemy{
         }
     }
 
+
+    /**
+     * Enemy attack action
+     */
     attack(){
         if(Math.abs(this.enemySprite.body.position.x - this.targetPosX) < 10 && Math.abs(this.enemySprite.body.position.y - this.targetPosY))
             this.updateAction(EnemyActions.Patrol, null);
     }
 
+
+    /**
+     * Enemy guard action
+     */
     guard(){
         if(this.enemySprite.body.position.x > guardPosStart || this.enemySprite.body.position.x < guardPosEnd)
             this.enemySprite.body.velocity.x = -1 * this.enemySprite.body.velocity.x;
